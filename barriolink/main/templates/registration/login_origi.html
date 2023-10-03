@@ -1,0 +1,16 @@
+{% extends 'main/base.html' %}  {# Extender la plantilla base #}
+{% block title %}Login{% endblock %}
+{% load crispy_forms_tags %}
+{% block content %}
+<form method="post">
+  {% csrf_token %}
+  {{ form.username.label_tag }}
+  {{ form.username }}
+  {{ form.email.label_tag }}
+  {{ form.email }} {# Aplicar clases de Bootstrap 5 para estilo #}
+  {{ form.password.label_tag }}
+  {{ form.password }} {# Aplicar clases de Bootstrap 5 para estilo #}
+  <p>¿No tienes una cuenta? Crea una <a href="/sign-up">aquí</a>!</p>
+  <button type="submit" class="btn btn-success">Iniciar Sesión</button>
+</form>
+{% endblock %}
