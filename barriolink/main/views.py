@@ -36,7 +36,7 @@ def home(request):
                 except:
                     pass
 
-    return render(request, 'main/home.html', {"posts": posts})
+    return render(request, 'profile/profile.html', {"posts": posts})
 
 
 @login_required(login_url="/login")
@@ -48,11 +48,11 @@ def create_post(request):
             post = form.save(commit=False)
             post.author = request.user
             post.save()
-            return redirect("/home")
+            return redirect("/profile/profile")
     else:
         form = PostForm()
 
-    return render(request, 'main/create_post.html', {"form": form})
+    return render(request, 'profile/profile.html', {"form": form})
 
 
 def sign_up(request):
