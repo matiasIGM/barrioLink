@@ -1,14 +1,16 @@
-# Guía para instalar y ejecutar un proyecto Django (BarrioLink) :shipit:
+# Guía para instalar y ejecutar un proyecto Django (BarrioLink):shipit:
 
 Esta guía te mostrará cómo crear un entorno virtual, instalar Django y ejecutar un proyecto Django en tu máquina a través de la línea de comandos.
 
-## Requisitos previos
+## Requisitos previos:boom:
 
 Antes de comenzar, asegúrate de tener lo siguiente instalado en tu sistema:
 > [!IMPORTANT]
-> Python (3.6 o superior)
-> pip (un administrador de paquetes de Python)
-> virtualenv https://help.dreamhost.com/hc/es/articles/115000695551-Instalar-y-usar-virtualenv-con-Python-3
+- Python (3.6 o superior):snake:
+> [!IMPORTANT]
+- pip (un administrador de paquetes de Python)
+> [!IMPORTANT]
+- virtualenv https://help.dreamhost.com/hc/es/articles/115000695551-Instalar-y-usar-virtualenv-con-Python-3
 
 ## Paso 1: Clonar el proyecto desde GitHub
 
@@ -19,12 +21,6 @@ git https://github.com/matiasIGM/barrioLink.git
 cd tu-proyecto
 ```
 ## Paso 2: Activar el entorno virtual
-
-En Windows:
-```bash
-venv\Scripts\activate
-```
-Luego, activa el entorno virtual:
 
 En Windows:
 ```bash
