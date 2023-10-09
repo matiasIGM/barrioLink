@@ -5,6 +5,14 @@ from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
 from .models import Post, CustomUser  # Importar el modelo de usuario personalizado
 from django.urls import reverse
+from django.core.mail import send_mail, BadHeaderError
+from django.http import HttpResponse
+from django.contrib.auth.forms import PasswordResetForm
+from django.template.loader import render_to_string
+from django.db.models.query_utils import Q
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding  import force_bytes
+from django.utils.http import urlsafe_base64_encode
 
 # Vista protegida por @login_required, que redirige a la página de inicio de sesión si el usuario no está autenticado.
 @login_required(login_url="/login")
@@ -80,3 +88,37 @@ def sign_up(request):
         form = RegisterForm()
      # Renderizar la página de registro con el formulario (ya sea el formulario vacío o con errores)
     return render(request, 'registration/sign_up.html', {"form": form})
+
+
+#Función para resetear contraseña de usuario
+def password_reset_request(request):
+    if request.method == 'POST':
+        password_form = PasswordResetForm(request.POST)
+        if password_form.is_valid():
+            data = password_form.cleaned_data['email']
+            user_email = CustomUser.objects.filter(Q(email=data))
+            if user_email.exists():
+                for user in user_email:
+                    subject = 'Restablecer tu contraseña'
+                    email_template_name = 'users/password_message.txt' 
+                    parameters = {
+                        'email': user.email,
+                        'domain': 'localhost:8000',
+                        'site_name': 'BarrioLink',
+                        'udi': urlsafe_base64_encode(force_bytes(user.pk)),
+                        'token': default_token_generator.make_token(user),
+                        'protocol': 'https',
+                    }
+                    email = render_to_string(email_template_name, parameters)
+                    try:
+                        send_mail(subject, email, '', [user.email], fail_silently=False)
+                    except:
+                        return HttpResponse('Invalid Header')
+                return redirect('Password_reset_done')
+    else:
+        password_form = PasswordResetForm()
+
+    context = {
+        'password_form': password_form
+    }
+    return render(request, 'users/password_reset.html', context)
