@@ -19,7 +19,11 @@ class RegisterForm(UserCreationForm): # formulario para utilizar ModelForm
     class Meta:
         model = CustomUser   # Utiliza el modelo de usuario personalizado
         fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos"]
-        
+
+class RegisterForm2(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["numero_documento", "region", "comuna", "calle", "numero_domicilio"]        
 
 
 class PostForm(forms.ModelForm):

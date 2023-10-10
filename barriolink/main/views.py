@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm, PostForm
+from .forms import RegisterForm, PostForm, RegisterForm2
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
@@ -71,24 +71,48 @@ def create_post(request):
 
 
 #Función Registro de usuario
+# def sign_up(request):
+#     if request.method == 'POST':
+#         form = RegisterForm(request.POST)
+#         if form.is_valid():
+#             # Guardar el nuevo usuario en la base de datos
+#             user = form.save()
+
+#              # Obtén o crea el grupo "default"
+#             group, created = Group.objects.get_or_create(name='default')
+
+#             # Agrega el usuario al grupo(pendiente)
+#             login(request, user)
+#             return redirect(reverse('login'))  # Redirigir al usuario a la página de inicio de sesión
+#     else:
+#         form = RegisterForm()
+#      # Renderizar la página de registro con el formulario (ya sea el formulario vacío o con errores)
+#     return render(request, 'registration/sign_up.html', {"form": form})
 def sign_up(request):
     if request.method == 'POST':
         form = RegisterForm(request.POST)
         if form.is_valid():
-            # Guardar el nuevo usuario en la base de datos
-            user = form.save()
-
-             # Obtén o crea el grupo "default"
-            group, created = Group.objects.get_or_create(name='default')
-
-            # Agrega el usuario al grupo(pendiente)
-            login(request, user)
-            return redirect(reverse('login'))  # Redirigir al usuario a la página de inicio de sesión
+            request.session['registro_primer_paso'] = form.cleaned_data
+            return redirect('registro_segundo_paso')
     else:
         form = RegisterForm()
-     # Renderizar la página de registro con el formulario (ya sea el formulario vacío o con errores)
-    return render(request, 'registration/sign_up.html', {"form": form})
+    return render(request, 'registration/sign_up.html', {'form': form})
 
+
+def sign_up_2(request):
+    if request.method == 'POST':
+        form = RegisterForm2(request.POST)
+        if form.is_valid():
+            datos_primer_paso = request.session.get('registro_primer_paso', {})
+            datos_segundo_paso = form.cleaned_data
+            datos_primer_paso.update(datos_segundo_paso)
+            user = CustomUser(**datos_primer_paso)
+            user.save()
+            del request.session['registro_primer_paso']
+            return redirect('login')
+    else:
+        form = RegisterForm2()
+    return render(request, 'registration/sign_up_step_2.html', {'form': form})
 
 #Función para resetear contraseña de usuario
 def password_reset_request(request):
