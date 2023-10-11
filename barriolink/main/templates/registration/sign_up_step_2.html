@@ -1,0 +1,357 @@
+{% load static %} <!-- cargar la etiqueta static -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Iniciar Sesión</title>
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    
+      <!-- Cargar archivos CSS -->
+	  <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
+	  <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+  </head>
+  <body class="pace-done "><div class="pace pace-inactive"><div class="pace-progress" data-progress-text="100%" data-progress="99" style="transform: translate3d(100%, 0px, 0px);">
+	<div class="pace-progress-inner"></div>
+  </div>
+  <div class="pace-activity"></div></div>
+	  <!-- BEGIN #loader -->
+	  <div id="loader" class="app-loader loaded">
+		  <span class="spinner"></span>
+	  </div>
+	  <!-- END #loader -->
+  
+	  <!-- BEGIN #app -->
+	  <div id="app" class="app app-header-fixed app-sidebar-fixed">
+		  <!-- BEGIN #header -->
+		  <div id="header" class="app-header">
+			  <!-- BEGIN navbar-header -->
+			  <div class="navbar-header">
+				  <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
+				  <button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+					  <span class="icon-bar"></span>
+				  </button>
+			  </div>
+			  <!-- END navbar-header -->
+			  <!-- BEGIN header-nav -->
+			  <div class="navbar-nav">
+				  <div class="navbar-item navbar-form">
+					  <form action="" method="POST" name="search">
+						  <div class="form-group">
+							  <input type="text" class="form-control" placeholder="Enter keyword">
+							  <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
+						  </div>
+					  </form>
+				  </div>
+				  <div class="navbar-item dropdown">
+					  <a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon">
+						  <i class="fa fa-bell"></i>
+						  <span class="badge">5</span>
+					  </a>
+					  <div class="dropdown-menu media-list dropdown-menu-end">
+						  <div class="dropdown-header">NOTIFICATIONS (5)</div>
+						  <a href="javascript:;" class="dropdown-item media">
+							  <div class="media-left">
+								  <i class="fa fa-bug media-object bg-gray-500"></i>
+							  </div>
+							  <div class="media-body">
+								  <h6 class="media-heading">Server Error Reports <i class="fa fa-exclamation-circle text-danger"></i></h6>
+								  <div class="text-muted fs-10px">3 minutes ago</div>
+							  </div>
+						  </a>
+						  <a href="javascript:;" class="dropdown-item media">
+							  <div class="media-left">
+								  <img src="../assets/img/user/user-1.jpg" class="media-object" alt="">
+								  <i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
+							  </div>
+							  <div class="media-body">
+								  <h6 class="media-heading">John Smith</h6>
+								  <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
+								  <div class="text-muted fs-10px">25 minutes ago</div>
+							  </div>
+						  </a>
+						  <a href="javascript:;" class="dropdown-item media">
+							  <div class="media-left">
+								  <img src="../assets/img/user/user-2.jpg" class="media-object" alt="">
+								  <i class="fab fa-facebook-messenger text-blue media-object-icon"></i>
+							  </div>
+							  <div class="media-body">
+								  <h6 class="media-heading">Olivia</h6>
+								  <p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p>
+								  <div class="text-muted fs-10px">35 minutes ago</div>
+							  </div>
+						  </a>
+						  <a href="javascript:;" class="dropdown-item media">
+							  <div class="media-left">
+								  <i class="fa fa-plus media-object bg-gray-500"></i>
+							  </div>
+							  <div class="media-body">
+								  <h6 class="media-heading"> New User Registered</h6>
+								  <div class="text-muted fs-10px">1 hour ago</div>
+							  </div>
+						  </a>
+						  <a href="javascript:;" class="dropdown-item media">
+							  <div class="media-left">
+								  <i class="fa fa-envelope media-object bg-gray-500"></i>
+								  <i class="fab fa-google text-warning media-object-icon fs-14px"></i>
+							  </div>
+							  <div class="media-body">
+								  <h6 class="media-heading"> New Email From John</h6>
+								  <div class="text-muted fs-10px">2 hour ago</div>
+							  </div>
+						  </a>
+						  <div class="dropdown-footer text-center">
+							  <a href="javascript:;" class="text-decoration-none">View more</a>
+						  </div>
+					  </div>
+				  </div>
+				  
+				  <div class="navbar-item navbar-user dropdown">
+					  <a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
+						  <img src="../assets/img/user/user-13.jpg" alt=""> 
+						  <span>
+							  <span class="d-none d-md-inline">Adam Schwartz</span>
+							  <b class="caret"></b>
+						  </span>
+					  </a>
+					  <div class="dropdown-menu dropdown-menu-end me-1">
+						  <a href="extra_profile.html" class="dropdown-item">Edit Profile</a>
+						  <a href="email_inbox.html" class="dropdown-item d-flex align-items-center">
+							  Inbox
+							  <span class="badge bg-danger rounded-pill ms-auto pb-4px">2</span> 
+						  </a>
+						  <a href="calendar.html" class="dropdown-item">Calendar</a>
+						  <a href="settings.html" class="dropdown-item">Settings</a>
+						  <div class="dropdown-divider"></div>
+						  <a href="login.html" class="dropdown-item">Log Out</a>
+					  </div>
+				  </div>
+			  </div>
+			  <!-- END header-nav -->
+		  </div>
+		  <!-- END #header -->
+	  
+		  <!-- BEGIN #sidebar -->
+		  
+		  
+		  <div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
+		  
+		  
+		  <!-- BEGIN #content -->
+		  <div id="content" class="app">
+			  
+			  
+			  
+			  <!-- BEGIN page-header -->
+			  <h1 class="page-header"><small></small></h1>
+			  <!-- END page-header -->
+			  
+			  
+			  <!-- BEGIN row -->
+			  <div class="row">
+				  <!-- BEGIN col-6 -->
+				  <div class="col-xl-12">
+					  <!-- BEGIN panel -->
+					  <div class="panel panel-inverse" style="">
+						  <div class="panel-heading">
+							  <h4 class="panel-title">Registro de Cuenta | Paso 2</h4>
+							  
+						  </div>
+						  <div class="panel-body">
+							  
+					  
+							  <div class="nav-wizards-container">
+								  <nav class="nav nav-wizards-1 mb-2">
+									  <div class="nav-item col">
+										  <a class="nav-link completed" href="#">
+											  <div class="nav-no">1</div>
+											  <div class="nav-text">Completar Datos Básicos</div>
+										  </a>
+									  </div>
+									  <div class="nav-item col">
+										  <a class="nav-link completed" href="#">
+											  <div class="nav-no">2</div>
+											  <div class="nav-text">Validación de datos y residencia</div>
+										  </a>
+									  </div>
+									  <div class="nav-item col">
+										  <a class="nav-link" href="#">
+											  <div class="nav-no">3</div>
+											  <div class="nav-text">Activación de Cuenta</div>
+										  </a>
+									  </div>
+									  
+									  
+								  </nav>
+							  </div>
+							  <div class="card row mb-3">
+							  <div class="row mb-3">
+				  <!-- BEGIN col-6 -->
+				  <div class="col-xl-6 ui-sortable">
+					  <!-- BEGIN panel -->
+					  <div class="panel panel-inverse" data-sortable-id="form-stuff-5" style="">
+						  
+						  
+						  
+						  <!-- BEGIN panel-body -->
+						  <div class="panel-body">
+							  <form>
+								  <div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Nombre Completo</label>
+									  <div class="col-md-9">
+										  <input type="email" class="form-control mb-5px" placeholder="name">
+										  
+									  </div>
+								  </div>
+								  <div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">RUT</label>
+									  <div class="col-md-9">
+										  <input type="email" class="form-control mb-5px" placeholder="name">
+										  
+									  </div>
+								  </div><div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Nro Documento</label>
+									  <div class="col-md-9">
+										  <input type="email" class="form-control mb-5px" placeholder="name">
+										  
+									  </div>
+								  </div><div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Example select</label>
+									  <div class="col-md-9">
+										  <select class="form-select">
+											  <option>1</option>
+											  <option>2</option>
+											  <option>3</option>
+											  <option>4</option>
+											  <option>5</option>
+										  </select>
+									  </div>
+								  </div>
+								  
+								  
+								  <div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Acreditación de domicilio(Boleta)</label>
+									  <div class="col-md-9">
+										  <input class="form-control" type="file" id="formFile">
+									  </div>
+								  </div>
+							  </form>
+						  </div>
+						  <!-- END panel-body -->
+						  
+						  
+						  
+					  </div>
+					  <!-- END panel -->
+				  </div>
+				  <!-- END col-6 -->
+				  <!-- BEGIN col-6 -->
+				  <div class="col-xl-6 ui-sortable">
+					  <!-- BEGIN panel -->
+					  <div class="panel panel-inverse" data-sortable-id="form-stuff-6">
+						  <!-- BEGIN panel-heading -->
+						  
+						  <!-- END panel-heading -->
+						  <!-- BEGIN panel-body -->
+						  <div class="panel-body">
+							  <form>
+								  <div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Región</label>
+									  <div class="col-md-9">
+										  <select class="form-select">
+											  <option>1</option>
+											  <option>2</option>
+											  <option>3</option>
+											  <option>4</option>
+											  <option>5</option>
+										  </select>
+									  </div>
+								  </div>
+								  <div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Comuna</label>
+									  <div class="col-md-9">
+										  <select class="form-select">
+											  <option>1</option>
+											  <option>2</option>
+											  <option>3</option>
+											  <option>4</option>
+											  <option>5</option>
+										  </select>
+									  </div>
+								  </div><div class="row mb-15px">
+									  <label class="form-label col-form-label col-md-3">Calle</label>
+									  <div class="col-md-9">
+										  <input type="email" class="form-control mb-5px" placeholder="dirección">
+										  
+									  </div>
+								  </div>
+								  <div class="row form-group">
+									  <label class="form-label col-form-label col-md-3">Nro</label>
+									  <div class="col-md-9">
+										  <div class="row">
+											  <div class="col-md-6">
+												  <input type="number" class="form-control mb-5px" placeholder="Numeración">
+											  </div>
+											  
+										  </div>
+									  </div>
+								  </div>
+							  </form>
+						  </div>
+						  <!-- END panel-body -->
+						  
+						  
+						  
+					  </div>
+					  <!-- END panel -->
+				  </div>
+				  <!-- END col-6 -->
+			  </div>	
+							  </div>
+  <div class="row xs-3">
+	  <div class="col-md-3 mx-auto">
+		  <button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Registrarse</button>
+	  </div>
+  </div></div>
+  
+  
+						  
+					  </div>
+					  <!-- END panel -->
+				  </div>
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+			  </div>
+			  <!-- END row -->
+		  </div>
+		  <!-- END #content -->
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+	  </div>
+	  <!-- END #app -->
+	  
+	  <!-- Archivos JavaScript -->
+	  <script src="{% static 'js/vendor.min.js' %}"></script>
+	  <script src="{% static 'js/app.min.js' %}"></script>
+  
+	  <!-- ================== BEGIN page-js ================== -->
+	  <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
+	  <!-- ================== END page-js ================== -->
+  </body>
+  </html>
