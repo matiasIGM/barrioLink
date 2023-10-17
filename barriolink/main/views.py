@@ -163,6 +163,7 @@ def register_hoa_admin(request):
         form = CustomUserAdminRegistrationForm()
     return render(request, 'registration/register_hoa_admin.html', {'form': form})
 
+
 def register_junta_de_vecinos(request):
     if request.method == 'POST':
         form = JuntaDeVecinosForm(request.POST)
