@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect
-from .forms import RegisterForm, PostForm, RegisterForm2
+from .forms import RegisterForm, PostForm, RegisterForm2, CustomUserAdminRegistrationForm, Post, JuntaDeVecinosForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import Post, CustomUser  # Importar el modelo de usuario personalizado
+from .models import  CustomUser  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
@@ -146,3 +146,29 @@ def password_reset_request(request):
         'password_form': password_form
     }
     return render(request, 'users/password_reset.html', context)
+
+
+
+
+def register_hoa_admin(request):
+    if request.method == 'POST':
+        form = CustomUserAdminRegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            user.set_password(form.cleaned_data["password"])
+            user.is_hoa_admin = True  # Establece como administrador de juntas de vecinos
+            user.save()
+            return redirect("admin_dashboard")  # Redirige a la página de administración
+    else:
+        form = CustomUserAdminRegistrationForm()
+    return render(request, 'registration/register_hoa_admin.html', {'form': form})
+
+def register_junta_de_vecinos(request):
+    if request.method == 'POST':
+        form = JuntaDeVecinosForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect("admin_dashboard")  # Redirige a la página de administración
+    else:
+        form = JuntaDeVecinosForm()
+    return render(request, 'registration/register_junta_de_vecinos.html', {'form': form})

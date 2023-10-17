@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, CustomUser
+from .models import Post, CustomUser, JuntaDeVecinos
 from datetime import datetime 
 
 
@@ -30,3 +30,14 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "description"]
+
+
+class CustomUserAdminRegistrationForm(forms.ModelForm):
+    class Meta:
+        model = CustomUser
+        fields = ["username", "email", "password", "is_hoa_admin"]
+
+class JuntaDeVecinosForm(forms.ModelForm):
+    class Meta:
+        model = JuntaDeVecinos
+        fields = '__all__'
