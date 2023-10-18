@@ -3,7 +3,7 @@ from .forms import RegisterForm, PostForm, RegisterForm2, CustomUserAdminRegistr
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, JuntaDeVecinos  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, JuntaDeVecinos, Comuna, Region  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
@@ -183,3 +183,15 @@ def registro(request):
         'juntas': juntas,  # Pasa las juntas de vecinos al contexto
     }
     return render(request, 'registration/sign_up_step_2.html', context)
+
+
+def get_comuna(request):
+    regiones = Region.objects.all()
+    comunas = Comuna.objects.none()
+    region_id = request.POST.get('region')
+
+    if region_id:
+        region = Region.objects.get(id=region_id)
+        comunas = Comuna.objects.filter(provincia__region=region)
+
+    return render(request, 'registration/sign_up_step_2.html', {'regiones': regiones, 'comunas': comunas})

@@ -173,29 +173,26 @@
 						  <!-- BEGIN panel-body -->
 						  <div class="panel-body">
 							  <form>
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Región</label>
-									  <div class="col-md-9">
-										  <select class="form-select">
-											  <option>1</option>
-											  <option>2</option>
-											  <option>3</option>
-											  <option>4</option>
-											  <option>5</option>
-										  </select>
-									  </div>
+								{% csrf_token %}
+								<div class="row mb-15px">
+								  <label class="form-label col-form-label col-md-3">Región</label>
+								  <div class="col-md-9">
+									<select class="form-select" name="region" id="region-select">
+									  <option value="">Selecciona una región</option>
+									  {% for region in regiones %}
+										<option value="{{ region.id }}">{{ region.nombre }}</option>
+									  {% endfor %}
+									</select>
 								  </div>
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Comuna</label>
-									  <div class="col-md-9">
-										  <select class="form-select">
-											  <option>1</option>
-											  <option>2</option>
-											  <option>3</option>
-											  <option>4</option>
-											  <option>5</option>
-										  </select>
-									  </div>
+								</div>
+								<div class="row mb-15px">
+								  <label class="form-label col-form-label col-md-3">Comuna</label>
+								  <div class="col-md-9">
+									<select class="form-select" name="comuna" id="comuna-select">
+									  <option value="">Selecciona una comuna</option>
+									</select>
+								  </div>
+								</div>
 								  </div><div class="row mb-15px">
 									  <label class="form-label col-form-label col-md-3">Calle</label>
 									  <div class="col-md-9">
