@@ -94,3 +94,32 @@ class Post(models.Model):
 
     def __str__(self):
         return self.title + "\n" + self.description
+    
+
+#Modelo de Región
+class Region(models.Model):
+    nombre = models.CharField(max_length=255)
+    region_iso_3166_2 = models.CharField(max_length=10)
+    capital_regional = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.nombre
+
+#Modelo de Provincia
+class Provincia(models.Model):
+    nombre = models.CharField(max_length=255)
+    codigo = models.CharField(max_length=10)
+    capital_provincial = models.CharField(max_length=255)
+    region = models.ForeignKey(Region, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
+
+#Modelo de Comuna
+class Comuna(models.Model):
+    nombre = models.CharField(max_length=255)
+    codigo = models.CharField(max_length=10)
+    provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.nombre
