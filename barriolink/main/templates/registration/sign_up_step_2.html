@@ -70,7 +70,7 @@
 				  <!-- BEGIN col-6 -->
 				  <div class="col-xl-12">
 					  <!-- BEGIN panel -->
-					  <div class="panel panel-inverse" style="">
+					  <div class="panel panel-inverse" >
 						  <div class="panel-heading">
 							  <h4 class="panel-title">Registro de Cuenta | Paso 2</h4>
 							  
@@ -107,7 +107,7 @@
 				  <!-- BEGIN col-6 -->
 				  <div class="col-xl-6 ui-sortable">
 					  <!-- BEGIN panel -->
-					  <div class="panel panel-inverse" data-sortable-id="form-stuff-5" style="">
+					  <div class="panel panel-inverse" data-sortable-id="form-stuff-5">
 						  
 						  
 						  
@@ -214,6 +214,16 @@
 										  </div>
 									  </div>
 								  </div>
+								  <div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">JJ.VV. a la cual desea registrarse</label>
+									<div class="col-md-9">
+										<select class="form-select" name="junta_de_vecinos">
+											{% for junta in juntas %}
+												<option value="{{ junta.hoa_id }}">{{ junta.hoa_name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div>
 							  </form>
 						  </div>
 						  <!-- END panel-body -->

@@ -3,7 +3,7 @@ from .forms import RegisterForm, PostForm, RegisterForm2, CustomUserAdminRegistr
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, JuntaDeVecinos  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
@@ -173,3 +173,13 @@ def register_junta_de_vecinos(request):
     else:
         form = JuntaDeVecinosForm()
     return render(request, 'registration/register_junta_de_vecinos.html', {'form': form})
+
+
+#Función para listar todas las JJVV Disponibles
+def registro(request):
+    juntas = JuntaDeVecinos.objects.all()  # Obtén todas las juntas de vecinos
+
+    context = {
+        'juntas': juntas,  # Pasa las juntas de vecinos al contexto
+    }
+    return render(request, 'registration/sign_up_step_2.html', context)
