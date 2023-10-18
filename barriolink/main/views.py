@@ -184,14 +184,3 @@ def registro(request):
     }
     return render(request, 'registration/sign_up_step_2.html', context)
 
-
-def get_comuna(request):
-    regiones = Region.objects.all()
-    comunas = Comuna.objects.none()
-    region_id = request.POST.get('region')
-
-    if region_id:
-        region = Region.objects.get(id=region_id)
-        comunas = Comuna.objects.filter(provincia__region=region)
-
-    return render(request, 'registration/sign_up_step_2.html', {'regiones': regiones, 'comunas': comunas})
