@@ -47,39 +47,43 @@
 				  
 				  <!-- BEGIN register-content -->
 				  <div class="register-content">
-					  <form method="post" class="fs-13px">
-						  {% csrf_token %}
+					<form method="post" class="fs-13px">
+						{% csrf_token %}
+						<div class="mb-3">
+							<label for="nombres" class="mb-2">Nombre <span class="text-danger">*</span></label>
+							<div class="row gx-3">
+								<div class="col-md-6 mb-2 mb-md-0">
+									<input name="nombres" type="text" class="form-control fs-13px text-left" placeholder="Nombre" />
+								</div>
+								<div class="col-md-6">
+									<input name="apellidos" type="text" class="form-control fs-13px text-left" placeholder="Apellido" />
+								</div>
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for="email" class="mb-2">Correo Electrónico <span class="text-danger">*</span></label>
+							<input name="email" type="text" class="form-control fs-13px text-left" placeholder="Correo Electrónico" />
+						</div>
+						<div class="mb-3">
+							<label for="rut" class="mb-2">RUT <span class="text-danger">*</span></label>
+							<input name="rut" type="text" class="form-control fs-13px text-left" placeholder="RUT" />
+						</div>
+						<div class="mb-3">
+							<label for="birth_date" class="mb-2">Fecha de Nacimiento <span class="text-danger">*</span></label>
+							<input name="birth_date" type="date" class="form-control fs-13px text-left" placeholder="Fecha de Nacimiento" />
+						</div>
+						<div class="mb-3">
+							<label for="celular" class="mb-2">Celular <span class="text-danger">*</span></label>
+							<input name="celular" type="number" class="form-control fs-13px text-left" placeholder="+569" />
+						</div>
 						  <div class="mb-3">
-							  <label for="nombres" class="mb-2">Nombre <span class="text-danger">*</span></label>
-							  <div class="row gx-3">
-								  <div class="col-md-6 mb-2 mb-md-0">
-									  <input id="nombres" type="text" class="form-control fs-13px text-left" placeholder="Nombre" />
-								  </div>
-								  <div class="col-md-6">
-									  <input id="apellidos" type="text" class="form-control fs-13px text-left" placeholder="Apellido" />
-								  </div>
-							  </div>
-						  </div>
-						  <div class="mb-3">
-							  <label for="email" class="mb-2">Correo Electrónico <span class="text-danger">*</span></label>
-							  <input id="email" type="text" class="form-control fs-13px text-left" placeholder="Correo Electrónico" />
-						  </div>
-						  <div class="mb-3">
-							  <label for="rut" class="mb-2">RUT <span class="text-danger">*</span></label>
-							  <input id="rut" type="text" class="form-control fs-13px text-left" placeholder="RUT" />
-						  </div>
-						  <div class="mb-3">
-							  <label for="birth_date" class="mb-2">Fecha de Nacimiento <span class="text-danger">*</span></label>
-							  <input id="birth_date" type="date" class="form-control fs-13px text-left" placeholder="Fecha de Nacimiento" />
-						  </div>
-						  <div class="mb-3">
-							  <label for="celular" class="mb-2">Celular <span class="text-danger">*</span></label>
-							  <input id="celular" type="number" class="form-control fs-13px text-left" placeholder="+569" />
-						  </div>
-						  <div class="mb-3">
-							  <label for="password" class="mb-2">Contraseña <span class="text-danger">*</span></label>
-							  <input id="password" type="password" class="form-control fs-13px text-left" placeholder="Contraseña" />
-						  </div>
+							<label for="password1" class="mb-2">Contraseña <span class="text-danger">*</span></label>
+							<input name="password1" type="password" class="form-control fs-13px text-left" placeholder="Contraseña" />
+						</div>
+						<div class="mb-3">
+							<label for="password2" class="mb-2">Confirmar Contraseña <span class="text-danger">*</span></label>
+							<input name="password2" type="password" class="form-control fs-13px text-left" placeholder="Confirmar Contraseña" />
+						</div>
 						  <div class="form-check mb-4">
 							  <input class="form-check-input" type="checkbox" value="" id="agreementCheckbox" />
 							  <label class="form-check-label" for="agreementCheckbox">
@@ -87,8 +91,9 @@
 							  </label>
 						  </div>
 						  <div class="mb-4">
-							<a href="{% url 'registro_segundo_paso' %}" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Registrarse</a>
-						</div>
+							<button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Continuar</button>
+						  </div>
+						
 						  <div class="mb-4 pb-5">
 							  ¿Ya es miembro? Haga clic <a href="/login">aquí</a> para iniciar sesión.
 						  </div>

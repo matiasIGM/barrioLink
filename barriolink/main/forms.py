@@ -7,23 +7,27 @@ from datetime import datetime
 class CustomAuthenticationForm(AuthenticationForm):
     email = forms.EmailField(widget=forms.TextInput(attrs={'autofocus': True}))
 
-class RegisterForm(UserCreationForm): # formulario para utilizar ModelForm
-    email = forms.EmailField(required=True, label="Correo Electrónico")
 
-    # Personalización del formato de entrada para birth_date
+class RegisterFormStep1(UserCreationForm):
+    email = forms.EmailField(required=True, label="Correo Electrónico")
     birth_date = forms.DateField(
-        input_formats=['%d/%m/%Y', '%Y-%m-%d'],
-        widget=forms.DateInput(attrs={'type':'date', 'max': datetime.now().date()}))
-     
+        widget=forms.SelectDateWidget(
+            years=range(datetime.now().year - 100, datetime.now().year),
+        )
+    )
 
     class Meta:
-        model = CustomUser   # Utiliza el modelo de usuario personalizado
+        model = CustomUser
         fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos"]
+
+ 
+
+
 
 class RegisterForm2(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ["numero_documento", "region", "comuna", "calle", "numero_domicilio"]        
+        fields = ["email","numero_documento", "region", "comuna", "calle", "numero_domicilio"]        
 
 
 class PostForm(forms.ModelForm):

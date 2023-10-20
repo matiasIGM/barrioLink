@@ -67,7 +67,7 @@
 							<button type="submit" class="btn btn-success d-block w-100 h-45px btn-lg">Iniciar Sesión</button>
 						</div>
 						<div class="text-gray-500">
-							No eres miembro? Click <a href="/sign-up" class="text-white">Aquí</a> para registrarse.
+							No eres miembro? Click <a href="{% url 'signup' step='step1' %}" class="text-white">Aquí</a> para registrarse.
 						</div>
                         <div class="text-center my-3">
                             <a href="{% url 'password_reset' %}">Forget Password</a>

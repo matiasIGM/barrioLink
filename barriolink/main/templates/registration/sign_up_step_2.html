@@ -113,118 +113,92 @@
 						  
 						  <!-- BEGIN panel-body -->
 						  <div class="panel-body">
-							  <form>
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Nombre Completo</label>
-									  <div class="col-md-9">
-										  <input type="email" class="form-control mb-5px" placeholder="name">
-										  
-									  </div>
-								  </div>
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">RUT</label>
-									  <div class="col-md-9">
-										  <input type="email" class="form-control mb-5px" placeholder="name">
-										  
-									  </div>
-								  </div><div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Nro Documento</label>
-									  <div class="col-md-9">
-										  <input type="email" class="form-control mb-5px" placeholder="name">
-										  
-									  </div>
-								  </div><div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Example select</label>
-									  <div class="col-md-9">
-										  <select class="form-select">
-											  <option>1</option>
-											  <option>2</option>
-											  <option>3</option>
-											  <option>4</option>
-											  <option>5</option>
-										  </select>
-									  </div>
-								  </div>
-								  
-								  
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Acreditación de domicilio(Boleta)</label>
-									  <div class="col-md-9">
-										  <input class="form-control" type="file" id="formFile">
-									  </div>
-								  </div>
-							  </form>
-						  </div>
-						  <!-- END panel-body -->
-						  
-						  
-						  
-					  </div>
-					  <!-- END panel -->
-				  </div>
-				  <!-- END col-6 -->
-				  <!-- BEGIN col-6 -->
-				  <div class="col-xl-6 ui-sortable">
-					  <!-- BEGIN panel -->
-					  <div class="panel panel-inverse" data-sortable-id="form-stuff-6">
-						  <!-- BEGIN panel-heading -->
-						  
-						  <!-- END panel-heading -->
-						  <!-- BEGIN panel-body -->
-						  <div class="panel-body">
-							  <form>
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Región</label>
-									  <div class="col-md-9">
-										  <select class="form-select">
-											  <option>1</option>
-											  <option>2</option>
-											  <option>3</option>
-											  <option>4</option>
-											  <option>5</option>
-										  </select>
-									  </div>
-								  </div>
-								  <div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Comuna</label>
-									  <div class="col-md-9">
-										  <select class="form-select">
-											  <option>1</option>
-											  <option>2</option>
-											  <option>3</option>
-											  <option>4</option>
-											  <option>5</option>
-										  </select>
-									  </div>
-								  </div><div class="row mb-15px">
-									  <label class="form-label col-form-label col-md-3">Calle</label>
-									  <div class="col-md-9">
-										  <input type="email" class="form-control mb-5px" placeholder="dirección">
-										  
-									  </div>
-								  </div>
-								  <div class="row form-group">
-									  <label class="form-label col-form-label col-md-3">Nro</label>
-									  <div class="col-md-9">
-										  <div class="row">
-											  <div class="col-md-6">
-												  <input type="number" class="form-control mb-5px" placeholder="Numeración">
-											  </div>
-											  
-										  </div>
-									  </div>
-								  </div>
-								  <div class="row mb-15px">
-									<label class="form-label col-form-label col-md-3">JJ.VV. a la cual desea registrarse</label>
+							<form method="post">
+								{% csrf_token %}
+								<!-- Nombre Completo -->
+								<div class="row mb-15px">
+									<label for="nombre_completo" class="form-label col-form-label col-md-3">Nombre Completo</label>
 									<div class="col-md-9">
-										<select class="form-select" name="junta_de_vecinos">
-											{% for junta in juntas %}
-												<option value="{{ junta.hoa_id }}">{{ junta.hoa_name }}</option>
-											{% endfor %}
+										<input  type="text" id="nombre_completo" class="form-control mb-5px" placeholder="Nombre" value="{{ nombre_completo }}" readonly />
+									</div>
+								</div>
+								<!-- RUT -->
+								<div class="row mb-15px">
+									<label for="rut" class="form-label col-form-label col-md-3">RUT</label>
+									<div class="col-md-9">
+										<input  type="text" id="rut" class="form-control mb-5px" value="{{ rut }}" readonly />
+									</div>
+								</div>
+								<!-- Nro Documento -->
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Nro Documento</label>
+									<div class="col-md-9">
+										<input name="numero_documento" type="text" class="form-control mb-5px" placeholder="Nro Documento" />
+									</div>
+								</div>
+								<!-- Select de Región -->
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Región</label>
+									<div class="col-md-9">
+										<select name="region" class="form-select">
+											<option value="1">Región 1</option>
+											<option value="2">Región 2</option>
+											<!-- Agrega más opciones según tus necesidades -->
 										</select>
 									</div>
 								</div>
-							  </form>
+								<!-- Select de Comuna -->
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Comuna</label>
+									<div class="col-md-9">
+										<select name="comuna" class="form-select">
+											<option value="1">Comuna 1</option>
+											<option value="2">Comuna 2</option>
+											<!-- Agrega más opciones según tus necesidades -->
+										</select>
+									</div>
+								</div>
+								<!-- Calle -->
+								<div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Calle</label>
+									<div class="col-md-9">
+										<input name="calle" type="text" class="form-control mb-5px" placeholder="Calle" />
+									</div>
+								</div>
+								<!-- Nro -->
+								<div class="row form-group">
+									<label class="form-label col-form-label col-md-3">Nro</label>
+									<div class="col-md-9">
+										<div class="row">
+											<div class="col-md-6">
+												<input name="numero_domicilio" type="number" class="form-control mb-5px" placeholder="Numeración" />
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- JJ.VV. a la cual desea registrarse -->
+								<!-- <div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">JJ.VV. a la cual desea registrarse</label>
+									<div class="col-md-9">
+										<select name="junta_de_vecinos" class="form-select">
+											{% for junta in juntas %}
+												<option value="{{ junta.hoa_id }}" {% if junta.hoa_id == 1 %}selected{% endif %}>{{ junta.hoa_name }}</option>
+											{% endfor %}
+										</select>
+									</div>
+								</div> -->
+								
+								<!-- Acreditación de domicilio (Boleta) -->
+								<!-- <div class="row mb-15px">
+									<label class="form-label col-form-label col-md-3">Acreditación de domicilio (Boleta)</label>
+									<div class="col-md-9">
+										<input name="boleta" class="form-control" type="file" id="formFile" />
+									</div>
+								</div> -->
+								<div class="row mb-15px">
+									<button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Registrarse</button>
+								</div>
+							</form>
 						  </div>
 						  <!-- END panel-body -->
 						  
