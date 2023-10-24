@@ -5,6 +5,8 @@ from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
 from .models import Post, CustomUser  # Importar el modelo de usuario personalizado
 from django.urls import reverse
+from django.shortcuts import HttpResponse #telegram
+from .utils import enviar_mensaje
 
 # Vista protegida por @login_required, que redirige a la página de inicio de sesión si el usuario no está autenticado.
 @login_required(login_url="/login")
@@ -80,3 +82,13 @@ def sign_up(request):
         form = RegisterForm()
      # Renderizar la página de registro con el formulario (ya sea el formulario vacío o con errores)
     return render(request, 'registration/sign_up.html', {"form": form})
+
+# manejo de solicitudes HTTP y contiene la lógica para responder a esas solicitudes
+def mi_vista(request):
+        # Desarrollar logica que gatilla envio de mensaje
+        usuario_id = 'ID_DEL_USUARIO_TELEGRAM'
+        mensaje = '¡Hola vecin@ tenemos novedades en nuestra comunidad!'
+        enviar_mensaje(usuario_id, mensaje)
+    
+    return HttpResponse("Evento procesado y mensaje enviado a Telegram.")
+
