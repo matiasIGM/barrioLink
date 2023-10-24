@@ -70,7 +70,7 @@ import logging
 #     # Renderiza la página 'profile.html' y pasa el formulario 'form' a la plantilla.
 #     return render(request, 'profile/profile.html', {"form": form})
 
-
+@login_required(login_url="/login")
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -81,7 +81,7 @@ def user_login(request):
             login(request, user)
             # Redirige al perfil después del inicio de sesión, pero también verifica si es admin.
             if user.is_hoa_admin:
-                return render(request, 'admin/profile/profile.html')
+                return render(request, 'adm/profile/profile.html')
             else:
                 return render(request, 'profile/profile.html')
         else:
@@ -90,6 +90,12 @@ def user_login(request):
             return render(request, 'registration/login.html', {'error_message': error_message})
     return render(request, 'registration/login.html')
 
+
+
+
+def users_admin_view(request):
+    # Lógica de tu vista
+    return render(request, 'adm/users_admin.html')
 
 
 
@@ -242,3 +248,13 @@ def signup(request, step=None):
         'rut': datos_primer_paso.get('rut', '')
     })
 
+
+
+def filter_user_adm(request):
+    usuarios = CustomUser.objects.filter(is_hoa_admin=False)
+    
+    for usuario in usuarios:
+        print(f"Usuario: {usuario.username}, Nombres: {usuario.nombres}, Apellidos: {usuario.apellidos}, Email: {usuario.email}")
+    
+    context = {'usuarios': usuarios}
+    return render(request, 'adm/users_admin.html', context)

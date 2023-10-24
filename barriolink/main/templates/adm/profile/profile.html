@@ -24,6 +24,7 @@
 	<!-- BEGIN #app -->
 	<div id="app" class="app app-header-fixed app-sidebar-fixed">
 		<!-- BEGIN #header -->
+		{% block navbar %}
 		<div id="header" class="app-header">
 			<!-- BEGIN navbar-header -->
 			<div class="navbar-header">
@@ -37,14 +38,6 @@
 			<!-- END navbar-header -->
 			  <!-- BEGIN header-nav -->
 			  <div class="navbar-nav">
-                <div class="navbar-item navbar-form">
-                    <form action="" method="POST" name="search">
-                        <div class="form-group">
-                            <input type="text" class="form-control" placeholder="Enter keyword" />
-                            <button type="submit" class="btn btn-search"><i class="fa fa-search"></i></button>
-                        </div>
-                    </form>
-                </div>
                 <div class="navbar-item dropdown">
                     <a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon">
                         <i class="fa fa-bell"></i>
@@ -82,9 +75,11 @@
             </div>
             <!-- END header-nav -->
 		</div>
+		{% endblock %}
 		<!-- END #header -->
 	
 		<!-- BEGIN #sidebar -->
+		{% block sidebar %}
 		<div id="sidebar" class="app-sidebar">
 			<!-- BEGIN scrollbar -->
 			<div class="app-sidebar-content" data-scrollbar="true" data-height="100%">
@@ -103,7 +98,13 @@
 									</div>
 									<div class="menu-caret ms-auto"></div>
 								</div>
-								<small>Frontend developer</small>
+								<small>
+									{% if user.is_hoa_admin %}
+            							Administrador JJVV
+        							{% else %}
+            							Usuario
+        							{% endif %}
+								</small>
 							</div>
 						</a>
 					</div>
@@ -139,7 +140,7 @@
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="index.html" class="menu-link"><div class="menu-text">Validación Cuentas de Usuario</div></a>
+								<a href="adm/users_admin.html" class="menu-link"><div class="menu-text">Validación Cuentas de Usuario</div></a>
 							</div>
 							<div class="menu-item">
 								<a href="index_v2.html" class="menu-link"><div class="menu-text">Directorio de Personas</div></a>
@@ -212,23 +213,12 @@
 		</div>
 		<div class="app-sidebar-bg"></div>
 		<div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
+		{% endblock %}
 		<!-- END #sidebar -->
 		
 		<!-- BEGIN #content -->
 		<div id="content" class="app-content">
-			<!-- BEGIN breadcrumb -->
-			<ol class="breadcrumb float-xl-end">
-				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-				<li class="breadcrumb-item">Bootstrap 5</li>
-			</ol>
-			<!-- END breadcrumb -->
-			<!-- BEGIN page-header -->
-			<h1 class="page-header mb-10px">Bootstrap 5 <small>header small text goes here...</small></h1>
-			<!-- END page-header -->
-			
-			<p class="mb-20px">
-				A card is a flexible and extensible content container. It includes options for headers and footers, a wide variety of content, contextual background colors, and powerful display options. If you’re familiar with Bootstrap 3, cards replace our old panels, wells, and thumbnails. Similar functionality to those components is available as modifier classes for cards.
-			</p>
+
 			
 
 	<!-- END #app -->

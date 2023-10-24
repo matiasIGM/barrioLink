@@ -6,7 +6,6 @@ urlpatterns = [
       path('', views.user_login, name='home'),
       path('home', views.user_login, name='home'),
        path('signup/<str:step>/', views.signup, name='signup'),  # Ruta con un parámetro 'step'
-     #  path('create-post', views.create_post, name='create_post'),
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),
       path('password_reset_done/', auth_view.PasswordResetDoneView.as_view(template_name="users/password_reset_done.html"),
@@ -15,4 +14,5 @@ urlpatterns = [
            name='password_reset_confirm'),
       path('password_reset_complete/', auth_view.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
            name='password_reset_complete'),
+      path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
 ]
