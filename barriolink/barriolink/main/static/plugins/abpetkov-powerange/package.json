@@ -1,0 +1,23 @@
+{
+  "name": "abpetkov-powerange",
+  "description": "iOS 7 style range slider",
+  "version": "0.0.1",
+  "keywords": [
+    "range",
+    "slider",
+    "iOS7"
+  ],
+  "main": "lib/powerange.js",
+  "styles": [
+    "lib/powerange.css"
+  ],
+  "dependencies": {
+    "component-events": "git://github.com/npmcomponent/component-events.git",
+    "component-classes": "git://github.com/npmcomponent/component-classes.git",
+    "ui-component-mouse": "git://github.com/npmcomponent/ui-component-mouse.git",
+    "abpetkov-percentage-calc": "git://github.com/npmcomponent/abpetkov-percentage-calc.git",
+    "abpetkov-closest-num": "git://github.com/npmcomponent/abpetkov-closest-num.git",
+    "vesln-super": "git://github.com/npmcomponent/vesln-super.git"
+  },
+  "license": "MIT"
+}

@@ -1,0 +1,7 @@
+# Archivos generados por Django
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+# Archivo de configuración local
+.env
