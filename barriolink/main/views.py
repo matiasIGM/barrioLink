@@ -251,7 +251,7 @@ def signup(request, step=None):
 
 
 def filter_user_adm(request):
-    usuarios = CustomUser.objects.filter(is_hoa_admin=False)
+    usuarios = CustomUser.objects.all(is_hoa_admin=False)
     
     for usuario in usuarios:
         print(f"Usuario: {usuario.username}, Nombres: {usuario.nombres}, Apellidos: {usuario.apellidos}, Email: {usuario.email}")
