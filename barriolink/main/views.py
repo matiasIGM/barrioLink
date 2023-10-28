@@ -6,6 +6,7 @@ from django.contrib.auth.models import User, Group
 from .models import Post, CustomUser  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 
+
 # Vista protegida por @login_required, que redirige a la página de inicio de sesión si el usuario no está autenticado.
 @login_required(login_url="/login")
 def home(request):
@@ -80,3 +81,7 @@ def sign_up(request):
         form = RegisterForm()
      # Renderizar la página de registro con el formulario (ya sea el formulario vacío o con errores)
     return render(request, 'registration/sign_up.html', {"form": form})
+
+
+
+

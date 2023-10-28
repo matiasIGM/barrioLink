@@ -1,0 +1,65 @@
+{% load static %} <!-- cargar la etiqueta static -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Color Admin | Bootstrap 5</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	
+	<!-- ================== BEGIN core-css ================== -->
+	<!-- cargar archivos CSS -->
+    <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+	<!-- ================== END core-css ================== -->
+</head>
+<body>
+	<!-- BEGIN #loader -->
+	<div id="loader" class="app-loader">
+		<span class="spinner"></span>
+	</div>
+	<!-- END #loader -->
+
+	<!-- BEGIN #app -->
+	<div id="app" class="app app-header-fixed app-sidebar-fixed">
+		<!-- BEGIN #header -->
+		<div id="header" class="app-header">
+			<!-- BEGIN navbar-header -->
+			<div class="navbar-header">
+				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Color</b> Admin</a>
+				<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- END navbar-header -->
+			<!-- BEGIN header-nav -->
+			<div class="navbar-nav">
+			</div>
+			<!-- END header-nav -->
+		</div>
+		<!-- END #header -->
+	
+		
+		<!-- BEGIN #content -->
+		<div id="content" class="app-content">
+
+            
+		
+		<!-- BEGIN scroll-top-btn -->
+		<a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top" data-toggle="scroll-to-top"><i class="fa fa-angle-up"></i></a>
+		<!-- END scroll-top-btn -->
+	</div>
+	<!-- END #app -->
+	
+	    <!--  archivos JavaScript  -->
+        <script src="{% static 'js/vendor.min.js' %}"></script>
+        <script src="{% static 'js/app.min.js' %}"></script>
+    
+        <!-- ================== BEGIN page-js ================== -->
+        <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
+        <!-- ================== END page-js ================== -->
+</body>
+</html>
