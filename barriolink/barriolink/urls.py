@@ -16,9 +16,26 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include
+from django.urls import path
+from . import telegram_views  # Importa vistas de telegram
+from telegram.ext import Dispatcher
+from django_telegrambot.apps import DjangoTelegramBot
+from django.urls import path
+from .views import TelegramWebhook
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
     path('', include('django.contrib.auth.urls')),
+    path('telegram_webhook/', TelegramWebhook.as_view(), name='telegram_webhook')
 ]
+
+
+# manejadores de comandos a Dispatcher
+dispatcher = Dispatcher(DjangoTelegramBot.get_bot().telegram, None, workers=0)
+telegram_views.setup_dispatcher(dispatcher)
+
+
+
+
+
