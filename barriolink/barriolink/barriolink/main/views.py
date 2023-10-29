@@ -13,6 +13,13 @@ from django.db.models.query_utils import Q
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
+from telegram import Update
+from telegram.ext import Dispatcher, CommandHandler, CallbackContext
+from django_telegrambot.apps import DjangoTelegramBot
+from django.http import JsonResponse
+#from django.views.decorators.csrf import csrf_exempt
+from django.views import View
+import json
 
 # Vista protegida por @login_required, que redirige a la página de inicio de sesión si el usuario no está autenticado.
 @login_required(login_url="/login")
@@ -146,3 +153,18 @@ def password_reset_request(request):
         'password_form': password_form
     }
     return render(request, 'users/password_reset.html', context)
+
+
+# manejo de vistas y lógica del bot de Telegram 
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Hola!')
+
+def setup_dispatcher(dp: Dispatcher):
+    dp.add_handler(CommandHandler('start', start))
+
+# manejo ed solicitudes del webhook
+class TelegramWebhook(View):
+    def post(self, request, *args, **kwargs):
+        json_str = request.body.decode('UTF-8')
+        update = json.loads(json_str)
+        return JsonResponse({'status': 'ok'})
