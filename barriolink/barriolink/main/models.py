@@ -8,6 +8,13 @@ class CustomUser(AbstractUser):# Define una clase CustomUser que extiende Abstra
     nombres = models.CharField(max_length=255)  # Agregar campo de nombres
     apellidos = models.CharField(max_length=255)  # Agregar campo de apellidos
 
+    #campos para la segunda parte del registro
+    numero_documento = models.CharField(max_length=20, blank=True)
+    region = models.CharField(max_length=100, blank=True)
+    comuna = models.CharField(max_length=100, blank=True)
+    calle = models.CharField(max_length=255, blank=True)
+    numero_domicilio = models.CharField(max_length=20, blank=True)
+
     # Reemplaza el campo de inicio de sesión "username" por "email"
     email = models.EmailField(unique=True) # Agrega un campo de correo electrónico único para iniciar sesión
     username = models.CharField(max_length=30, unique=False)   # Cambia el campo de "username" para que no sea requerido ni único
