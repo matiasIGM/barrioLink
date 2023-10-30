@@ -263,3 +263,6 @@ def filter_user_adm(request):
 
 def certificado(request):
     return('ruta certificado/certificado.html')
+
+def home(request):
+     return render(request, 'main/home.html')
