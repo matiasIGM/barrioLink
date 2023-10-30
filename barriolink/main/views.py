@@ -258,3 +258,8 @@ def filter_user_adm(request):
     
     context = {'usuarios': usuarios}
     return render(request, 'adm/users_admin.html', context)
+
+
+
+def certificado(request):
+    return('ruta certificado/certificado.html')
