@@ -15,9 +15,9 @@ from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
 import logging
+from django.contrib import messages
 
-
-@login_required(login_url="/login")
+# @login_required(login_url="/login")
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -33,10 +33,9 @@ def user_login(request):
                 return render(request, 'profile/profile.html')
         else:
             # Las credenciales son inválidas, muestra un mensaje de error o redirige a la página de inicio de sesión.
-            error_message = "Credenciales inválidas. Por favor, inténtalo de nuevo."
-            return render(request, 'registration/login.html', {'error_message': error_message})
+            messages.error(request, "Credenciales inválidas. Por favor, inténtalo de nuevo.")
+            return render(request, 'registration/login.html')  # Agrega la línea para volver a la página de inicio de sesión
     return render(request, 'registration/login.html')
-
 
 
 def users_admin_view(request):
@@ -145,7 +144,7 @@ def filter_user_adm(request):
 
 
 def certificado(request):
-    return('ruta certificado/certificado.html')
+    return render('ruta certificado/certificado.html')
 
 #Renderizar home del sitio
 def home(request):

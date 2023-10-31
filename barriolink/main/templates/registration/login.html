@@ -1,108 +1,177 @@
-{% load static %} <!-- cargar la etiqueta static -->
+{% load static %}
+<!-- cargar la etiqueta static -->
 {% block content %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="utf-8" />
     <title>Iniciar Sesión</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+      name="viewport"
+    />
     <meta content="" name="description" />
     <meta content="" name="author" />
-    
+
     <!-- cargar archivos CSS -->
     <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
-</head>
-<body class='pace-top'>
+  </head>
+  <body class="pace-top">
     <!-- BEGIN #loader -->
     <div id="loader" class="app-loader">
-        <span class="spinner"></span>
+      <span class="spinner"></span>
     </div>
     <!-- END #loader -->
 
     <!-- BEGIN #app -->
     <div id="app" class="app">
-        <!-- BEGIN login -->
-        <div class="login login-v2 fw-bold">
-            <!-- BEGIN login-cover -->
-            <div class="login-cover">
-                <div class="login-cover-img" style="background-image: url('{% static 'img/login-bg/hills.jpg' %}')" data-id="login-cover-image"></div>
-                <div class="login-cover-bg"></div>
-            </div>
-            <!-- END login-cover -->
-            
-            <!-- BEGIN login-container -->
-            <div class="login-container">
-                <!-- BEGIN login-header -->
-                <div class="login-header">
-                    <div class="brand">
-                        <div class="d-flex align-items-center">
-                            <span class="logo"></span> <b>Barrio</b>Link
-                        </div>
-                        <small>Sistema de Unidad Territorial</small>
-                    </div>
-                    <div class="icon">
-                        <i class="fa fa-users"></i>
-                    </div>
-                </div>
-                <!-- END login-header -->
-                
-                <!-- BEGIN login-content -->
-                <div class="login-content">
-                    {% if form.errors %}
-                        <p>Your username and password didn't match. Please try again.</p>
-                    {% endif %}
-                    {% if next %}
-                     {% if user.is_authenticated %}
-                            <p>Your account doesn't have access to this page. To proceed,
-                            please login with an account that has access.</p>
-                     {% else %}
-                        <p>Please login to see this page.</p>
-                     {% endif %}
-                    {% endif %}
-
-                    <form method="post">
-                        {% csrf_token %}
-                        <div class="form-floating mb-20px">
-                            <label for="username" class="d-flex align-items-center text-gray-600 fs-13px">Correo Electrónico</label>
-                            <input type="text" class="form-control fs-13px h-45px border-0" id="username" name="username" required>
-                        </div>
-                        <div class="form-floating mb-20px">
-                            <label for="password" class="d-flex align-items-center text-gray-600 fs-13px">Contraseña</label>
-                            <input type="password" class="form-control fs-13px h-45px border-0" id="password" name="password" required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="rememberMe" name="remember_me">
-                            <label class="form-check-label" for="rememberMe">Recordarme</label>
-                        </div>
-						<div class="mb-20px">
-							<button type="submit" class="btn btn-success d-block w-100 h-45px btn-lg">Iniciar Sesión</button>
-						</div>
-						<div class="text-gray-500">
-							No eres miembro? Click <a href="{% url 'signup' step='step1' %}" class="text-white">Aquí</a> para registrarse.
-						</div>
-                        <div class="text-center my-3">
-                            <a href="{% url 'password_reset' %}">Forget Password</a>
-                        </div>
-                        
-                    </form>
-                </div>
-                <!-- END login-content -->
-            </div>
-            <!-- END login-container -->
+      <!-- BEGIN login -->
+      <div class="login login-v2 fw-bold">
+        <!-- BEGIN login-cover -->
+        <div class="login-cover">
+          <div
+            class="login-cover-img"
+            style="
+              background-image: url('{% static 'img/login-bg/hills.jpg' %}');
+            "
+            data-id="login-cover-image"
+          ></div>
+          <div class="login-cover-bg"></div>
         </div>
-        <!-- END login -->
-        
+        <!-- END login-cover -->
+        <a href="index.html" class="navbar-brand">
+          <span class="brand-logo"></span>
+          <span class="brand-text">
+            <span class="text-theme">Barrio</span> Link
+          </span>
+        </a>
+        <!-- BEGIN login-container -->
+        <div class="login-container">
+          <!-- BEGIN login-header -->
+          <div class="login-header">
+            <a href="{% url 'homepage' %}" class="navbar-brand">
+              <div class="brand">
+                <div class="d-flex align-items-center">
+                  <span class="logo"></span> <b>Barrio</b>Link
+                </div>
+                <small>Sistema de Unidad Territorial</small>
+              </div>
+            </a>
+            <div class="icon">
+              <i class="fa fa-users"></i>
+            </div>
+          </div>
+          <!-- END login-header -->
+
+          <!-- BEGIN login-content -->
+          <div class="login-content">
+            <form method="post">
+              {% csrf_token %}
+              <div class="form-floating mb-20px">
+                <label
+                  for="username"
+                  class="d-flex align-items-center text-gray-600 fs-13px"
+                  >Correo Electrónico</label
+                >
+                <input
+                  type="text"
+                  class="form-control fs-13px h-45px border-0"
+                  id="username"
+                  name="username"
+                  required
+                />
+              </div>
+              <div class="form-floating mb-20px">
+                <label
+                  for="password"
+                  class="d-flex align-items-center text-gray-600 fs-13px"
+                  >Contraseña</label
+                >
+                <input
+                  type="password"
+                  class="form-control fs-13px h-45px border-0"
+                  id="password"
+                  name="password"
+                  required
+                />
+              </div>
+              <div class="mb-3 form-check">
+                <input
+                  type="checkbox"
+                  class="form-check-input"
+                  id="rememberMe"
+                  name="remember_me"
+                />
+                <label class="form-check-label" for="rememberMe"
+                  >Recordarme</label
+                >
+              </div>
+              <div class="mb-20px">
+                <button
+                  type="submit"
+                  class="btn btn-success d-block w-100 h-45px btn-lg"
+                >
+                  Iniciar Sesión
+                </button>
+              </div>
+              <div class="text-gray-500">
+                No eres miembro? Click
+                <a href="{% url 'signup' step='step1' %}" class="text-white"
+                  >Aquí</a
+                >
+                para registrarse.
+              </div>
+              <div class="text-center my-3">
+                <a href="{% url 'password_reset' %}">Forget Password</a>
+              </div>
+            </form>
+          </div>
+          <!-- Código para el mensaje emergente (toast) -->
+
+        {% if messages %}
+        <div class="position-fixed top-0 end-0 p-3 align-items-center text-white border-0" style="z-index: 11">    
+            <div class="d-flex">
+                <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-body text-white bg-warning border-0">
+                        {% for message in messages %}
+                            {{ message }}
+                        {% endfor %}
+                        <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+            </div>
+            </div>
+        </div>    
+        {% endif %} 
+
+          
+          <!-- END login-content -->
+        </div>
+        <!-- END login-container -->
+      </div>
+      <!-- END login -->
     </div>
     <!-- END #app -->
-    
+
     <!--  archivos JavaScript  -->
     <script src="{% static 'js/vendor.min.js' %}"></script>
     <script src="{% static 'js/app.min.js' %}"></script>
 
+
     <!-- ================== BEGIN page-js ================== -->
     <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        $(document).ready(function () {
+          // Mostrar el mensaje de validación en el toast
+          var validationMessage = "{{ messages }}";  // Obtén el primer mensaje de validación del contexto Django
+        if (validationMessage) {
+            var validationToast = new bootstrap.Toast(document.getElementById('validationToast'));
+            validationToast.show();
+        }
+    });
+      </script>
     <!-- ================== END page-js ================== -->
-</body>
+  </body>
 </html>
 {% endblock %}
