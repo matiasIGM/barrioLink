@@ -1,0 +1,130 @@
+
+{% load static %}
+
+
+<!-- BEGIN #content -->
+<div id="content" class="app-content">
+    <!-- BEGIN breadcrumb -->
+    <ol class="breadcrumb float-xl-end">
+        <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Tables</a></li>
+        <li class="breadcrumb-item"><a href="javascript:;">Managed Tables</a></li>
+        <li class="breadcrumb-item active">Extension Combination</li>
+    </ol>
+    <!-- END breadcrumb -->
+    <!-- BEGIN page-header -->
+    <h1 class="page-header">Managed Tables - Extension Combination <small>header small text goes here...</small></h1>
+    <!-- END page-header -->
+    <!-- BEGIN row -->
+    <div class="row">
+        <!-- BEGIN col-2 -->
+        
+        <!-- END col-2 -->
+        <!-- BEGIN col-10 -->
+        <div class="col-xl-10 ui-sortable">
+            <div class="panel panel-inverse">
+                <!-- BEGIN panel-heading -->
+                <div class="panel-heading ui-sortable-handle">
+                    <h4 class="panel-title">DataTable - Extension Combination</h4>
+                    <div class="panel-heading-btn">
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-warning" data-toggle="panel-collapse"><i class="fa fa-minus"></i></a>
+                        <a href="javascript:;" class="btn btn-xs btn-icon btn-danger" data-toggle="panel-remove"><i class="fa fa-times"></i></a>
+                    </div>
+                </div>
+                <!-- END panel-heading -->
+                <!-- BEGIN panel-body -->
+                <div class="panel-body">
+                    <div id="data-table-combine_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer">
+                        <div class="dataTables_wrapper dt-bootstrap">
+                            <div class="row">
+                                <div class="col-xl-7 d-block d-sm-flex d-xl-block justify-content-center">
+                                    <div class="d-block d-lg-inline-flex me-0 me-md-3">
+                                        <div class="dataTables_length" id="data-table-combine_length">
+                                            <label>Show 
+                                                <select name="data-table-combine_length" aria-controls="data-table-combine" class="form-select form-select-sm">
+                                                    <option value="10">10</option>
+                                                    <option value="25">25</option>
+                                                    <option value="50">50</option>
+                                                    <option value="100">100</option>
+                                                </select> entries
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="d-block d-lg-inline-flex">
+                                        <div class="dt-buttons btn-group flex-wrap">
+                                            <button class="btn btn-secondary buttons-copy buttons-html5 btn-sm" tabindex="0" aria-controls="data-table-combine" type="button"><span>Copy</span></button>
+                                            <button class="btn btn-secondary buttons-csv buttons-html5 btn-sm" tabindex="0" aria-controls="data-table-combine" type="button"><span>CSV</span></button>
+                                            <button class="btn btn-secondary buttons-excel buttons-html5 btn-sm" tabindex="0" aria-controls="data-table-combine" type="button"><span>Excel</span></button>
+                                            <button class="btn btn-secondary buttons-pdf buttons-html5 btn-sm" tabindex="0" aria-controls="data-table-combine" type="button"><span>PDF</span></button>
+                                            <button class="btn btn-secondary buttons-print btn-sm" tabindex="0" aria-controls="data-table-combine" type="button"><span>Print</span></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-xl-5 d-flex d-xl-block justify-content-center">
+                                    <div id="data-table-combine_filter" class="dataTables_filter">
+                                        <label>Search:
+                                            <input type="search" class="form-control form-control-sm" placeholder="" aria-controls="data-table-combine">
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <table id="data-table-combine" class="table table-striped table-bordered align-middle dataTable no-footer dtr-inline" aria-describedby="data-table-combine_info" style="position: relative; width: 501px;">
+                                <thead>
+                                    <tr>
+                                        <th width="1%" class="sorting sorting_asc" tabindex="0" aria-controls="data-table-combine" rowspan="1" colspan="1" style="width: 17px;" data-column-index="0" aria-sort="ascending" aria-label=": activate to sort column descending"></th>
+                                        <th width="1%" data-orderable="false" class="sorting_disabled" rowspan="1" colspan="1" style="width: 23px;" data-column-index="1" aria-label=""></th>
+                                        <th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-combine" rowspan="1" colspan="1" style="width: 105px;" data-column-index="2" aria-label="Nombres">Nombres</th>
+                                        <th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-combine" rowspan="1" colspan="1" style="width: 100px;" data-column-index="3" aria-label="Apellidos">Apellidos</th>
+                                        <th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-combine" rowspan=1 colspan="1" style="width: 98px;" data-column-index="4" aria-label="Email">Email</th>
+                                        <th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-combine" rowspan=1 colspan="1" style="width: 0px;" data-column-index="5" aria-label="Celular">Celular</th>
+                                        <th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-combine" rowspan=1 colspan="1" style="width: 0px;" data-column-index="6" aria-label="Comuna">Comuna</th>
+                                        <th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-combine" rowspan=1 colspan="1" style="width: 0px;" data-column-index="7" aria-label="Calle y Número">Calle y Número</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for usuario in usuarios %}
+                                        <tr>
+                                            <td>{{ forloop.counter }}</td>  "{% static 'img/user/user-13.jpg' %}"
+                                            <td><img src= "{% static 'img/user/user-13.jpg' %}" class="rounded h-30px my-n1 mx-n1"></td>
+                                            <td>{{ usuario.nombres }}</td>
+                                            <td>{{ usuario.apellidos }}</td>
+                                            <td>{{ usuario.email }}</td>
+                                            <td>{{ usuario.celular }}</td>
+                                            <td>{{ usuario.comuna }}</td>
+                                            <td>{{ usuario.calle }} {{ usuario.numero_domicilio }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="dataTables_info" id="data-table-combine_info" role="status" aria-live="polite">Showing 1 to {{ usuarios|length }} of {{ usuarios|length }} entries</div>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="dataTables_paginate paging_simple_numbers" id="data-table-combine_paginate">
+                                        <ul class="pagination">
+                                            <li class="paginate_button page-item previous disabled" id="data-table-combine_previous"><a href="#" aria-controls="data-table-combine" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li>
+                                            <li class="paginate_button page-item active"><a href="#" aria-controls="data-table-combine" data-dt-idx="1" tabindex="0" class="page-link">1</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END panel-body -->
+                
+
+            </div>
+            <!-- END panel -->
+        </div>
+        <!-- END col-10 -->
+    </div>
+    <!-- END row -->
+</div>
+
+
+
+

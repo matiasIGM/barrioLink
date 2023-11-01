@@ -149,3 +149,7 @@ def certificado(request):
 #Renderizar home del sitio
 def home(request):
      return render(request, 'main/home.html')
+
+
+def reservation(request):
+    return render(request, 'account/users/reservations.html')

@@ -8,6 +8,10 @@ urlpatterns = [
      path('', views.home, name='homepage'),
      path('signup/<str:step>/', views.signup, name='signup'),  # Ruta con un parámetro 'step'
      path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
+     path('reserva/', views.reservation, name='reserva'),
+
+
+     
 
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),

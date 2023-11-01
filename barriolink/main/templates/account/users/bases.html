@@ -13,6 +13,16 @@
     <!-- cargar archivos CSS -->
     <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+
+    <!-- ================== BEGIN page-css ================== -->
+	<link href="{% static 'plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/datatables.net-colreorder-bs5/css/colReorder.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/datatables.net-rowreorder-bs5/css/rowReorder.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css' %}" rel="stylesheet" />
+	<!-- ================== END page-css ================== -->
 </head>
 <body>
 	<!-- BEGIN #loader -->
@@ -133,7 +143,24 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-info"></i>
+								<i class="fa fa-sitemap"></i>
+							</div>
+							<div class="menu-text">Gestión de Personas</div>
+							<div class="menu-caret"></div>
+						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="adm/users_admin.html" class="menu-link"><div class="menu-text">Validación Cuentas de Usuario</div></a>
+							</div>
+							<div class="menu-item">
+								<a href="index_v2.html" class="menu-link"><div class="menu-text">Directorio de Personas</div></a>
+							</div>
+						</div>
+					</div>
+					<div class="menu-item has-sub">
+						<a href="javascript:;" class="menu-link">
+							<div class="menu-icon">
+								<i class="fa fa-chart-pie"></i>
 							</div>
 							<div class="menu-text">Noticias</div>
 							<div class="menu-caret"></div>
@@ -154,23 +181,30 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-calendar"></i>
+								<i class="fa fa-map"></i>
 							</div>
 							<div class="menu-text">Gestión de Espacios</div>
 							<div class="menu-caret"></div>
 						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="map_vector.html" class="menu-link">
+									<div class="menu-text">Validación de Reservas</div>
+								</a>
+							</div>
+						</div>
 					</div>
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-bullhorn"></i>
+								<i class="fa fa-image"></i>
 							</div>
 							<div class="menu-text">Campañas de Difusión</div>
 							<div class="menu-caret"></div>
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="/reserva" class="menu-link">
+								<a href="gallery.html" class="menu-link">
 									<div class="menu-text">Notificaciones Masivas</div>
 								</a>
 							</div>
@@ -192,8 +226,6 @@
 		{% endblock %}
 		<!-- END #sidebar -->
 		
-		<!-- BEGIN #content -->
-		<div id="content" class="app-content">
 
 			
 
@@ -204,7 +236,32 @@
    <script src="{% static 'js/app.min.js' %}"></script>
 
    <!-- ================== BEGIN page-js ================== -->
-   <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
-   <!-- ================== END page-js ================== -->
+	<!-- ================== BEGIN page-js ================== -->
+	<link href="{% static 'plugins/datatables.net/js/jquery.dataTables.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-responsive/js/dataTables.responsive.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-colreorder/js/dataTables.colReorder.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-colreorder-bs5/js/colReorder.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-keytable/js/dataTables.keyTable.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-keytable-bs5/js/keyTable.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-rowreorder/js/dataTables.rowReorder.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-rowreorder-bs5/js/rowReorder.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-select/js/dataTables.select.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-select-bs5/js/select.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-buttons/js/dataTables.buttons.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-buttons-bs5/js/buttons.bootstrap5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-buttons/js/buttons.colVis.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-buttons/js/buttons.flash.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-buttons/js/buttons.html5.min.js' %}"></script>
+	<link href="{% static 'plugins/datatables.net-buttons/js/buttons.print.min.js' %}"></script>
+	<link href="{% static 'plugins/pdfmake/build/pdfmake.min.js' %}"></script>
+	<link href="{% static 'plugins/pdfmake/build/vfs_fonts.js' %}"></script>
+	<link href="{% static 'plugins/jszip/dist/jszip.min.js' %}"></script>
+	<link href="{% static 'js/demo/table-manage-combine.demo.js' %}"></script>
+	<link href="{% static 'plugins/@highlightjs/cdn-assets/highlight.min.js' %}"></script>
+	<link href="{% static 'js/demo/render.highlight.js' %}"></script>
+	<!-- ================== END page-js ================== -->
+
 </body>
 </html>

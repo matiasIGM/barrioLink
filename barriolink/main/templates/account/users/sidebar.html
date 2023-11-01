@@ -1,4 +1,3 @@
-
 {% load static %} <!-- cargar la etiqueta static -->
 
 <!DOCTYPE html>
@@ -20,63 +19,6 @@
 		<span class="spinner"></span>
 	</div>
 	<!-- END #loader -->
-
-	<!-- BEGIN #app -->
-	<div id="app" class="app app-header-fixed app-sidebar-fixed">
-		<!-- BEGIN #header -->
-		{% block navbar %}
-		<div id="header" class="app-header">
-			<!-- BEGIN navbar-header -->
-			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Barrio</b>Link</a>
-				<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-			</div>
-			<!-- END navbar-header -->
-			  <!-- BEGIN header-nav -->
-			  <div class="navbar-nav">
-                <div class="navbar-item dropdown">
-                    <a href="#" data-bs-toggle="dropdown" class="navbar-link dropdown-toggle icon">
-                        <i class="fa fa-bell"></i>
-                        <span class="badge">5</span>
-                    </a>
-                    
-                </div>
-                
-                <div class="navbar-item navbar-user dropdown">
-                    {% if user.is_authenticated %}
-                    <a href="#" class="navbar-link dropdown-toggle d-flex align-items-center" data-bs-toggle="dropdown">
-                        <img src="{% static 'img/user/user-13.jpg' %}" alt="" />
-						 
-                        <span>
-                            <span class="d-none d-md-inline">{{ user.nombres|title }}</span>
-                            <b class="caret"></b>
-                        </span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-end me-1">
-                        <a href="extra_profile.html" class="dropdown-item">Editar Perfil</a>
-                        <a href="email_inbox.html" class="dropdown-item d-flex align-items-center">
-                            Inbox
-                            <span class="badge bg-danger rounded-pill ms-auto pb-4px">2</span> 
-                        </a>
-                        <a href="calendar.html" class="dropdown-item">Calendar</a>
-                        <a href="settings.html" class="dropdown-item">Configuraciones</a>
-                        <div class="dropdown-divider"></div>
-                        <a href="/logout" class="dropdown-item">Cerrar Sesión</a>
-                    </div>
-                    {% else %}
-            
-                    <a href="/login" class="navbar-link">Login</a>
-                    {% endif %}
-                </div>
-            </div>
-            <!-- END header-nav -->
-		</div>
-		{% endblock %}
-		<!-- END #header -->
 	
 		<!-- BEGIN #sidebar -->
 		{% block sidebar %}
@@ -170,7 +112,7 @@
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="/reserva" class="menu-link">
+								<a href="gallery.html" class="menu-link">
 									<div class="menu-text">Notificaciones Masivas</div>
 								</a>
 							</div>
@@ -192,8 +134,7 @@
 		{% endblock %}
 		<!-- END #sidebar -->
 		
-		<!-- BEGIN #content -->
-		<div id="content" class="app-content">
+		
 
 			
 
