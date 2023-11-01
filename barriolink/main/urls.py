@@ -9,6 +9,7 @@ urlpatterns = [
      path('signup/<str:step>/', views.signup, name='signup'),  # Ruta con un parámetro 'step'
      path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
      path('reserva/', views.reservation, name='reserva'),
+     path('profile/', views.profileUser, name='profile'),
 
 
      

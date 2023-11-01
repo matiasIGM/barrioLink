@@ -1,30 +1,5 @@
 {% load static %} <!-- cargar la etiqueta static -->
-
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <title>BarrioLink</title>
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content="" name="description" />
-    <meta content="" name="author" />
-    
-    <!-- cargar archivos CSS -->
-    <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
-</head>
-<body>
-	<!-- BEGIN #loader -->
-	<div id="loader" class="app-loader">
-		<span class="spinner"></span>
-	</div>
-	<!-- END #loader -->
-
-	<!-- BEGIN #app -->
-	<div id="app" class="app app-header-fixed app-sidebar-fixed">
-		<!-- BEGIN #header -->
-		{% block navbar %}
-		<div id="header" class="app-header">
+<div id="header" class="app-header">
 			<!-- BEGIN navbar-header -->
 			<div class="navbar-header">
 				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Barrio</b>Link</a>
@@ -73,20 +48,4 @@
                 </div>
             </div>
             <!-- END header-nav -->
-		</div>
-		{% endblock %}
-		<!-- END #header -->
-
-
-
-        	<!-- END #app -->
-	
-   <!--  archivos JavaScript  -->
-   <script src="{% static 'js/vendor.min.js' %}"></script>
-   <script src="{% static 'js/app.min.js' %}"></script>
-
-   <!-- ================== BEGIN page-js ================== -->
-   <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
-   <!-- ================== END page-js ================== -->
-</body>
-</html>
+</div>

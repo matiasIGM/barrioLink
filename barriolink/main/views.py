@@ -153,3 +153,6 @@ def home(request):
 
 def reservation(request):
     return render(request, 'account/users/reservations.html')
+
+def profileUser(request):
+    return render(request, 'account/users/profile.html')
