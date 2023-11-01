@@ -35,23 +35,27 @@
 
 	<!-- BEGIN #app -->
 	<div id="app" class="app app-header-fixed app-sidebar-fixed">
-		<!-- BEGIN #header -->
-		{% include 'account/users/navbar.html' %}
-		<!-- END #header -->
-	
+		<header>
+			<!-- BEGIN #header -->
+			{% include 'account/users/navbar.html' %}
+			<!-- END #header -->
+		</header>	
+		
 		<!-- BEGIN #sidebar -->
 		{% include 'account/users/sidebar.html' %}
 		<!-- END #sidebar -->
 
-		
+		{% block content %}
+		{% endblock content %}
 
-			
+	</div>		
+
+	
 {% include 'account/users/scripts.html' %}
 
 {% block scripts %}
 {% endblock scripts %}
-	
-  
 
 </body>
+
 </html>
