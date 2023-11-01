@@ -28,9 +28,9 @@ def user_login(request):
             login(request, user)
             # Redirige al perfil después del inicio de sesión, pero también verifica si es admin.
             if user.is_hoa_admin:
-                return render(request, 'adm/profile/profile.html')
+                return render(request, 'account/adm/profile.html')
             else:
-                return render(request, 'profile/profile.html')
+                return render(request, 'account/users/profile.html')
         else:
             # Las credenciales son inválidas, muestra un mensaje de error o redirige a la página de inicio de sesión.
             messages.error(request, "Credenciales inválidas. Por favor, inténtalo de nuevo.")
@@ -156,3 +156,55 @@ def reservation(request):
 
 def profileUser(request):
     return render(request, 'account/users/profile.html')
+
+
+#  User Functions 
+#==============================================================
+def userDocuments(request):
+    return render(request, 'account/users/documents.html')
+
+def newsPublish(request):
+    return render(request, 'account/users/news_publish.html')
+
+def userProfile(request):
+    return render(request, 'account/users/profile.html')
+
+def userReservation(request):
+    return render(request, 'account/users/reservations.html')
+
+# Admin User Functions 
+#==============================================================
+def adminPublish(request):
+    return render(request, 'account/adm/news_publish.html')
+
+def adminPublishValidation(request):
+    return render(request, 'account/adm/news_validation.html')
+
+def adminNotifications(request):
+    return render(request, 'account/adm/notifications.html')
+
+def adminProfile(request):
+    return render(request, 'account/adm/profile.html')
+
+def adminUserList(request):
+    return render(request, 'account/adm/user_list.html')
+
+def adminUserValidation(request):
+    return render(request, 'account/adm/user_validation.html')
+
+def adminValidateReservations(request):
+    return render(request, 'account/adm/reservations.html')
+
+def adminConfigPlaces(request):
+    return render(request, 'account/adm/reservation_config.html')
+
+
+def adminProfileConfig(request):
+    return render(request, 'account/adm/profile_settings.html')
+
+def userProfileConfig(request):
+    return render(request, 'account/users/profile_settings.html')
+
+
+
+

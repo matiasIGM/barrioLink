@@ -37,12 +37,24 @@
 	<div id="app" class="app app-header-fixed app-sidebar-fixed">
 		<header>
 			<!-- BEGIN #header -->
-			{% include 'account/users/navbar.html' %}
+			{% if user.is_authenticated %}
+				{% if user.is_hoa_admin %}
+					{% include 'admin_navbar.html' %}
+				{% else %}
+					{% include 'navbar.html' %}
+				{% endif %}
+			{% endif %}
 			<!-- END #header -->
 		</header>	
 		
 		<!-- BEGIN #sidebar -->
-		{% include 'account/users/sidebar.html' %}
+		{% if user.is_authenticated %}
+        	{% if user.is_hoa_admin %}
+            	{% include 'admin_sidebar.html' %}
+        	{% else %}
+            	{% include 'sidebar.html' %}
+        	{% endif %}
+    	{% endif %}
 		<!-- END #sidebar -->
 
 		{% block content %}
@@ -51,7 +63,7 @@
 	</div>		
 
 	
-{% include 'account/users/scripts.html' %}
+{% include 'scripts.html' %}
 
 {% block scripts %}
 {% endblock scripts %}
