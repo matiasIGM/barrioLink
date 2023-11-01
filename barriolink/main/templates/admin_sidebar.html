@@ -14,12 +14,6 @@
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
 </head>
 <body>
-	<!-- BEGIN #loader -->
-	<div id="loader" class="app-loader">
-		<span class="spinner"></span>
-	</div>
-	<!-- END #loader -->
-	
 		<!-- BEGIN #sidebar -->
 		{% block sidebar %}
 		<div id="sidebar" class="app-sidebar">
@@ -57,18 +51,6 @@
 								<div class="menu-text">Settings</div>
 							</a>
 						</div>
-						<div class="menu-item">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
-								<div class="menu-text"> Send Feedback</div>
-							</a>
-						</div>
-						<div class="menu-item pb-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-question-circle"></i></div>
-								<div class="menu-text"> Helps</div>
-							</a>
-						</div>
 						<div class="menu-divider m-0"></div>
 					</div>
 					<div class="menu-header">Navigation</div>
@@ -92,7 +74,7 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-chart-pie"></i>
+								<i class="fa fa-info"></i>
 							</div>
 							<div class="menu-text">Noticias</div>
 							<div class="menu-caret"></div>
@@ -104,7 +86,7 @@
 								</a>
 							</div>
 							<div class="menu-item">
-								<a href="/adminNewsValidations" class="menu-link">
+								<a href="/adminNewsValidation" class="menu-link">
 									<div class="menu-text">Validación de Noticias</div>
 								</a>
 							</div>
@@ -113,14 +95,14 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-map"></i>
+								<i class="fa fa-key"></i>
 							</div>
 							<div class="menu-text">Gestión de Espacios</div>
 							<div class="menu-caret"></div>
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="adminReservations" class="menu-link">
+								<a href="/adminReservations" class="menu-link">
 									<div class="menu-text">Validación de Reservas</div>
 								</a>
 							</div>
@@ -129,7 +111,7 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-image"></i>
+								<i class="fa fa-bullhorn"></i>
 							</div>
 							<div class="menu-text">Campañas de Difusión</div>
 							<div class="menu-caret"></div>
