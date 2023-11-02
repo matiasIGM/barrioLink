@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+from typing import (List, Dict, Tuple, Any)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -58,10 +60,10 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'barriolink.urls'
 
-TEMPLATES = [
+TEMPLATES: List[Dict[str, Any]] = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -73,6 +75,8 @@ TEMPLATES = [
         },
     },
 ]
+
+
 
 WSGI_APPLICATION = 'barriolink.wsgi.application'
 
@@ -143,3 +147,5 @@ EMAIL_HOST_USER = 'barriolink@gmail.com'
 EMAIL_HOST_PASSWORD = 'xjwh svfs kcct nffp'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+
+print(os.path.join(BASE_DIR, 'templates'))  # Imprime la ruta a la carpeta de plantillas
