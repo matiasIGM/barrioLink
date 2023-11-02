@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Post, CustomUser, JuntaDeVecinos
 from datetime import datetime 
+from django import forms
+from .models import Informacion
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -45,3 +47,11 @@ class JuntaDeVecinosForm(forms.ModelForm):
     class Meta:
         model = JuntaDeVecinos
         fields = '__all__'
+
+
+
+#  permitira que el usuario administrador ingrese la información que se enviará
+class InformacionForm(forms.ModelForm):
+    class Meta:
+        model = Informacion
+        fields = ['titulo', 'contenido']

@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
+from django.db import models
+
 
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
@@ -123,3 +125,10 @@ class Comuna(models.Model):
 
     def __str__(self):
         return self.nombre
+
+
+# Modelo para almacenar la información que el usuario administrador enviara a través del bot de Telegram
+class Informacion(models.Model):
+    titulo = models.CharField(max_length=255)
+    contenido = models.TextField()
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
