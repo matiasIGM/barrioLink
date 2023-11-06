@@ -157,7 +157,6 @@ def home(request):
      return render(request, 'main/home.html')
 
 
-<<<<<<< HEAD
 
 # crea una vista para el formulario y la página donde el usuario administrador completara la información
 def crear_informacion(request):
@@ -181,62 +180,3 @@ def enviar_telegram_message(titulo, contenido):
     bot = telegram.Bot(token=token)
     mensaje = f'{titulo}\n\n{contenido}'
     bot.send_message(chat_id=chat_id, text=mensaje)
-=======
-def reservation(request):
-    return render(request, 'account/users/reservations.html')
-
-def profileUser(request):
-    return render(request, 'account/users/profile.html')
-
-
-#  User Functions 
-#==============================================================
-def userDocuments(request):
-    return render(request, 'account/users/documents.html')
-
-def newsPublish(request):
-    return render(request, 'account/users/news_publish.html')
-
-def userProfile(request):
-    return render(request, 'account/users/profile.html')
-
-def userReservation(request):
-    return render(request, 'account/users/reservations.html')
-
-# Admin User Functions 
-#==============================================================
-def adminPublish(request):
-    return render(request, 'account/adm/news_publish.html')
-
-def adminPublishValidation(request):
-    return render(request, 'account/adm/news_validation.html')
-
-def adminNotifications(request):
-    return render(request, 'account/adm/notifications.html')
-
-def adminProfile(request):
-    return render(request, 'account/adm/profile.html')
-
-def adminUserList(request):
-    return render(request, 'account/adm/user_list.html')
-
-def adminUserValidation(request):
-    return render(request, 'account/adm/user_validation.html')
-
-def adminValidateReservations(request):
-    return render(request, 'account/adm/reservations.html')
-
-def adminConfigPlaces(request):
-    return render(request, 'account/adm/reservation_config.html')
-
-
-def adminProfileConfig(request):
-    return render(request, 'account/adm/profile_settings.html')
-
-def userProfileConfig(request):
-    return render(request, 'account/users/profile_settings.html')
-
-
-
-
->>>>>>> b2f11fdec918e533a8995203cb0efcf4bbf9f055
