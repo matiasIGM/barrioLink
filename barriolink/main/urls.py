@@ -35,10 +35,6 @@ urlpatterns = [
            name='password_reset_confirm'),
       path('password_reset_complete/', auth_view.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
            name='password_reset_complete'),
-<<<<<<< HEAD
       path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
       path('crear-informacion/', views.crear_informacion, name='crear_informacion'),
-=======
-
->>>>>>> b2f11fdec918e533a8995203cb0efcf4bbf9f055
 ]
