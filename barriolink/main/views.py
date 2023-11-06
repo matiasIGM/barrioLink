@@ -15,13 +15,9 @@ from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
 import logging
-<<<<<<< HEAD
 from django.shortcuts import render
 from .forms import InformacionForm
 import telegram
-=======
-from django.contrib import messages
->>>>>>> b2f11fdec918e533a8995203cb0efcf4bbf9f055
 
 # @login_required(login_url="/login")
 def user_login(request):
