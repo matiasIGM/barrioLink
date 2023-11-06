@@ -192,6 +192,16 @@ def adminUserList(request):
 def adminUserValidation(request):
     return render(request, 'account/adm/user_validation.html')
 
+
+def def_validation_view(request):
+    # Obtener todos los usuarios donde is_hoa_admin sea False y is_active sea True
+    users = CustomUser.objects.filter(is_hoa_admin=False, is_active=True)
+    # Guardar los usuarios en el contexto
+    context = {'users': users}
+
+    return render(request, 'account/adm/user_validation.html', context)
+
+
 def adminValidateReservations(request):
     return render(request, 'account/adm/reservations.html')
 
