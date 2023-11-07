@@ -18,6 +18,9 @@ import logging
 from django.shortcuts import render
 from .forms import InformacionForm
 import telegram
+from django.shortcuts import render, redirect
+from .forms import PublicacionForm
+from .models import Publicacion
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -209,24 +212,16 @@ def userProfileConfig(request):
 
 
 # crea una vista para el formulario y la página donde el usuario administrador completara la información
-def crear_informacion(request):
+def crear_publicacion(request):
     if request.method == 'POST':
-        form = InformacionForm(request.POST)
+        form = PublicacionForm(request.POST)
         if form.is_valid():
-            informacion = form.save()  # Guardar la información en la base de datos
-            # Llamar a la función para enviar el mensaje a través del bot de Telegram
-            enviar_telegram_message(informacion.titulo, informacion.contenido)
+            publicacion = form.save()
+            # Aquí puedes agregar lógica adicional si es necesario
+            # Triggea el evento para enviar un mensaje a través del bot de Telegram
+            enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
+            return redirect('ruta_de_redireccion')
     else:
-        form = InformacionForm()
-    return render(request, 'crear_informacion.html', {'form': form})
+        form = PublicacionForm()
+    return render(request, 'new_publish.html', {'form': form})
 
-
-
-# crea una función para enviar mensajes a través del bot de Telegram
-def enviar_telegram_message(titulo, contenido):
-    token = '6337198782:AAEFHDdar4w6YbU3FWoAtYUnbUlPATpbfuA'
-    chat_id = 'ID_DEL_USUARIO_DESTINO'
-    
-    bot = telegram.Bot(token=token)
-    mensaje = f'{titulo}\n\n{contenido}'
-    bot.send_message(chat_id=chat_id, text=mensaje)

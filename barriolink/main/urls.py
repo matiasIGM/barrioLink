@@ -34,5 +34,5 @@ urlpatterns = [
       path('password_reset_complete/', auth_view.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
            name='password_reset_complete'),
       path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
-      path('crear-informacion/', views.crear_informacion, name='crear_informacion'),
+     path('crear-publicacion/', views.crear_publicacion, name='crear_publicacion'), # URL para el formulario de creación de publicaciones
 ]

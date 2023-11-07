@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 
 
+
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
     birth_date = models.DateField(blank=True, null=True)  # Agregar campo de fecha de nacimiento
@@ -127,8 +128,13 @@ class Comuna(models.Model):
         return self.nombre
 
 
-# Modelo para almacenar la información que el usuario administrador enviara a través del bot de Telegram
-class Informacion(models.Model):
-    titulo = models.CharField(max_length=255)
+# Este modelo representa una publicación de noticias con un título, contenido y fecha de publicación.
+class Publicacion(models.Model):
+    titulo = models.CharField(max_length=200)
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    # Otros campos que puedas necesitar en tu publicación
+
+    def __str__(self):
+        return self.titulo
+
