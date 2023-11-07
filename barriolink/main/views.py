@@ -221,4 +221,7 @@ def publicacion(request):
             return redirect('ruta_de_redireccion')
     else:
         form = PublicacionForm()
-    return render(request, 'news_publish.html', {'form': form})
+    return render(request, 'account/adm/news_publish.html', {'form': form})
+
+def validationoticias(request):
+    return render(request, 'account/adm/news_validation.html')
