@@ -216,7 +216,6 @@ def publicacion(request):
         form = PublicacionForm(request.POST)
         if form.is_valid():
             publicacion = form.save()
-            # agregar lógica adicional si es necesario
             # Triggea el evento para enviar un mensaje a través del bot de Telegram
             enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
             return redirect('ruta_de_redireccion')
