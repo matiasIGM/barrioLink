@@ -211,16 +211,15 @@ def userProfileConfig(request):
 
 
 # crea una vista para el formulario y la página donde el usuario administrador completara la información
-def crear_publicacion(request):
+def publicacion(request):
     if request.method == 'POST':
         form = PublicacionForm(request.POST)
         if form.is_valid():
             publicacion = form.save()
-            # Aquí puedes agregar lógica adicional si es necesario
+            # agregar lógica adicional si es necesario
             # Triggea el evento para enviar un mensaje a través del bot de Telegram
             enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
             return redirect('ruta_de_redireccion')
     else:
         form = PublicacionForm()
-    return render(request, 'new_publish.html', {'form': form})
-
+    return render(request, 'news_publish.html', {'form': form})
