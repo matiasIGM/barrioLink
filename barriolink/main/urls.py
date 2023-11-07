@@ -25,7 +25,6 @@ urlpatterns = [
      path('adminUserValidation/', views.adminUserValidation, name='users_validation'),
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
-
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),
       path('password_reset_done/', auth_view.PasswordResetDoneView.as_view(template_name="users/password_reset_done.html"),
