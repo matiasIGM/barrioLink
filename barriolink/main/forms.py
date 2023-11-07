@@ -48,8 +48,6 @@ class JuntaDeVecinosForm(forms.ModelForm):
         model = JuntaDeVecinos
         fields = '__all__'
 
-
-
 #  Crea una vista y un formulario para que el usuario administrador pueda crear nuevas publicaciones
 class PublicacionForm(forms.ModelForm):
     class Meta:
