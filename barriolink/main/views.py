@@ -16,7 +16,6 @@ from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
 import logging
 from django.shortcuts import render
-from .forms import InformacionForm
 import telegram
 from django.shortcuts import render, redirect
 from .forms import PublicacionForm

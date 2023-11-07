@@ -22,10 +22,6 @@ class RegisterFormStep1(UserCreationForm):
         model = CustomUser
         fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos"]
 
- 
-
-
-
 class RegisterForm2(forms.ModelForm):
     class Meta:
         model = CustomUser
@@ -36,7 +32,6 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "description"]
-
 
 class CustomUserAdminRegistrationForm(forms.ModelForm):
     class Meta:
