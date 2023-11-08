@@ -4,11 +4,10 @@
 {% block content %}
 
 		<!-- BEGIN #content -->
-		<div id="content" class="app-content p-0">
+		<div id="content" class="app-content p-0; max-width: 800px;">
 			<div class="panel panel-inverse" data-sortable-id="table-basic-7">
-
 				<div class="panel-heading ui-sortable-handle">
-				<h4 class="panel-title">Validación noticias <span class="badge bg-success ms-5px">NEW</span></h4>
+				<h3 class="panel-title">Validación noticias <span class="badge bg-success ms-5px">NUEVAS</span></h3>
 				<div class="panel-heading-btn">
 				<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand"><i class="fa fa-expand"></i></a>
 				<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload"><i class="fa fa-redo"></i></a>
@@ -23,37 +22,36 @@
 				<tr>
 				<th>#</th>
 				<th>Nombre</th>
-				<th>Correo</th>
-				<th width="1%"></th>
+				<th>Descripción</th>
+				<th width="2%"></th>
 				</tr>
 				</thead>
 				<tbody>
 				<tr>
 				<td>
-				<img src="../assets/img/user/user-1.jpg" class="rounded h-30px">
+					<img src="{% static 'img/user/user-15.jpg' %}" alt="Sean Ngu" style="width: 60px; height: 60px;" />
 				</td>
 				<td>Juan Carlos Bodoque</td>
-				<td>jcb@hotmail.com</td>
+				<td>¡Bingo a beneficio por los niños que estan en la pasta! Ayudemosles para que conozcan al Señor Yisus Chraist</td>
 				<td nowrap="">
-				<a href="#" class="btn btn-sm btn-primary w-80px me-1">ver solicitud</a>
-				<a href="#" class="btn btn-sm btn-white w-70px">Descartar</a>
+				<a href="#" class="btn btn-sm btn-primary w-90px me-1">ver solicitud</a>
+				<a href="#" class="btn btn-sm btn-white w-80px">Descartar</a>
 				</td>
 				</tr>
 				<tr>
 				<td>
-
 				</div>
 				</td>
 				</tr>
 				<tr>
 				<td>
-				<img src="../assets/img/user/user-3.jpg" class="rounded h-30px">
+					<img src="{% static 'img/user/user-16.jpg' %}" alt="Sean Ngu" style="width: 60px; height: 60px;" />
 				</td>
 				<td>Señora Chepa</td>
-				<td>schepa@gmail.com</td>
+				<td>Completada a luca donde la soa Paty para recaudar fondos pal paseo de fin de año del "centro de madres educadoras por un futuro mejor", mas bien conocido como el centro del chisme.</td>
 				<td class="with-btn" nowrap="">
-				<a href="#" class="btn btn-sm btn-primary w-80px me-1">ver solicitud</a>
-				<a href="#" class="btn btn-sm btn-white w-70px">Descartar</a>
+				<a href="#" class="btn btn-sm btn-primary w-90px me-1">ver solicitud</a>
+				<a href="#" class="btn btn-sm btn-white w-80px">Descartar</a>
 				</td>
 				</tr>
 				</tbody>
@@ -61,9 +59,6 @@
 				</div>				
 				</div>				
 				<div class="hljs-wrapper">
-				<pre><code class="html hljs language-xml" data-url="../assets/data/table-basic/code-7.json"><span class="hljs-tag">&lt;<span class="hljs-name">table</span> <span class="hljs-attr">class</span>=<span class="hljs-string">"table align-middle"</span>&gt;</span>
-				  ...
-				<span class="hljs-tag">&lt;/<span class="hljs-name">table</span>&gt;</span></code></pre>
 				</div>				
 			</div>
 		</div>
