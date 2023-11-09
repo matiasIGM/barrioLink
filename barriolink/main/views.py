@@ -21,6 +21,7 @@ from django.shortcuts import render, redirect
 from .forms import PublicacionForm
 from .models import Publicacion
 
+
 # @login_required(login_url="/login")
 def user_login(request):
     if request.method == 'POST':
@@ -223,5 +224,11 @@ def publicacion(request):
         form = PublicacionForm()
     return render(request, 'account/adm/news_publish.html', {'form': form})
 
-def validationoticias(request):
+def validationoticias(request): # validacion de publicacion de noticias
     return render(request, 'account/adm/news_validation.html')
+
+def solnoticias(request): # usuario solicitud de publicacion de noticia
+    return render(request, 'account/users/news_publish.html')
+
+
+    
