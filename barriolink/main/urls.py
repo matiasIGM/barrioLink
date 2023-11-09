@@ -21,9 +21,10 @@ urlpatterns = [
      path('adminNotifications/', views.adminNotifications, name='admin_notifications'),
      path('adminProfile/', views.adminProfile, name='admin_profile'),
      path('adminUserList/', views.adminUserList, name='users_list'),
-     path('adminUserValidation/', views.adminUserValidation, name='users_validation'),
+     path('adminUserValidation/', views.def_validation_view, name='users_validation'),
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
+     path('hoaConfig/', views.hoaConfig, name='hoa_config'),
 
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),

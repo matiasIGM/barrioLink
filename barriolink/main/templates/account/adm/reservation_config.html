@@ -5,7 +5,57 @@
 
 		<!-- BEGIN #content -->
 		<div id="content" class="app-content p-0">
-
+			<div class="container">
+				<h1 class="mt-4">Configuración de Espacios Comunitarios</h1>
+			
+				<!-- Formulario para crear o actualizar un espacio comunitario -->
+				<div class="card mt-4">
+					<div class="card-body">
+						<h2>{{ form.instance.id|default:"Crear Nuevo Espacio" }}</h2>
+						<form method="post">
+							{% csrf_token %}
+							{{ form.as_p }}
+							<button type="submit" class="btn btn-primary">{{ form.instance.id|default:"Crear Espacio" }}</button>
+							{% if form.instance.id %}
+								<a href="{% url 'admin_places' %}" class="btn btn-secondary">Cancelar</a>
+							{% endif %}
+						</form>
+					</div>
+				</div>
+			
+				<!-- Lista de espacios comunitarios existentes -->
+				<div class="card mt-4">
+					<div class="card-body">
+						<h2>Lista de Espacios</h2>
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Nombre</th>
+									<th>Descripción</th>
+									<th>Capacidad Máxima</th>
+									<th>Acciones</th>
+								</tr>
+							</thead>
+							<tbody>
+								{% for space in community_spaces %}
+								<tr>
+									<td>{{ space.name }}</td>
+									<td>{{ space.description }}</td>
+									<td>{{ space.max_capacity }}</td>
+									<td>
+										<form method="post">
+											{% csrf_token %}
+											<input type="hidden" name="space_id" value="{{ space.id }}">
+											<button type="submit" class="btn btn-primary">Editar</button>
+										</form>
+									</td>
+								</tr>
+								{% endfor %}
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
 		</div>
 		<!-- END #content -->
 

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, CustomUser, JuntaDeVecinos
+from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace
 from datetime import datetime 
 
 
@@ -45,3 +45,12 @@ class JuntaDeVecinosForm(forms.ModelForm):
     class Meta:
         model = JuntaDeVecinos
         fields = '__all__'
+        
+        
+#Espacio comunitarios        
+class CommunitySpaceForm(forms.ModelForm):
+    space_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
+    class Meta:
+        model = CommunitySpace
+        fields = ['name', 'description', 'max_capacity']

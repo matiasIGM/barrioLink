@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- BEGIN #content -->
+    <div id="content" class="app-content p-0">
+
+        <h1>Detalles de la Junta de Vecinos</h1>
+
+            <table>
+                <tr>
+                    <th>RUT:</th>
+                    <td>{{ hoa_data.rut }}</td>
+                </tr>
+                <tr>
+                    <th>Nombre de la Junta de Vecinos:</th>
+                    <td>{{ hoa_data.hoa_name }}</td>
+                </tr>
+                <tr>
+                    <th>Dirección Legal:</th>
+                    <td>{{ hoa_data.legal_address }}</td>
+                </tr>
+                <tr>
+                    <th>Teléfono de Contacto:</th>
+                    <td>{{ hoa_data.contact_phone }}</td>
+                </tr>
+                <tr>
+                    <th>Correo Electrónico de Contacto:</th>
+                    <td>{{ hoa_data.contact_email }}</td>
+                </tr>
+                <tr>
+                    <th>Fecha de Fundación:</th>
+                    <td>{{ hoa_data.foundation_date }}</td>
+                </tr>
+                <tr>
+                    <th>Símbolo del Logotipo:</th>
+                    <td>{{ hoa_data.logo_symbol }}</td>
+                </tr>
+            </table>
+
+        <a href="">Editar Detalles de la Junta de Vecinos</a>
+    </div>
+{% endblock content %}

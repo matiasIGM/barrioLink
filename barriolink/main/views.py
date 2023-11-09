@@ -1,9 +1,9 @@
-from django.shortcuts import render, redirect
-from .forms import RegisterFormStep1, PostForm, RegisterForm2, CustomUserAdminRegistrationForm, Post, JuntaDeVecinosForm
+from django.shortcuts import render, redirect, get_object_or_404
+from .forms import RegisterFormStep1, PostForm, RegisterForm2, CustomUserAdminRegistrationForm, Post, JuntaDeVecinosForm, CommunitySpaceForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, JuntaDeVecinos, Comuna, Region  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, CommunitySpace, Resident  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, JsonResponse
@@ -196,6 +196,7 @@ def adminUserValidation(request):
 def def_validation_view(request):
     # Obtener todos los usuarios donde is_hoa_admin sea False y is_active sea True
     users = CustomUser.objects.filter(is_hoa_admin=False, is_active=True)
+    
     # Guardar los usuarios en el contexto
     context = {'users': users}
 
@@ -205,15 +206,67 @@ def def_validation_view(request):
 def adminValidateReservations(request):
     return render(request, 'account/adm/reservations.html')
 
-def adminConfigPlaces(request):
+def userProfileConfig(request):
     return render(request, 'account/adm/reservation_config.html')
 
 
 def adminProfileConfig(request):
     return render(request, 'account/adm/profile_settings.html')
 
-def userProfileConfig(request):
-    return render(request, 'account/users/profile_settings.html')
+
+@login_required
+def hoaConfig(request):
+    try:
+        # Obtener el residente asociado al usuario actual
+        resident = Resident.objects.get(user=request.user.id)
+        # Obtener los datos de la Junta de Vecinos relacionados con el residente
+        hoa_data = resident.hoa
+    except Resident.DoesNotExist:
+        # Manejar el caso en el que el usuario no tiene un residente asociado
+        hoa_data = None
+
+    # Imprimir información en la consola
+    print("ID del usuario actual:", request.user.id)
+    print("Residente asociado:", resident)
+    print("Datos de la Junta de Vecinos:", hoa_data)
+
+    # Pasar datos al contexto
+    context = {'hoa_data': hoa_data}
+
+    # Renderizar la página con el contexto
+    return render(request, 'account/adm/hoa_config.html', context)
+   
+
+
+def adminConfigPlaces(request):
+    # Listar todos los espacios comunitarios
+    community_spaces = CommunitySpace.objects.all()
+    
+    # Imprimir el resultado de la consulta en la consola
+    for space in community_spaces:
+        print(f'Nombre: {space.name}, Descripción: {space.description}, Capacidad Máxima: {space.max_capacity}')
+
+    context = {'spaces': community_spaces}
+    # if request.method == 'POST':
+    #     form = CommunitySpaceForm(request.POST)
+    #     space_id = request.POST.get('space_id')
+
+    #     if space_id:
+    #         # Actualizar un espacio comunitario existente
+    #         space = CommunitySpace.objects.get(pk=space_id)
+    #         form = CommunitySpaceForm(request.POST, instance=space)
+    #     elif form.is_valid():
+    #         # Crear un nuevo espacio comunitario
+    #         form.save()
+
+    #     return redirect('admin_places')
+
+    # else:
+    #     form = CommunitySpaceForm()
+
+    return render(request, 'account/adm/reservation_config.html', context)
+
+
 
 
 
