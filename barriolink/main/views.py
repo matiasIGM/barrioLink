@@ -226,9 +226,9 @@ def hoaConfig(request):
         hoa_data = None
 
     # Imprimir información en la consola
-    print("ID del usuario actual:", request.user.id)
-    print("Residente asociado:", resident)
-    print("Datos de la Junta de Vecinos:", hoa_data)
+    # print("ID del usuario actual:", request.user.id)
+    # print("Residente asociado:", resident)
+    # print("Datos de la Junta de Vecinos:", hoa_data)
 
     # Pasar datos al contexto
     context = {'hoa_data': hoa_data}
@@ -237,16 +237,16 @@ def hoaConfig(request):
     return render(request, 'account/adm/hoa_config.html', context)
    
 
-
+@login_required
 def adminConfigPlaces(request):
     # Listar todos los espacios comunitarios
     community_spaces = CommunitySpace.objects.all()
     
     # Imprimir el resultado de la consulta en la consola
-    for space in community_spaces:
-        print(f'Nombre: {space.name}, Descripción: {space.description}, Capacidad Máxima: {space.max_capacity}')
+    # for space in community_spaces:
+    #     print(f'Nombre: {space.name}, Descripción: {space.description}, Capacidad Máxima: {space.max_capacity}')
 
-    context = {'spaces': community_spaces}
+    context = {'community_spaces': community_spaces}
     # if request.method == 'POST':
     #     form = CommunitySpaceForm(request.POST)
     #     space_id = request.POST.get('space_id')
