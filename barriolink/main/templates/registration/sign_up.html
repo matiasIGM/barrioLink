@@ -2,122 +2,179 @@
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8" />
     <title>Iniciar Sesión</title>
     <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
     <meta content="" name="description" />
     <meta content="" name="author" />
-    
-      <!-- Cargar archivos CSS -->
-	  <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
-	  <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
-  </head>
-  <body class='pace-top'>
-	  <!-- BEGIN #loader -->
-	  <div id="loader" class="app-loader">
-		  <span class="spinner"></span>
-	  </div>
-	  <!-- END #loader -->
-  
-		<!-- BEGIN #app -->
-	  <div id="app" class="app">
-		  <!-- BEGIN register -->
-		  <div class="register register-with-news-feed">
-			  <!-- BEGIN news-feed -->
-			  <div class="news-feed">
-				  <div class="news-image" style="background-image: url('{% static 'img/login-bg/meeting.jpg' %}')"></div>
-				  <div class="news-caption">
-					  <h4 class="caption-title"><b>Barrio</b>Link</h4>
-					  <p>
-						  En BarrioLink, estamos dedicados a fortalecer la unión entre nuestros vecinos y crear un ambiente donde todos se sientan valorados y escuchados. Nuestra plataforma es el vínculo que conecta a cada persona en nuestro barrio, proporcionando un espacio para compartir ideas, resolver problemas y colaborar en proyectos que mejoren la calidad de vida en nuestra comunidad. Juntos, estamos construyendo un futuro más brillante para la comunidad :).
-					  </p>
-				  </div>
-			  </div>
-			  <!-- END news-feed -->
-			  
-			  <!-- BEGIN register-container -->
-			  <div class="register-container">
-				  <!-- BEGIN register-header -->
-				  <div class="register-header mb-25px h1">
-					  <div class="mb-1">Registrarse</div>
-					  <small class="d-block fs-15px lh-16">Regístrese para acceder a más contenidos y beneficios.</small>
-				  </div>
-				  <!-- END register-header -->
-				  
-				  <!-- BEGIN register-content -->
-				  <div class="register-content">
-					<form method="post" class="fs-13px">
-						{% csrf_token %}
-						<div class="mb-3">
-							<label for="nombres" class="mb-2">Nombre <span class="text-danger">*</span></label>
-							<div class="row gx-3">
-								<div class="col-md-6 mb-2 mb-md-0">
-									<input name="nombres" type="text" class="form-control fs-13px text-left" placeholder="Nombre" />
-								</div>
-								<div class="col-md-6">
-									<input name="apellidos" type="text" class="form-control fs-13px text-left" placeholder="Apellido" />
-								</div>
-							</div>
+
+    <!-- Cargar archivos CSS -->
+    <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+</head>
+
+<body class='pace-top'>
+
+    <!-- BEGIN #app -->
+    <div id="app" class="app">
+        <!-- BEGIN register -->
+        <div class="register register-with-news-feed">
+            <!-- BEGIN news-feed -->
+            <div class="news-feed">
+                <div class="news-image" style="background-image: url('{% static 'img/login-bg/meeting.jpg' %}')"></div>
+                <div class="news-caption">
+                    <h4 class="caption-title"><b>Barrio</b>Link</h4>
+                    <p>
+                        En BarrioLink, estamos dedicados a fortalecer la unión entre nuestros vecinos y crear un ambiente
+                        donde todos se sientan valorados y escuchados. Nuestra plataforma es el vínculo que conecta a
+                        cada persona en nuestro barrio, proporcionando un espacio para compartir ideas, resolver problemas
+                        y colaborar en proyectos que mejoren la calidad de vida en nuestra comunidad. Juntos, estamos
+                        construyendo un futuro más brillante para la comunidad :.
+                    </p>
+                </div>
+            </div>
+            <!-- END news-feed -->
+
+            <!-- BEGIN register-container -->
+            <div class="register-container">
+                <!-- BEGIN register-header -->
+                <div class="register-header mb-25px h1">
+                    <div class="mb-1">Registrarse</div>
+                    <small class="d-block fs-15px lh-16">Regístrese para acceder a más contenidos y beneficios.</small>
+                </div>
+                <!-- END register-header -->
+
+                <!-- BEGIN register-content -->
+                <div class="register-content">
+                    <form method="post" class="fs-13px">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            
+                            <div class="row gx-3">
+                                <div class="col-md-6 mb-2 mb-md-0">
+									<label for="{{ form.nombres.id_for_label }}" class="mb-2">Nombre <span class="text-danger">*</span></label>
+                                    <input name="nombres" type="text" class="form-control fs-13px text-left"
+                                        placeholder="Nombre" />
+                                </div>
+                                <div class="col-md-6">
+									<label for="{{ form.apellidos.id_for_label }}" class="mb-2">Apellidos<span></label>
+                                    <input name="apellidos" type="text" class="form-control fs-13px text-left"
+                                        placeholder="Apellido" />
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.email.id_for_label }}" class="mb-2">Correo Electrónico <span
+                                    class="text-danger">*</span></label>
+                            <input name="email" type="text" class="form-control fs-13px text-left"
+                                placeholder="Correo Electrónico" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.rut.id_for_label }}" class="mb-2">RUT <span class="text-danger">*</span></label>
+                            <input name="rut" type="text" class="form-control fs-13px text-left" placeholder="RUT" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.birth_date.id_for_label }}" class="mb-2">Fecha de Nacimiento <span
+                                    class="text-danger">*</span></label>
+                            <input name="birth_date" type="date" class="form-control fs-13px text-left"
+                                placeholder="Fecha de Nacimiento" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.celular.id_for_label }}" class="mb-2">Celular <span class="text-danger">*</span></label>
+                            <input name="celular" type="number" class="form-control fs-13px text-left"
+                                placeholder="+569" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="{{ form.password1.id_for_label }}" class="mb-2">Contraseña <span
+                                    class="text-danger">*</span></label>
+                            <input name="password1" type="password" class="form-control fs-13px text-left"
+                                placeholder="Contraseña" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="form.password2.id_for_label" class="mb-2">Confirmar Contraseña <span
+                                    class="text-danger">*</span></label>
+                            <input name="password2" type="password" class="form-control fs-13px text-left"
+                                placeholder="Confirmar Contraseña" />
+                        </div>
+                        <div class="form-check mb-4">
+                            <input class="form-check-input" type="checkbox" value="" id="agreementCheckbox" />
+                            <label class="form-check-label" for="agreementCheckbox">
+                                Al hacer clic en "Registrarse", acepta nuestros <a href="/sign_up_step_2">Términos</a>
+                                y que has leído nuestra <a href="javascript:;">Política de Datos</a>, incluido nuestro
+                                <a href="javascript:;">Uso de Cookies</a>.
+                            </label>
+                        </div>
+						{% if form.nombres.errors %}
+						<div class="text-danger fs-13px">
+							{{ form.nombres.errors.as_text }}
 						</div>
-						<div class="mb-3">
-							<label for="email" class="mb-2">Correo Electrónico <span class="text-danger">*</span></label>
-							<input name="email" type="text" class="form-control fs-13px text-left" placeholder="Correo Electrónico" />
+						{% endif %}
+						{% if form.apellidos.errors %}
+						<div class="text-danger fs-13px">
+							{{ form.apellidos.errors.as_text }}
 						</div>
-						<div class="mb-3">
-							<label for="rut" class="mb-2">RUT <span class="text-danger">*</span></label>
-							<input name="rut" type="text" class="form-control fs-13px text-left" placeholder="RUT" />
-						</div>
-						<div class="mb-3">
-							<label for="birth_date" class="mb-2">Fecha de Nacimiento <span class="text-danger">*</span></label>
-							<input name="birth_date" type="date" class="form-control fs-13px text-left" placeholder="Fecha de Nacimiento" />
-						</div>
-						<div class="mb-3">
-							<label for="celular" class="mb-2">Celular <span class="text-danger">*</span></label>
-							<input name="celular" type="number" class="form-control fs-13px text-left" placeholder="+569" />
-						</div>
-						  <div class="mb-3">
-							<label for="password1" class="mb-2">Contraseña <span class="text-danger">*</span></label>
-							<input name="password1" type="password" class="form-control fs-13px text-left" placeholder="Contraseña" />
-						</div>
-						<div class="mb-3">
-							<label for="password2" class="mb-2">Confirmar Contraseña <span class="text-danger">*</span></label>
-							<input name="password2" type="password" class="form-control fs-13px text-left" placeholder="Confirmar Contraseña" />
-						</div>
-						  <div class="form-check mb-4">
-							  <input class="form-check-input" type="checkbox" value="" id="agreementCheckbox" />
-							  <label class="form-check-label" for="agreementCheckbox">
-								  Al hacer clic en "Registrarse", acepta nuestros <a href="/sign_up_step_2">Términos</a> y que has leído nuestra <a href="javascript:;">Política de Datos</a>, incluido nuestro <a href="javascript:;">Uso de Cookies</a>.
-							  </label>
-						  </div>
-						  <div class="mb-4">
-							<button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Continuar</button>
-						  </div>
-						
-						  <div class="mb-4 pb-5">
-							  ¿Ya es miembro? Haga clic <a href="/login">aquí</a> para iniciar sesión.
-						  </div>
-						  <hr class="bg-gray-600 opacity-2" />
-						  <p class="text-center text-gray-600">
-							  &copy; BarrioLink Todos los Derechos Reservados {{ year|date:"Y" }}
-						  </p>
-					  </form>
-				  </div>
-				  <!-- END register-content -->
-			  </div>
-			  <!-- END register-container -->
-		  </div>
-		  <!-- END register -->
-  
-	  </div>
-	  <!-- END #app -->
-	  
-	  <!-- Archivos JavaScript -->
-	  <script src="{% static 'js/vendor.min.js' %}"></script>
-	  <script src="{% static 'js/app.min.js' %}"></script>
-  
-	  <!-- ================== BEGIN page-js ================== -->
-	  <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
-	  <!-- ================== END page-js ================== -->
-  </body>
-  </html>
+						{% endif %}
+                        <div class="mb-4">
+                            <button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px"
+                              >Continuar</button>
+                        </div>
+
+                        <div class="mb-4 pb-5">
+                            ¿Ya es miembro? Haga clic <a href="/login">aquí</a> para iniciar sesión.
+                        </div>
+                        <hr class="bg-gray-600 opacity-2" />
+                        {% comment %}
+                        <p class="text-center text-gray-600">
+                            &copy; BarrioLink Todos los Derechos Reservados {{ year|date:"Y" }}
+                        </p>
+                        {% endcomment %}
+                    </form>
+                </div>
+                <!-- END register-content -->
+            </div>
+            <!-- END register-container -->
+        </div>
+        <!-- END register -->
+
+    </div>
+
+    {% if show_modal %}
+    <!-- BEGIN Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="myModalLabel">Completar Datos Adicionales</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" class="fs-13px">
+                        {% csrf_token %}
+                        {{ form_step2.as_p }}
+                        <button type="submit" name="continue_modal" class="btn btn-primary">Continuar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- END Modal -->
+    {% endif %}
+    <!-- END #app -->
+
+    <!-- Archivos JavaScript -->
+    <script src="{% static 'js/vendor.min.js' %}"></script>
+    <script src="{% static 'js/app.min.js' %}"></script>
+
+    <!-- ================== BEGIN page-js ================== -->
+    <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+    <!-- ================== END page-js ================== -->
+</body>
+
+</html>

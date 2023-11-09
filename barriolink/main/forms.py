@@ -1,3 +1,4 @@
+
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace
@@ -19,16 +20,29 @@ class RegisterFormStep1(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos"]
+        
+    #Validación registro de email       
+    # def clean_email(self):
+    #     email = self.cleaned_data['email'].lower()
+    #     try:
+    #         user = CustomUser.objects.get(email=email)
+    #     except Exception as e:
+    #         return email
+    #     raise forms.ValidationError(f"El correo {email} ya se encuentra registado.")
 
- 
 
+    
+class RegisterFormStep2(UserCreationForm):
+    region = forms.CharField(max_length=100, required=True, label="Región")
+    comuna = forms.CharField(max_length=100, required=True, label="Comuna")
+    calle = forms.CharField(max_length=255, required=True, label="Calle")
+    numero_domicilio = forms.CharField(max_length=10, required=True, label="Número Domicilio")
 
-
-class RegisterForm2(forms.ModelForm):
     class Meta:
         model = CustomUser
-        fields = ["email","numero_documento", "region", "comuna", "calle", "numero_domicilio"]        
-
+        fields = ["region", "comuna", "calle", "numero_domicilio"]
+    
+    
 
 class PostForm(forms.ModelForm):
     class Meta:

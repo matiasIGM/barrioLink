@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterFormStep1, PostForm, RegisterForm2, CustomUserAdminRegistrationForm, Post, JuntaDeVecinosForm, CommunitySpaceForm
+from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, Post, JuntaDeVecinosForm, CommunitySpaceForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
@@ -73,62 +73,24 @@ def sign_up(request):
 #         form = RegisterForm2()
 #      return render(request, 'registration/sign_up_step_2.html', {'form': form})
 
-logger = logging.getLogger(__name__)
 
-    
-def signup(request, step=None):
-    datos_primer_paso = {}
-    if step == "step1":
-        if request.method == 'POST':
-            form = RegisterFormStep1(request.POST)
-            if form.is_valid():
-                # Almacena los datos del paso 1 en la sesión
-                request.session['registro_primer_paso'] = form.cleaned_data
-                return redirect('signup', step='step2')
-        else:
-            form = RegisterFormStep1()
-        template = 'registration/sign_up.html'
-    
-    elif step == "step2":
-        datos_primer_paso = request.session.get('registro_primer_paso', {})
-        form = RegisterForm2(request.POST)
 
-        if request.method == 'POST':
-            if form.is_valid():
-                datos_segundo_paso = form.cleaned_data
-                datos_primer_paso.update(datos_segundo_paso)
-                email = datos_primer_paso['email']
 
-                # Registrar un mensaje en la consola para verificar los datos antes de guardarlos
-                logger.info(f"Datos a registrar: {datos_primer_paso}")
+def signup(request):
+    form = RegisterFormStep1()  # Mueve la inicialización del formulario fuera del bloque if
 
-                user, created = CustomUser.objects.get_or_create(email=email, defaults=datos_primer_paso)
-
-                if created:
-                    user.save()  # Guardar el nuevo usuario solo si se crea
-                    del request.session['registro_primer_paso']  # Limpiar datos del primer paso
-                    return redirect('login')
-                else:
-                    # Mostrar un mensaje de error al usuario indicando que el correo electrónico ya está en uso
-                    form.add_error('email', 'Este correo electrónico ya está registrado.')
-            else:
-                # Registrar errores específicos en la consola
-                for field, errors in form.errors.items():
-                    for error in errors:
-                        logger.warning(f"Error en el campo {field}: {error}")
-
-        else:
-            form = RegisterForm2()
-        template = 'registration/sign_up_step_2.html'
-    
+    if request.method == 'POST':
+        form = RegisterFormStep1(request.POST)
+        if form.is_valid():
+            # Imprime los datos del POST por consola
+            print("Datos del POST:", request.POST)
+            user = form.save()
+            return redirect('login')
     else:
-        return HttpResponse("Paso no válido")
+        form = RegisterFormStep1()
 
-    return render(request, template, {
-        'form': form,
-        'nombre_completo': f"{datos_primer_paso.get('nombres', '')} {datos_primer_paso.get('apellidos', '')}",
-        'rut': datos_primer_paso.get('rut', '')
-    })
+    return render(request, 'registration/sign_up.html', {'form': form})
+
 
 
 #Función para retornar todos los usuarios no admin
