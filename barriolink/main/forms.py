@@ -19,20 +19,21 @@ class RegisterFormStep1(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos"]
+        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos", "numero_documento","region", "comuna", "calle", "numero_domicilio"]
         
     #Validación registro de email       
-    # def clean_email(self):
-    #     email = self.cleaned_data['email'].lower()
-    #     try:
-    #         user = CustomUser.objects.get(email=email)
-    #     except Exception as e:
-    #         return email
-    #     raise forms.ValidationError(f"El correo {email} ya se encuentra registado.")
+    def clean_email(self):
+        email = self.cleaned_data['email'].lower()
+        try:
+            user = CustomUser.objects.get(email=email)
+        except Exception as e:
+            return email
+        raise forms.ValidationError(f"El correo {email} ya se encuentra registado.")
 
 
     
 class RegisterFormStep2(UserCreationForm):
+    nro_documento = forms.CharField(max_length=12, required=True, label="Nro_Documento")
     region = forms.CharField(max_length=100, required=True, label="Región")
     comuna = forms.CharField(max_length=100, required=True, label="Comuna")
     calle = forms.CharField(max_length=255, required=True, label="Calle")
@@ -40,7 +41,7 @@ class RegisterFormStep2(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ["region", "comuna", "calle", "numero_domicilio"]
+        fields = ["numero_documento","region", "comuna", "calle", "numero_domicilio"]
     
     
 

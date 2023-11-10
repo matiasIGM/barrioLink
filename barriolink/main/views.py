@@ -91,6 +91,47 @@ def signup(request):
 
     return render(request, 'registration/sign_up.html', {'form': form})
 
+# def signup(request):
+#     Formulario de Datos Básicos
+#     form_step1 = RegisterFormStep1()
+
+#     Formulario de Datos de Residencia (Paso 2)
+#     form_step2 = RegisterFormStep2()
+
+#     if request.method == 'POST':
+#         if 'step1_submit' in request.POST:
+#             Procesar el formulario de Datos Básicos
+#             form_step1 = RegisterFormStep1(request.POST)
+#             if form_step1.is_valid():
+#                 user = form_step1.save(commit=False)
+#                 Puedes realizar operaciones adicionales con 'user' aquí si es necesario
+#                 user.save()
+
+#                 Redirigir al formulario de Datos de Residencia (Paso 2)
+#                 return redirect('signup_step2')
+
+#         elif 'step2_submit' in request.POST:
+#             Procesar el formulario de Datos de Residencia
+#             form_step2 = RegisterFormStep2(request.POST)
+#             if form_step2.is_valid():
+#                 Obtener el usuario creado en el paso 1
+#                 user = CustomUser.objects.latest('id')
+
+#                 Fusionar los datos del formulario de Datos de Residencia
+#                 user.numero_documento = form_step2.cleaned_data['nro_documento']
+#                 user.region = form_step2.cleaned_data['region']
+#                 user.comuna = form_step2.cleaned_data['comuna']
+#                 user.calle = form_step2.cleaned_data['calle']
+#                 user.numero_domicilio = form_step2.cleaned_data['numero_domicilio']
+
+#                 Puedes realizar operaciones adicionales con 'user' aquí si es necesario
+#                 user.save()
+
+#                 Redirigir a la página de inicio de sesión
+#                 return redirect('login')
+#     print("Datos del POST:", request.POST)    
+
+#     return render(request, 'registration/sign_up.html', {'form_step1': form_step1, 'form_step2': form_step2})
 
 
 #Función para retornar todos los usuarios no admin

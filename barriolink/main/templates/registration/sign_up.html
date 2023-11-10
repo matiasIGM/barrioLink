@@ -13,6 +13,7 @@
     <!-- Cargar archivos CSS -->
     <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+	
 </head>
 
 <body class='pace-top'>
@@ -48,7 +49,7 @@
 
                 <!-- BEGIN register-content -->
                 <div class="register-content">
-                    <form method="post" class="fs-13px">
+                    <form method="post" class="fs-13px"  id="registroForm" data-parsley-validate="true">
                         {% csrf_token %}
                         <div class="mb-3">
                             
@@ -58,11 +59,21 @@
                                     <input name="nombres" type="text" class="form-control fs-13px text-left"
                                         placeholder="Nombre" />
                                 </div>
+								{% if form.nombres.errors %}
+								<div class="text-danger fs-13px">
+									{{ form.nombres.errors.as_text }}
+								</div>
+								{% endif %}
                                 <div class="col-md-6">
-									<label for="{{ form.apellidos.id_for_label }}" class="mb-2">Apellidos<span></label>
+									<label for="{{ form.apellidos.id_for_label }}" class="mb-2">Apellidos<span class="text-danger">*</span></label>
                                     <input name="apellidos" type="text" class="form-control fs-13px text-left"
                                         placeholder="Apellido" />
                                 </div>
+								{% if form.apellidos.errors %}
+								<div class="text-danger fs-13px">
+									{{ form.apellidos.errors.as_text }}
+								</div>
+								{% endif %}
                             </div>
                         </div>
                         <div class="mb-3">
@@ -71,56 +82,151 @@
                             <input name="email" type="text" class="form-control fs-13px text-left"
                                 placeholder="Correo Electrónico" />
                         </div>
+						{% if form.email.errors %}
+								<div class="text-danger fs-13px">
+									{{ form.email.errors.as_text }}
+								</div>
+								{% endif %}
+                            </div>
                         <div class="mb-3">
                             <label for="{{ form.rut.id_for_label }}" class="mb-2">RUT <span class="text-danger">*</span></label>
-                            <input name="rut" type="text" class="form-control fs-13px text-left" placeholder="RUT" />
+                            <input name="rut" type="text" class="form-control fs-13px text-left" placeholder="RUT" maxlength="10" required />
                         </div>
                         <div class="mb-3">
                             <label for="{{ form.birth_date.id_for_label }}" class="mb-2">Fecha de Nacimiento <span
                                     class="text-danger">*</span></label>
                             <input name="birth_date" type="date" class="form-control fs-13px text-left"
-                                placeholder="Fecha de Nacimiento" />
+                                placeholder="Fecha de Nacimiento" required />
                         </div>
                         <div class="mb-3">
                             <label for="{{ form.celular.id_for_label }}" class="mb-2">Celular <span class="text-danger">*</span></label>
                             <input name="celular" type="number" class="form-control fs-13px text-left"
-                                placeholder="+569" />
+                                placeholder="+569" min="0" pattern="[0-9]{9}" data-parsley-minlength="9" data-parsley-maxlength="9" required/>
                         </div>
                         <div class="mb-3">
                             <label for="{{ form.password1.id_for_label }}" class="mb-2">Contraseña <span
                                     class="text-danger">*</span></label>
                             <input name="password1" type="password" class="form-control fs-13px text-left"
-                                placeholder="Contraseña" />
+                                placeholder="Contraseña" required/>
                         </div>
                         <div class="mb-3">
                             <label for="form.password2.id_for_label" class="mb-2">Confirmar Contraseña <span
                                     class="text-danger">*</span></label>
                             <input name="password2" type="password" class="form-control fs-13px text-left"
-                                placeholder="Confirmar Contraseña" />
+                                placeholder="Confirmar Contraseña" required/>
                         </div>
-                        <div class="form-check mb-4">
-                            <input class="form-check-input" type="checkbox" value="" id="agreementCheckbox" />
-                            <label class="form-check-label" for="agreementCheckbox">
-                                Al hacer clic en "Registrarse", acepta nuestros <a href="/sign_up_step_2">Términos</a>
-                                y que has leído nuestra <a href="javascript:;">Política de Datos</a>, incluido nuestro
-                                <a href="javascript:;">Uso de Cookies</a>.
-                            </label>
-                        </div>
-						{% if form.nombres.errors %}
-						<div class="text-danger fs-13px">
-							{{ form.nombres.errors.as_text }}
-						</div>
-						{% endif %}
-						{% if form.apellidos.errors %}
-						<div class="text-danger fs-13px">
-							{{ form.apellidos.errors.as_text }}
-						</div>
-						{% endif %}
-                        <div class="mb-4">
-                            <button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px"
-                              >Continuar</button>
+						</br>
+						<div class="mb-4">
+							<button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" class="btn btn-success d-block w-100 btn-lg h-45px fs-13px">Continuar</button>
                         </div>
 						
+						<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style="width: 40%">
+							<div class="offcanvas-header">
+							<h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Registro de datos | Paso 2</h5>
+							<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+							</div>
+							<div class="offcanvas-body">
+							<!-- BEGIN panel -->
+							<div class="panel panel-inverse">
+								<div class="panel-body">
+									<div class="nav-wizards-container">
+										<nav class="nav nav-wizards-1 mb-2">
+											<div class="nav-item col">
+												<a class="nav-link completed" href="#">
+													<div class="nav-no">1</div>
+													<div class="nav-text">Completar Datos Básicos</div>
+												</a>
+											</div>
+											<div class="nav-item col">
+												<a class="nav-link completed" href="#">
+													<div class="nav-no">2</div>
+													<div class="nav-text">Validación de datos y residencia</div>
+												</a>
+											</div>
+											<div class="nav-item col">
+												<a class="nav-link" href="#">
+													<div class="nav-no">3</div>
+													<div class="nav-text">Activación de Cuenta</div>
+												</a>
+											</div>
+										</nav>
+									</div>
+	
+									<div class="card row mb-3">
+										<div class="row mb-3">
+											<!-- BEGIN col-6 -->
+											<div class="col-xl-12 ui-sortable">
+												<!-- BEGIN panel -->
+												<div class="panel panel-inverse" data-sortable-id="form-stuff-5">
+													<!-- BEGIN panel-body -->
+													<div class="panel-body">
+														
+															<!-- Nro Documento -->
+															<div class="row mb-15px">
+																<label for="{{ form.nro_documento.id_for_label }}" class="form-label col-form-label col-md-3">Nro Documento</label>
+																<div class="col-md-9">
+																	<input name="numero_documento" type="text" class="form-control mb-5px" placeholder="Nro Documento" />
+																</div>
+															</div>
+															<!-- Select de Región -->
+															<div class="row mb-15px">
+																<label for="{{ form.region.id_for_label }}" class="form-label col-form-label col-md-3">Región</label>
+																<div class="col-md-9">
+																	<select name="region" class="form-select" data-parsley-required="true">
+																		<option value="1">Región 1</option>
+																		<option value="2">Región 2</option>
+																		<!-- Agrega más opciones según tus necesidades -->
+																	</select>
+																</div>
+															</div>
+															<!-- Select de Comuna -->
+															<div class="row mb-15px">
+																<label for="{{ form.comuna.id_for_label }}" class="form-label col-form-label col-md-3">Comuna</label>
+																<div class="col-md-9">
+																	<select name="comuna" class="form-select" data-parsley-required="true">
+																		<option value="1">Comuna 1</option>
+																		<option value="2">Comuna 2</option>
+																		<!-- Agrega más opciones según tus necesidades -->
+																	</select>
+																</div>
+															</div>
+															<!-- Calle -->
+															<div class="row mb-15px">
+																<label for="{{ form.calle.id_for_label }}" class="form-label col-form-label col-md-3">Calle</label>
+																<div class="col-md-9">
+																	<input name="calle" type="text" class="form-control mb-5px" placeholder="Calle" />
+																</div>
+															</div>
+															<!-- Nro -->
+															<div class="row mb-15px">
+																<label for="{{ form.numero_domicilio.id_for_label }}" class="form-label col-form-label col-md-3">Nro</label>
+																<div class="col-md-3">
+																	<input name="numero_domicilio" type="number" class="form-control mb-5px" placeholder="Numeración"  min="0"/>
+																</div>
+															</div>
+															<div class="row mb-15px">
+																<label class="form-label col-form-label col-md-3">Boleta de servicios</label>
+																<div class="col-md-9">
+																	<input class="form-control" type="file" id="formFile" accept=".pdf, .png, .jpg">
+																</div>
+															</div>
+															</br>
+															<div class="form-check mb-4">
+																<input class="form-check-input" type="checkbox" value="" id="agreementCheckbox" data-parsley-mincheck="1" />
+																<label class="form-check-label" for="agreementCheckbox">
+																	Al hacer clic en "Registrarse", acepta nuestros <a href="/sign_up_step_2">Términos</a>
+																	y que has leído nuestra <a href="javascript:;">Política de Datos</a>, incluido nuestro
+																	<a href="javascript:;">Uso de Cookies</a>.
+																</label>
+															</div>
+															
+														
+													</div>
+													<!-- END panel-body -->
+												</div>
+												<!-- END panel -->
+							</div>
+						</div>
 
                         <div class="mb-4 pb-5">
                             ¿Ya es miembro? Haga clic <a href="/login">aquí</a> para iniciar sesión.
@@ -131,191 +237,21 @@
                             &copy; BarrioLink Todos los Derechos Reservados {{ year|date:"Y" }}
                         </p>
                         {% endcomment %}
+						<div class="mb-4">
+							<button data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-green d-block w-100 btn-lg h-45px fs-13px"
+							  >Registrarse</button>
+						</div>
                     </form>
-					<div class="mb-4">
-						<button data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-success d-block w-100 btn-lg h-45px fs-13px"
-						  >Ver Modal</button>
-					</div>
+					
                 </div>
                 <!-- END register-content -->
-            </div>
             <!-- END register-container -->
         </div>
         <!-- END register -->
 
     </div>
-	<div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
-		<div class="modal-dialog modal-fullscreen-xxl-down modal-dialog-centered">
-		  <div class="modal-content">
-			<div class="modal-header">
-			  <h5 class="modal-title" id="exampleModalToggleLabel">Modal 1</h5>
-			  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-			</div>
-			<div class="modal-body">
-			  	<!-- BEGIN row -->
-				<div class="row">
-					<!-- BEGIN col-6 -->
-					<div class="col-xl-12">
-						<!-- BEGIN panel -->
-						<div class="panel panel-inverse">
-							<div class="panel-heading">
-								<h4 class="panel-title">Registro de Cuenta | Paso 2</h4>
-							</div>
-							<div class="panel-body">
-								<div class="nav-wizards-container">
-									<nav class="nav nav-wizards-1 mb-2">
-										<div class="nav-item col">
-											<a class="nav-link completed" href="#">
-												<div class="nav-no">1</div>
-												<div class="nav-text">Completar Datos Básicos</div>
-											</a>
-										</div>
-										<div class="nav-item col">
-											<a class="nav-link completed" href="#">
-												<div class="nav-no">2</div>
-												<div class="nav-text">Validación de datos y residencia</div>
-											</a>
-										</div>
-										<div class="nav-item col">
-											<a class="nav-link" href="#">
-												<div class="nav-no">3</div>
-												<div class="nav-text">Activación de Cuenta</div>
-											</a>
-										</div>
-									</nav>
-								</div>
 
-								<div class="card row mb-3">
-									<div class="row mb-3">
-										<!-- BEGIN col-6 -->
-										<div class="col-xl-6 ui-sortable">
-											<!-- BEGIN panel -->
-											<div class="panel panel-inverse" data-sortable-id="form-stuff-5">
-												<!-- BEGIN panel-body -->
-												<div class="panel-body">
-													<form method="post">
-														{% csrf_token %}
-														<!-- Nombre Completo -->
-														<div class="row mb-15px">
-															<label for="nombre_completo" class="form-label col-form-label col-md-3">Nombre Completo</label>
-															<div class="col-md-9">
-																<input type="text" id="nombre_completo" class="form-control mb-5px" placeholder="Nombre" value="{{ nombre_completo }}" readonly />
-															</div>
-														</div>
-														<!-- RUT -->
-														<div class="row mb-15px">
-															<label for="rut" class="form-label col-form-label col-md-3">RUT</label>
-															<div class="col-md-9">
-																<input type="text" id="rut" class="form-control mb-5px" value="{{ rut }}" readonly />
-															</div>
-														</div>
-														<!-- Nro Documento -->
-														<div class="row mb-15px">
-															<label class="form-label col-form-label col-md-3">Nro Documento</label>
-															<div class="col-md-9">
-																<input name="numero_documento" type="text" class="form-control mb-5px" placeholder="Nro Documento" />
-															</div>
-														</div>
-														<!-- Select de Región -->
-														<div class="row mb-15px">
-															<label class="form-label col-form-label col-md-3">Región</label>
-															<div class="col-md-9">
-																<select name="region" class="form-select">
-																	<option value="1">Región 1</option>
-																	<option value="2">Región 2</option>
-																	<!-- Agrega más opciones según tus necesidades -->
-																</select>
-															</div>
-														</div>
-														<!-- Select de Comuna -->
-														<div class="row mb-15px">
-															<label class="form-label col-form-label col-md-3">Comuna</label>
-															<div class="col-md-9">
-																<select name="comuna" class="form-select">
-																	<option value="1">Comuna 1</option>
-																	<option value="2">Comuna 2</option>
-																	<!-- Agrega más opciones según tus necesidades -->
-																</select>
-															</div>
-														</div>
-														<!-- Calle -->
-														<div class="row mb-15px">
-															<label class="form-label col-form-label col-md-3">Calle</label>
-															<div class="col-md-9">
-																<input name="calle" type="text" class="form-control mb-5px" placeholder="Calle" />
-															</div>
-														</div>
-														<!-- Nro -->
-														<div class="row form-group">
-															<label class="form-label col-form-label col-md-3">Nro</label>
-															<div class="col-md-9">
-																<div class="row">
-																	<div class="col-md-6">
-																		<input name="numero_domicilio" type="number" class="form-control mb-5px" placeholder="Numeración" />
-																	</div>
-																</div>
-															</div>
-														</div>
-														<!-- Botón de Registrarse -->
-														<div class="row mb-15px">
-															<button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Registrarse</button>
-														</div>
-													</form>
-												</div>
-												<!-- END panel-body -->
-											</div>
-											<!-- END panel -->
-										</div>
-										<!-- END col-6 -->
-									</div>
-								</div>
-								<div class="row xs-3">
-									<div class="col-md-3 mx-auto">
-										<button type="submit" class="btn btn-primary d-block w-100 btn-lg h-45px fs-13px">Registrarse</button>
-									</div>
-								</div>
-							</div>
-							<!-- END panel-body -->
-						</div>
-						<!-- END panel -->
-					</div>
-					<!-- END col-6 -->
-				</div>
-				<!-- END row -->
 
-			</div>
-			<div class="modal-footer">
-			  <button class="btn btn-primary" data-bs-target="#exampleModalToggle2" data-bs-toggle="modal" data-bs-dismiss="modal">Open second modal</button>
-			</div>
-		  </div>
-		</div>
-	  </div>
-	  <a class="btn btn-primary" data-bs-toggle="modal" href="#exampleModalToggle" role="button">Open first modal</a>
-
-    {% if show_modal %}
-    <!-- BEGIN Modal -->
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="myModalLabel">Completar Datos Adicionales</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <form method="post" class="fs-13px">
-                        {% csrf_token %}
-                        {{ form_step2.as_p }}
-                        <button type="submit" name="continue_modal" class="btn btn-primary">Continuar</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- END Modal -->
-    {% endif %}
     <!-- END #app -->
 
     <!-- Archivos JavaScript -->
@@ -325,6 +261,41 @@
     <!-- ================== BEGIN page-js ================== -->
     <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="{% static 'plugins/parsleyjs/dist/parsley.min.js' %}"></script>
+
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var form = document.getElementById('registroForm');
+	
+			form.addEventListener('submit', function (event) {
+				if (!validateForm()) {
+					event.preventDefault(); // Detener el envío del formulario si la validación falla
+				}
+			});
+	
+			function validateForm() {
+				var requiredFields = ['email', 'password1', 'password2', 'rut', 'birth_date', 'celular', 'nombres', 'apellidos'];
+				var isValid = true;
+	
+				for (var i = 0; i < requiredFields.length; i++) {
+					var fieldName = requiredFields[i];
+					var inputElement = form.querySelector('[name="' + fieldName + '"]');
+					var value = inputElement.value.trim();
+	
+					if (value === '') {
+						isValid = false;
+						// Puedes agregar un estilo de error o mostrar un mensaje de error aquí
+						alert('Por favor, complete todos los campos obligatorios.');
+						break; // No es necesario verificar los demás campos si uno falla
+					}
+				}
+	
+				return isValid;
+			}
+		});
+	</script>
+	
 
     <!-- ================== END page-js ================== -->
 </body>
