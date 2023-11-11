@@ -60,23 +60,6 @@ def sign_up(request):
 
 
 
-# def sign_up_2(request):  
-#      form = RegisterForm2(request.POST)
-#      if form.is_valid():
-#             datos_primer_paso = request.session.get('registration/sign_up.html', {})
-#             datos_segundo_paso = form.cleaned_data
-#             datos_primer_paso.update(datos_segundo_paso)
-#             user = CustomUser(**datos_primer_paso)
-#             user.save()
-#             del request.session['registration/sign_up.html']
-#             return redirect('login')
-#      else:
-#         form = RegisterForm2()
-#      return render(request, 'registration/sign_up_step_2.html', {'form': form})
-
-
-
-
 def signup(request):
     form = RegisterFormStep1()  # Mueve la inicialización del formulario fuera del bloque if
 
@@ -176,6 +159,7 @@ def adminProfileConfig(request):
     return render(request, 'account/adm/profile_settings.html')
 
 
+#Configuración de datos de la junta de vecinos
 @login_required
 def hoaConfig(request):
     try:
@@ -198,7 +182,10 @@ def hoaConfig(request):
     # Renderizar la página con el contexto
     return render(request, 'account/adm/hoa_config.html', context)
    
+   
+#Administración de espacios comunes.
 
+#Listar todos los espacios comunitarios
 @login_required
 def adminConfigPlaces(request):
     # Listar todos los espacios comunitarios
@@ -208,18 +195,25 @@ def adminConfigPlaces(request):
   
     return render(request, 'account/adm/reservation_config.html', context)
 
-
+#Registrar Espacios Comunitarios
 def registerPlace(request):
-    codigo = request.POST['txtCodigo']
-    nombre = request.POST['txtNombre']
-    creditos = request.POST['numCreditos']
+    form = CommunitySpaceForm()
+    
+    if request.method == 'POST':
+        form = CommunitySpaceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Espacio registrado!')
+            return redirect('/placesConfig/')
+        else:
+            messages.error(request, 'Error en el formulario. Por favor, verifica los datos.')
+    else:
+        form = CommunitySpaceForm()
 
-    place = CommunitySpace.objects.create(
-        codigo=codigo, nombre=nombre, creditos=creditos)
-    messages.success(request, 'Espacio registrado!')
-    return redirect('/')
+    return render(request, 'account/adm/reservation_config.html', {'form': form})
 
 
+#Eliminar Espacios Comunitarios
 def deletePlace(request, id):
     place = CommunitySpace.objects.get(id=id)
     place.delete()
@@ -228,11 +222,22 @@ def deletePlace(request, id):
 
     return redirect('/placesConfig/')
 
-
+#Actualizar Espacios Comunitarios
 def updatePlace(request, id):
-    place = CommunitySpace.objects.get(codigo=id)
-    return render(request, "edicionCurso.html", {"place": place})
+    place = get_object_or_404(CommunitySpace, id=id)
 
+    if request.method == 'POST':
+        form = CommunitySpaceForm(request.POST, instance=place)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Espacio Comunitario actualizado!')
+            return redirect('admin_places')
+        else:
+            messages.error(request, 'Error en el formulario. Por favor, verifica los datos.')
+    else:
+        form = CommunitySpaceForm(instance=place)
+
+    return render(request, 'account/adm/update_place_modal.html', {'form': form, 'place': place})
 
 
 
