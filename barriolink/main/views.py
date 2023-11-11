@@ -1,9 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, Post, JuntaDeVecinosForm, CommunitySpaceForm
+from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, CommunitySpace, Resident  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, CommunitySpace, Resident, Publicacion  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, JsonResponse
@@ -16,6 +16,7 @@ from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
 import logging
 from django.contrib import messages
+import telegram
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -233,3 +234,27 @@ def updatePlace(request, id):
     return render(request, "edicionCurso.html", {"place": place})
 
 
+
+
+
+# crea una vista para el formulario y la página donde el usuario administrador completara la información
+def publicacion(request):
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST)
+        if form.is_valid():
+            publicacion = form.save()
+            # Triggea el evento para enviar un mensaje a través del bot de Telegram
+            enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
+            return redirect('ruta_de_redireccion')
+    else:
+        form = PublicacionForm()
+    return render(request, 'account/adm/news_publish.html', {'form': form})
+
+# usuario solicitud de publicacion de noticia
+def solnoticias(request): 
+    return render(request, 'account/users/news_publish.html')
+
+
+# validacion de solicitudes de publicacion de noticias 
+def validationoticias(request): 
+    return render(request, 'account/adm/news_validation.html')

@@ -133,3 +133,12 @@ class Comuna(models.Model):
 
     def __str__(self):
         return self.nombre
+    
+# Este modelo representa una publicación de noticias con un título, contenido y fecha de publicación.
+class Publicacion(models.Model):
+    titulo = models.CharField(max_length=200)
+    contenido = models.TextField()
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.titulo

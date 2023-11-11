@@ -1,7 +1,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace
+from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion
 from datetime import datetime 
 
 
@@ -69,3 +69,11 @@ class CommunitySpaceForm(forms.ModelForm):
     class Meta:
         model = CommunitySpace
         fields = ['name', 'description', 'max_capacity']
+        
+
+
+#  Crea una vista y un formulario para que el usuario administrador pueda crear nuevas publicaciones
+class PublicacionForm(forms.ModelForm):
+    class Meta:
+        model = Publicacion
+        fields = ['titulo', 'contenido']
