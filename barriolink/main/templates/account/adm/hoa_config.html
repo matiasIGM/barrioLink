@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <!-- BEGIN #content -->
+    <div id="content" class="app-content">
+		<!-- BEGIN page-header -->
+		<h1 class="page-header">Configuración Junta de Vecinos</h1>
+		<!-- END page-header -->
+		
+		<!-- BEGIN row -->
+		<div class="row mb-3">
+			<!-- BEGIN col-6 -->
+			<div class="col-xl-12 ui-sortable">
+
+			<div class="panel panel-inverse" data-sortable-id="form-stuff-1" data-init="true">
+			</br></br>
+			<div class="container">
+				<div class="row mb-3">
+					<div class="col-md-6 mb-4">
+						<div class="panel panel-inverse" data-sortable-id="form-stuff-1" data-init="true">
+							<div class="panel-body">
+								<form>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">RUT</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.rut }}" readonly="">
+										</div>
+									</div>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Nombre de la Junta de Vecinos</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.hoa_name }}" readonly="">
+										</div>
+									</div>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Dirección Legal</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.legal_address }}" readonly="">
+										</div>
+									</div>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Teléfono de Contacto</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.contact_phone }}" readonly="">
+										</div>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-6 mb-4">
+						<div class="panel panel-inverse" data-sortable-id="form-stuff-2" data-init="true">
+							<div class="panel-body">
+								<form>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Correo Electrónico de Contacto</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.contact_email }}" readonly="">
+										</div>
+									</div>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Fecha de Fundación</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.foundation_date }}" readonly="">
+										</div>
+									</div>
+									<div class="row mb-15px">
+										<label class="form-label col-form-label col-md-3">Símbolo del Logotipo</label>
+										<div class="col-sm-9">
+											<input class="form-control" type="text" placeholder="{{ hoa_data.logo_symbol }}" readonly="">
+										</div>
+									</div>
+								</form>
+								<div class="panel-body">
+									<button type="button" class="btn btn-danger disabled  me-1 mb-1">Cancelar</button>
+									<button type="button" class="btn btn-primary me-1 mb-1">Editar</button>
+									<button type="button" class="btn btn-success disabled  me-1 mb-1">Guardar Cambios</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+				
+				
+
+				</div></div>
+			<!-- END col-6 -->
+		</div>
+		<!-- END row -->
+	</div>
+{% endblock content %}
