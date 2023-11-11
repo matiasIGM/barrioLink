@@ -3,8 +3,8 @@
 
 {% block content %}
 
-		<!-- BEGIN #content -->
-		<h1 class="page-header mb-0" style="margin-left: 7cm;">Solicitudes</h1>
+<!-- BEGIN #content -->
+	<h1 class="page-header mb-0" style="margin-left: 7cm;">Solicitudes</h1>
 	    <br>
 		<div class="card border-0" style="margin-left: auto; width: 85%; margin-right: 1cm;">
 			<ul class="nav nav-tabs nav-tabs-v2 px-3" role="tablist">
@@ -39,34 +39,34 @@
 						<table class="table table-hover table-panel text-nowrap align-middle mb-0">
 							<thead>
 								<tr>
-									<th>N°</th>
+									<th>Estado</th>
 									<th>Fecha</th>
 									<th>Nombre</th>
 									<th>Descripción</th>
-									<th>Estado</th>
+									<th>Ver información</th>
 								</tr>
 							</thead>
 							<tbody>
 								<tr>
-									<td><a href="extra_order_details.html" class="fw-bold">#1</a></td>
+									<td><span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Nueva</span></td>
 									<td>Viernes 10 Nov, 12:23pm</td>
 									<td>Constanza Vera</td>
 									<td>Fiesta Swiftie</td>
-									<td><span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Nueva</span></td>
+									<td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a></td>									
 								</tr>
 								<tr>
-									<td><a href="extra_order_details.html" class="fw-bold">#2</a></td>
+									<td><span class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Eliminada</span></td>							
 									<td>Miercoles 25 Oct, 11:54pm</td>
 									<td>Señor Darcy</td>
 									<td>Baile de invierno</td>
-									<td><span class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Eliminada</span></td>
+									<td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a></td>
 								</tr>
 								<tr>
-									<td><a href="extra_order_details.html" class="fw-bold">#3</a></td>
+									<td><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Validada</span></td>
 									<td>Lunes 05 Nov, 11:53pm</td>
 									<td>Armando Salgado</td>
 									<td>Clases de Informática General</td>
-									<td><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Validada</span></td>
+									<td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a></td>
 								</tr>
 							</tbody>
 						</table>
@@ -92,5 +92,25 @@
 			</div>
 		</div>
 		<!-- END #content -->
-
+		<div class="modal fade" id="modal-dialog">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h4 class="modal-title">Solicitud</h4>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+					</div>
+					<div class="modal-body">
+						<div class="alert alert-danger">
+							<h5><i class="fa fa-info-circle"></i> Información de noticia</h5>
+							<p>Bingo a beneficio</p>
+						</div>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Validar</a>
+						<a href="javascript:;" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	<!-- END panel-body -->
 {% endblock content %}

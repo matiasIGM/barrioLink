@@ -224,11 +224,17 @@ def publicacion(request):
         form = PublicacionForm()
     return render(request, 'account/adm/news_publish.html', {'form': form})
 
-def validationoticias(request): # validacion de publicacion de noticias
+# usuario solicitud de publicacion de noticia
+def solnoticias(request): 
+    return render(request, 'account/users/news_publish.html')
+
+
+# validacion de solicitudes de publicacion de noticias 
+def validationoticias(request): 
     return render(request, 'account/adm/news_validation.html')
 
-def solnoticias(request): # usuario solicitud de publicacion de noticia
-    return render(request, 'account/users/news_publish.html')
+
+
 
 
     
