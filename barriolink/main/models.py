@@ -20,13 +20,23 @@ class CustomUser(AbstractUser):# Define una clase CustomUser que extiende Abstra
     # Reemplaza el campo de inicio de sesión "username" por "email"
     email = models.EmailField(unique=True) # Agrega un campo de correo electrónico único para iniciar sesión
     username = models.CharField(max_length=30, unique=False)   # Cambia el campo de "username" para que no sea requerido ni único
-
+    is_active = models.BooleanField(default=False)  # Agrega el campo is_active con valor predeterminado False
     # Agrega related_name para resolver la colisión
     groups = models.ManyToManyField(Group)
     user_permissions = models.ManyToManyField(Permission, related_name='customuser_set')
 
     def __str__(self):
         return self.username
+    
+
+    def save(self, *args, **kwargs):
+        # Establece is_active en False al crear un nuevo usuario
+        
+        if not self.id:  # Si es una instancia nueva (no tiene ID asignado)
+            self.is_active = False
+        super().save(*args, **kwargs)
+
+
 
 class JuntaDeVecinos(models.Model):
     hoa_id = models.AutoField(primary_key=True)

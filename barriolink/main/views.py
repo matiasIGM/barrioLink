@@ -91,48 +91,6 @@ def signup(request):
 
     return render(request, 'registration/sign_up.html', {'form': form})
 
-# def signup(request):
-#     Formulario de Datos Básicos
-#     form_step1 = RegisterFormStep1()
-
-#     Formulario de Datos de Residencia (Paso 2)
-#     form_step2 = RegisterFormStep2()
-
-#     if request.method == 'POST':
-#         if 'step1_submit' in request.POST:
-#             Procesar el formulario de Datos Básicos
-#             form_step1 = RegisterFormStep1(request.POST)
-#             if form_step1.is_valid():
-#                 user = form_step1.save(commit=False)
-#                 Puedes realizar operaciones adicionales con 'user' aquí si es necesario
-#                 user.save()
-
-#                 Redirigir al formulario de Datos de Residencia (Paso 2)
-#                 return redirect('signup_step2')
-
-#         elif 'step2_submit' in request.POST:
-#             Procesar el formulario de Datos de Residencia
-#             form_step2 = RegisterFormStep2(request.POST)
-#             if form_step2.is_valid():
-#                 Obtener el usuario creado en el paso 1
-#                 user = CustomUser.objects.latest('id')
-
-#                 Fusionar los datos del formulario de Datos de Residencia
-#                 user.numero_documento = form_step2.cleaned_data['nro_documento']
-#                 user.region = form_step2.cleaned_data['region']
-#                 user.comuna = form_step2.cleaned_data['comuna']
-#                 user.calle = form_step2.cleaned_data['calle']
-#                 user.numero_domicilio = form_step2.cleaned_data['numero_domicilio']
-
-#                 Puedes realizar operaciones adicionales con 'user' aquí si es necesario
-#                 user.save()
-
-#                 Redirigir a la página de inicio de sesión
-#                 return redirect('login')
-#     print("Datos del POST:", request.POST)    
-
-#     return render(request, 'registration/sign_up.html', {'form_step1': form_step1, 'form_step2': form_step2})
-
 
 #Función para retornar todos los usuarios no admin
 def filter_user_adm(request):
@@ -244,33 +202,34 @@ def hoaConfig(request):
 def adminConfigPlaces(request):
     # Listar todos los espacios comunitarios
     community_spaces = CommunitySpace.objects.all()
-    
-    # Imprimir el resultado de la consulta en la consola
-    # for space in community_spaces:
-    #     print(f'Nombre: {space.name}, Descripción: {space.description}, Capacidad Máxima: {space.max_capacity}')
 
     context = {'community_spaces': community_spaces}
-    # if request.method == 'POST':
-    #     form = CommunitySpaceForm(request.POST)
-    #     space_id = request.POST.get('space_id')
-
-    #     if space_id:
-    #         # Actualizar un espacio comunitario existente
-    #         space = CommunitySpace.objects.get(pk=space_id)
-    #         form = CommunitySpaceForm(request.POST, instance=space)
-    #     elif form.is_valid():
-    #         # Crear un nuevo espacio comunitario
-    #         form.save()
-
-    #     return redirect('admin_places')
-
-    # else:
-    #     form = CommunitySpaceForm()
-
+  
     return render(request, 'account/adm/reservation_config.html', context)
 
 
+def registerPlace(request):
+    codigo = request.POST['txtCodigo']
+    nombre = request.POST['txtNombre']
+    creditos = request.POST['numCreditos']
+
+    place = CommunitySpace.objects.create(
+        codigo=codigo, nombre=nombre, creditos=creditos)
+    messages.success(request, 'Espacio registrado!')
+    return redirect('/')
 
 
+def deletePlace(request, id):
+    place = CommunitySpace.objects.get(id=id)
+    place.delete()
+
+    messages.success(request, 'Espacio Comunitario eliminado!')
+
+    return redirect('/placesConfig/')
+
+
+def updatePlace(request, id):
+    place = CommunitySpace.objects.get(codigo=id)
+    return render(request, "edicionCurso.html", {"place": place})
 
 

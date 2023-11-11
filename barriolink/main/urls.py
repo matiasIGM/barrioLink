@@ -24,7 +24,8 @@ urlpatterns = [
      path('adminUserValidation/', views.def_validation_view, name='users_validation'),
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
-     path('hoaConfig/', views.hoaConfig, name='hoa_config'),
+     path('placesConfig/deletePlace/<id>', views.deletePlace,  name='delete_places'),
+     path('placesConfig/updatePlace/<id>', views.deletePlace,  name='update_places'),
 
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),

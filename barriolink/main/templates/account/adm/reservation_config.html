@@ -2,6 +2,18 @@
 {% load static %}
 
 {% block content %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="d-flex">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body text-white bg-warning border-0">
+                    {{ message }}
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+    </div>
+    </div>
+    {% endfor %}
+    {% endif %}
 
 <div id="content" class="app-content">
     <!-- BEGIN page-header -->
@@ -30,8 +42,8 @@
                                 <td>{{ space.description }}</td>
                                 <td>{{ space.max_capacity }}</td>
                                 <td class="with-btn" nowrap="">
-                                    <a href="#" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
-                                    <a href="#" class="btn btn-sm btn-white w-70px">Eliminar</a>
+                                    <a href="#modal-dialog"  data-bs-toggle="modal" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
+                                    <a href="{% url 'delete_places' id=space.id %}" class="btn btn-sm btn-danger w-70px">Eliminar</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -41,6 +53,25 @@
             </div>
         </div>
         <!-- END col-6 -->
+    </div>
+    <!--Create Place Modal-->
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">Modal Dialog</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+            <a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+            <a href="javascript:;" class="btn btn-success">Action</a>
+            </div>
+        </div>
+        </div>
     </div>
     <!-- END row -->
 </div>
