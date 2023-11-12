@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
-
-
+from django import forms
 
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
@@ -127,13 +126,24 @@ class Comuna(models.Model):
     def __str__(self):
         return self.nombre
 
-
-# Este modelo representa una publicación de noticias con un título, contenido y fecha de publicación.
-class Publicacion(models.Model):
+# Admin User Functions 
+#==============================================================
+class Publicacion(models.Model): # Este modelo representa una publicación de noticias
     titulo = models.CharField(max_length=200)
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return self.titulo
+
+# User Functions 
+#==============================================================
+class solnoticias(models.Model):
+    id = models.AutoField(primary_key=True)
+    contenido = models.TextField()
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    # Otros campos que puedas necesitar en tu publicación
+    def __str__(self):
+        return self.contenido
+
 
