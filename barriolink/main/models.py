@@ -2,7 +2,6 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django import forms
-from django.contrib.auth.models import User
 
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
@@ -140,14 +139,14 @@ class Publicacion(models.Model): # Este modelo representa una publicación de no
 # User Functions 
 #==============================================================
 
-class solnoticias(models.Model):
+class crearsol(models.Model):
     ESTADO_CHOICES = [
         ('nueva', 'Nueva'),
         ('eliminada', 'Eliminada'),
     ]
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    id = models.AutoField(primary_key=True)
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='nueva')
-    fecha = models.DateTimeField(auto_now_add=True)
+    fecha_publicacion = models.DateTimeField(auto_now_add=True) 
     contenido = models.TextField()
 
 class Noticia(models.Model):

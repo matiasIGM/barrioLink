@@ -4,215 +4,27 @@
 {% block content %}
 
 <!-- BEGIN #content -->
-<br>
-<h1 class="page-header mb-0" style="margin-left: 7cm;">Solicitud</h1>
-<br>
-<!-- BEGIN panel -->
-<div class="panel panel-inverse" style="margin-left: 7cm; margin-right: 1cm;">
-	<div class="panel-heading">
-		<h4 class="panel-title">
-			Crear solicitud
-			<b class="badge d-inline-flex align-items-center p-0 ms-1">
-				<i class="fa fa-circle fa-fw fs-6px text-orange me-1"></i>
-				<i class="fa fa-circle fa-fw fs-6px text-red me-1"></i>
-				<i class="fa fa-circle fa-fw fs-6px text-pink"></i>
-			</b>
-		</h4>
-		<div class="panel-heading-btn">
-			<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-toggle="panel-expand"><i
-					class="fa fa-expand"></i></a>
-			<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-toggle="panel-reload"><i
-					class="fa fa-redo"></i></a>
-			<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-toggle="panel-collapse"><i
-					class="fa fa-minus"></i></a>
-			<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-toggle="panel-remove"><i
-					class="fa fa-times"></i></a>
-		</div>
-	</div>
-	<div class="panel-body p-0">
-		<form action="/" name="wysihtml5" method="POST">
-			<ul class="wysihtml5-toolbar">
-				<li class="dropdown">
-					<a class="btn btn-default dropdown-toggle " data-toggle="dropdown">
-						<span class="glyphicon glyphicon-font"></span>
-						<span class="current-font">Normal text</span>
-						<b class="caret"></b>
-					</a>
-					<ul class="dropdown-menu">
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="p" tabindex="-1"
-								href="javascript:;" unselectable="on">Normal text</a></li>
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h1" tabindex="-1"
-								href="javascript:;" unselectable="on">Heading 1</a></li>
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h2" tabindex="-1"
-								href="javascript:;" unselectable="on">Heading 2</a></li>
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h3" tabindex="-1"
-								href="javascript:;" unselectable="on">Heading 3</a></li>
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h4" tabindex="-1"
-								href="javascript:;" unselectable="on">Heading 4</a></li>
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h5" tabindex="-1"
-								href="javascript:;" unselectable="on">Heading 5</a></li>
-						<li><a data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="h6" tabindex="-1"
-								href="javascript:;" unselectable="on">Heading 6</a></li>
-					</ul>
-				</li>
-				<li>
-					<div class="btn-group">
-						<a class="btn  btn-default" data-wysihtml5-command="bold" title="CTRL+B" tabindex="-1"
-							href="javascript:;" unselectable="on">Bold</a>
-						<a class="btn  btn-default" data-wysihtml5-command="italic" title="CTRL+I" tabindex="-1"
-							href="javascript:;" unselectable="on">Italic</a>
-						<a class="btn  btn-default" data-wysihtml5-command="underline" title="CTRL+U" tabindex="-1"
-							href="javascript:;" unselectable="on">Underline</a>
-						<a class="btn  btn-default" data-wysihtml5-command="small" title="CTRL+S" tabindex="-1"
-							href="javascript:;" unselectable="on">Small</a>
-					</div>
-				</li>
-				<li>
-					<a class="btn  btn-default" data-wysihtml5-command="formatBlock"
-						data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false"
-						tabindex="-1" href="javascript:;" unselectable="on">
-						<span class="glyphicon glyphicon-quote"></span>
-					</a>
-				</li>
-				<li>
-					<div class="btn-group">
-						<a class="btn  btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered list"
-							tabindex="-1" href="javascript:;" unselectable="on">
-							<span class="glyphicon glyphicon-list"></span>
-						</a>
-						<a class="btn  btn-default" data-wysihtml5-command="insertOrderedList" title="Ordered list"
-							tabindex="-1" href="javascript:;" unselectable="on">
-							<span class="glyphicon glyphicon-th-list"></span>
-						</a>
-						<a class="btn  btn-default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1"
-							href="javascript:;" unselectable="on">
-							<span class="glyphicon glyphicon-indent-right"></span>
-						</a>
-						<a class="btn  btn-default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1"
-							href="javascript:;" unselectable="on">
-							<span class="glyphicon glyphicon-indent-left"></span>
-						</a>
-					</div>
-				</li>
-				<li>
-					<div class="bootstrap-wysihtml5-insert-link-modal modal fade" data-wysihtml5-dialog="createLink">
-						<div class="modal-dialog ">
-							<div class="modal-content">
-								<div class="modal-header">
-									<a class="close" data-dismiss="modal">×</a>
-									<h3>Insert link</h3>
-								</div>
-								<div class="modal-body">
-									<div class="form-group">
-										<input value="http://" class="bootstrap-wysihtml5-insert-link-url form-control"
-											data-wysihtml5-dialog-field="href">
-									</div>
-									<div class="checkbox">
-										<label>
-											<input type="checkbox" class="bootstrap-wysihtml5-insert-link-target"
-												checked="">Open link in new window
-										</label>
-									</div>
-								</div>
-								<div class="modal-footer">
-									<a class="btn btn-default" data-dismiss="modal"
-										data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
-									<a href="#" class="btn btn-primary" data-dismiss="modal"
-										data-wysihtml5-dialog-action="save">Insert link</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<a class="btn  btn-default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1"
-						href="javascript:;" unselectable="on">
-						<span class="glyphicon glyphicon-share"></span>
-					</a>
-				</li>
-				<li>
-					<div class="bootstrap-wysihtml5-insert-image-modal modal fade" data-wysihtml5-dialog="insertImage">
-						<div class="modal-dialog ">
-							<div class="modal-content">
-								<div class="modal-header">
-									<a class="close" data-dismiss="modal">×</a>
-									<h3>Insert image</h3>
-								</div>
-								<div class="modal-body">
-									<div class="form-group">
-										<input value="http://"
-											class="bootstrap-wysihtml5-insert-image-url form-control">
-									</div>
-									<script>
-										$(function () {
-											$('#wysihtml5').wysihtml5();
-										});
-									</script>
-								</div>
-								<div class="modal-footer">
-									<a class="btn btn-default" data-dismiss="modal"
-										data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
-									<a class="btn btn-primary" data-dismiss="modal" data-wysihtml5-dialog-action="save"
-										href="#">Insert image</a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<a class="btn  btn-default" data-wysihtml5-command="insertImage" title="Insert image" tabindex="-1"
-						href="javascript:;" unselectable="on">
-						<span class="glyphicon glyphicon-picture"></span>
-					</a>
-				</li>
-			</ul>
-			<textarea class="textarea form-control" name="txtMensaje" id="wysihtml5" rows="12" style="display: block;"
-				placeholder="Escriba algo ..."></textarea>
-			<input type="hidden" name="_wysihtml5_mode" value="1">
-		</form>
-	</div>
-</div>
-<!-- END hljs-wrapper -->
-<br>
-<br>
-<div style="text-align: right;">
-	<button type="button" class="btn btn-outline-danger btn-lg me-1 mb-1" style="margin-right: 1cm;">Cancelar</button>
-	<button type="submit" class="btn btn-success me-1" style="margin-right: 1cm;">Enviar</button>
-</div>
-</div>
-<!-- END #content -->
-<div class="swal modal fade" id="modal">
-	<div class="modal"></div>
-<div class="swal-modal" role="dialog" aria-modal="true">
-	<div class="swal-icon swal-icon--success">
-		<span class="swal-icon--success__line swal-icon--success__line--long"></span>
-		<span class="swal-icon--success__line swal-icon--success__line--tip"></span>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear solicitud</title>
+</head>
+<body>
 
-		<div class="swal-icon--success__ring"></div>
-		<div class="swal-icon--success__hide-corners"></div>
-	</div>
-	<div class="swal-title" style="">¡Listo!</div>
-	<div class="swal-text" style="">La solicitud se envió exitosamente</div>
-	<div class="swal-footer">
-		<div class="swal-button-container">
+    <h2>Formulario de Ejemplo</h2>
 
-			<button class="swal-button swal-button--cancel btn btn-default">Cancel</button>
+    <form method="post" action="/crearsol/">
+        {% csrf_token %}
+        
+        <label for="informacion">Información:</label>
+        <input type="text" id="informacion" name="contenido" required>
 
-			<div class="swal-button__loader">
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
+        <button type="submit">Guardar</button>
+    </form>
 
-		</div>
-		<div class="swal-button-container">
-
-			<button class="swal-button swal-button--confirm btn btn-success">Success</button>
-
-			<div class="swal-button__loader">
-				<div></div>
-				<div></div>
-				<div></div>
-			</div>
-
-		</div>
-	</div>
-</div>
+</body>
+</html>
 {% endblock content %}
 

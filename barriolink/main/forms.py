@@ -4,7 +4,7 @@ from .models import Post, CustomUser, JuntaDeVecinos
 from datetime import datetime 
 from django import forms
 from .models import Publicacion
-from .models import solnoticias
+from .models import crearsol
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -48,9 +48,12 @@ class JuntaDeVecinosForm(forms.ModelForm):
 class PublicacionForm(forms.ModelForm):
     class Meta:
         model = Publicacion
-        fields = ['titulo', 'contenido']
+        fields = ['contenido']
+        exclude = ['fecha_publicacion'] 
 
 class SolPublicacionForm(forms.ModelForm):
     class Meta:
-        model = solnoticias
-        fields = ['id','contenido', 'fecha_publicacion']
+        model = crearsol
+        fields = ['contenido']
+        exclude = ['fecha_publicacion'] 
+
