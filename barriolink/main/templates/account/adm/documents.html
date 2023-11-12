@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+		<!-- BEGIN #content -->
+		<div id="content" class="app-content p-0">
+			<h1>Certificate Panel</h1>
+			<p>Bienvenido, {{ user_name }}.</p>
+
+			<p>Visualiza tu certificado:</p>
+			<iframe src="{{ pdf_response.url }}" width="100%" height="500px"></iframe>
+
+			<p>O descárgalo:</p>
+			<a href="{% url 'generate-pdf' %}" target="_blank" class="btn btn-sm btn-success">Generate Pdf</a>
+		</div>
+		<!-- END #content -->
+
+{% endblock content %}

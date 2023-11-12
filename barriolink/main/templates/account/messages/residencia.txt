@@ -1,0 +1,14 @@
+Junta de Vecinos N-33 Villa el Salto, Antofagasta
+Personalidad Jurídica N {rut_hoa}
+Sede Social: {legal_address}
+
+CERTIFICADO DE RESIDENCIA
+La Junta de Vecinos {hoa_name}, Villa el Salto Certifica que El(La)
+Señor (a) {resident_name}, RUT {rut_resident}
+Tiene su actual residencia en {comuna},
+Calle {street} N° {house_number}, teléfono {phone}
+Correspondiente al Sector jurisdiccional de la Junta de Vecinos, se deja
+constancia que este domicilio.
+Se extiende el presente certificado a petición del interesado y para los fines que se
+estimen convenientes.
+Otorgado en Antofagasta con fecha: {today}

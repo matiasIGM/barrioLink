@@ -11,7 +11,11 @@ urlpatterns = [
      path('reserva/', views.reservation, name='reserva'),
      path('profile/', views.profileUser, name='profile'),
      path('userProfileConfig/', views.userProfileConfig, name='user_profile_config'),
+     
+     path('Admindocuments/', views.adminDocuments, name='documents'),
      path('documents/', views.userDocuments, name='documents'),
+     path('generate-pdf', views.generate_pdf, name='generate-pdf'),
+     
      path('userNews/', views.newsPublish, name='users_news'),
      path('userProfile/', views.userProfile, name='user_profile'),
      path('adminProfileConfig/', views.adminProfileConfig, name='user_profile_config'),

@@ -17,6 +17,11 @@ from django.core import serializers
 import logging
 from django.contrib import messages
 import telegram
+from reportlab.pdfgen import canvas
+from django.utils import timezone
+
+
+
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -107,6 +112,62 @@ def profileUser(request):
 #==============================================================
 def userDocuments(request):
     return render(request, 'account/users/documents.html')
+
+def adminDocuments(request):
+    return render(request, 'account/adm/documents.html')
+#Generación de certificado de residencia
+#==============================================================
+def load_certificate_content():
+    with open('templates/account/messages/residencia.txt', 'r', encoding='utf-8') as file:
+        certificate_content = file.read()
+    return certificate_content
+
+def generate_pdf(request):
+    try:
+        # Obtener el residente asociado al usuario actual
+        resident = Resident.objects.get(user=request.user)
+        # Obtener los datos de la Junta de Vecinos relacionados con el residente
+        hoa_data = resident.hoa
+        # Obtener los datos del usuario
+        user_data = request.user
+    except (Resident.DoesNotExist, CustomUser.DoesNotExist):
+        # Manejar el caso en el que el usuario no tiene un residente asociado
+        hoa_data = None
+        user_data = None
+
+    response = PDFResponse(response_type='inline', filename=f'{user_data.username}_certificate.pdf')
+    p = canvas.Canvas(response)
+
+    # Cargar el contenido del certificado desde el archivo
+    certificate_content = load_certificate_content()
+
+    # Reemplazar las variables del certificado con los datos reales
+    certificate_content = certificate_content.format(
+        hoa_name=hoa_data.hoa_name if hoa_data else '',
+        rut_hoa=hoa_data.rut if hoa_data else '',
+        legal_address=hoa_data.legal_address if hoa_data else '',
+        resident_name=f'{user_data.nombres} {user_data.apellidos}' if user_data else '',
+        rut_resident=user_data.rut if user_data else '',
+        comuna=user_data.comuna if user_data else '',
+        street=user_data.calle if user_data else '',
+        house_number=user_data.numero_domicilio if user_data else '',
+        phone=user_data.celular if user_data else '',
+        today=timezone.now().strftime('%Y-%m-%d')  # Usa timezone.now() para obtener la fecha actual
+    )
+
+    # Agregar el contenido del certificado al PDF
+    lines = certificate_content.split('\n')
+    y_position = 800
+    for line in lines:
+        p.drawString(100, y_position, line)
+        y_position -= 20
+
+    p.showPage()
+    p.save()
+
+    return render(request, 'account/adm/hoa_config.html')
+
+#====================================================================================================
 
 def newsPublish(request):
     return render(request, 'account/users/news_publish.html')
