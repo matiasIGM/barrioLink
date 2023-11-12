@@ -19,7 +19,7 @@ from django.shortcuts import render
 import telegram
 from django.shortcuts import render, redirect
 from .forms import PublicacionForm
-from .models import Publicacion
+
 
 
 # @login_required(login_url="/login")
@@ -210,9 +210,9 @@ def userProfileConfig(request):
     return render(request, 'account/users/profile_settings.html')
 
 
-
-# crea una vista para el formulario y la página donde el usuario administrador completara la información
-def publicacion(request):
+# Admin User Functions 
+#==============================================================
+def publicacion(request):# crea una vista para el formulario y la página donde el usuario administrador completara la información
     if request.method == 'POST':
         form = PublicacionForm(request.POST)
         if form.is_valid():
@@ -224,14 +224,21 @@ def publicacion(request):
         form = PublicacionForm()
     return render(request, 'account/adm/news_publish.html', {'form': form})
 
-# usuario solicitud de publicacion de noticia
-def solnoticias(request): 
-    return render(request, 'account/users/news_publish.html')
-
-
 # validacion de solicitudes de publicacion de noticias 
 def validationoticias(request): 
     return render(request, 'account/adm/news_validation.html')
+
+
+# User Functions 
+#==============================================================
+
+def solnoticias(request): # usuario solicitud de publicacion de noticia
+    if request.method == "POST":
+        contenido = request.POST["txtMensaje"]      
+    return render(request, 'account/users/news_publish.html')
+
+
+
 
 
 
