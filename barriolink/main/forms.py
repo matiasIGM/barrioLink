@@ -53,4 +53,4 @@ class PublicacionForm(forms.ModelForm):
 class SolPublicacionForm(forms.ModelForm):
     class Meta:
         model = solnoticias
-        fields = ['contenido']
+        fields = ['id','contenido', 'fecha_publicacion']

@@ -173,11 +173,12 @@
 <br>
 <div style="text-align: right;">
 	<button type="button" class="btn btn-outline-danger btn-lg me-1 mb-1" style="margin-right: 1cm;">Cancelar</button>
-	<a href="#swal-modal" data-click="swal-success" class="btn btn-success me-1">Enviar</a>
+	<button type="submit" class="btn btn-success me-1" style="margin-right: 1cm;">Enviar</button>
 </div>
 </div>
 <!-- END #content -->
-<div class="swal-overlay swal-overlay--show-modal--fade" id="swal-modal">
+<div class="swal modal fade" id="modal">
+	<div class="modal"></div>
 <div class="swal-modal" role="dialog" aria-modal="true">
 	<div class="swal-icon swal-icon--success">
 		<span class="swal-icon--success__line swal-icon--success__line--long"></span>
@@ -214,3 +215,4 @@
 	</div>
 </div>
 {% endblock content %}
+
