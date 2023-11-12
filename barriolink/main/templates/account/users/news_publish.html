@@ -68,22 +68,28 @@
 					</div>
 				</li>
 				<li>
-					<a class="btn  btn-default" data-wysihtml5-command="formatBlock" data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false" tabindex="-1" href="javascript:;" unselectable="on">
+					<a class="btn  btn-default" data-wysihtml5-command="formatBlock"
+						data-wysihtml5-command-value="blockquote" data-wysihtml5-display-format-name="false"
+						tabindex="-1" href="javascript:;" unselectable="on">
 						<span class="glyphicon glyphicon-quote"></span>
 					</a>
 				</li>
 				<li>
 					<div class="btn-group">
-						<a class="btn  btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered list" tabindex="-1" href="javascript:;" unselectable="on">
+						<a class="btn  btn-default" data-wysihtml5-command="insertUnorderedList" title="Unordered list"
+							tabindex="-1" href="javascript:;" unselectable="on">
 							<span class="glyphicon glyphicon-list"></span>
 						</a>
-						<a class="btn  btn-default" data-wysihtml5-command="insertOrderedList" title="Ordered list" tabindex="-1" href="javascript:;" unselectable="on">
+						<a class="btn  btn-default" data-wysihtml5-command="insertOrderedList" title="Ordered list"
+							tabindex="-1" href="javascript:;" unselectable="on">
 							<span class="glyphicon glyphicon-th-list"></span>
 						</a>
-						<a class="btn  btn-default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1" href="javascript:;" unselectable="on">
+						<a class="btn  btn-default" data-wysihtml5-command="Outdent" title="Outdent" tabindex="-1"
+							href="javascript:;" unselectable="on">
 							<span class="glyphicon glyphicon-indent-right"></span>
 						</a>
-						<a class="btn  btn-default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1" href="javascript:;" unselectable="on">
+						<a class="btn  btn-default" data-wysihtml5-command="Indent" title="Indent" tabindex="-1"
+							href="javascript:;" unselectable="on">
 							<span class="glyphicon glyphicon-indent-left"></span>
 						</a>
 					</div>
@@ -98,22 +104,27 @@
 								</div>
 								<div class="modal-body">
 									<div class="form-group">
-										<input value="http://" class="bootstrap-wysihtml5-insert-link-url form-control" data-wysihtml5-dialog-field="href">
+										<input value="http://" class="bootstrap-wysihtml5-insert-link-url form-control"
+											data-wysihtml5-dialog-field="href">
 									</div>
 									<div class="checkbox">
 										<label>
-											<input type="checkbox" class="bootstrap-wysihtml5-insert-link-target" checked="">Open link in new window
+											<input type="checkbox" class="bootstrap-wysihtml5-insert-link-target"
+												checked="">Open link in new window
 										</label>
 									</div>
 								</div>
 								<div class="modal-footer">
-									<a class="btn btn-default" data-dismiss="modal" data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
-									<a href="#" class="btn btn-primary" data-dismiss="modal" data-wysihtml5-dialog-action="save">Insert link</a>
+									<a class="btn btn-default" data-dismiss="modal"
+										data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
+									<a href="#" class="btn btn-primary" data-dismiss="modal"
+										data-wysihtml5-dialog-action="save">Insert link</a>
 								</div>
 							</div>
 						</div>
 					</div>
-					<a class="btn  btn-default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1" href="javascript:;" unselectable="on">
+					<a class="btn  btn-default" data-wysihtml5-command="createLink" title="Insert link" tabindex="-1"
+						href="javascript:;" unselectable="on">
 						<span class="glyphicon glyphicon-share"></span>
 					</a>
 				</li>
@@ -127,18 +138,20 @@
 								</div>
 								<div class="modal-body">
 									<div class="form-group">
-										<input value="http://" class="bootstrap-wysihtml5-insert-image-url form-control">
+										<input value="http://"
+											class="bootstrap-wysihtml5-insert-image-url form-control">
 									</div>
 									<script>
 										$(function () {
-										  $('#wysihtml5').wysihtml5();
+											$('#wysihtml5').wysihtml5();
 										});
-									  </script>									  
+									</script>
 								</div>
 								<div class="modal-footer">
 									<a class="btn btn-default" data-dismiss="modal"
 										data-wysihtml5-dialog-action="cancel" href="#">Cancel</a>
-									<a class="btn btn-primary" data-dismiss="modal" data-wysihtml5-dialog-action="save" href="#">Insert image</a>
+									<a class="btn btn-primary" data-dismiss="modal" data-wysihtml5-dialog-action="save"
+										href="#">Insert image</a>
 								</div>
 							</div>
 						</div>
@@ -149,7 +162,8 @@
 					</a>
 				</li>
 			</ul>
-			<textarea class="textarea form-control" name="txtMensaje" id="wysihtml5" rows="12" style="display: block;" placeholder="Escriba algo ..."></textarea>
+			<textarea class="textarea form-control" name="txtMensaje" id="wysihtml5" rows="12" style="display: block;"
+				placeholder="Escriba algo ..."></textarea>
 			<input type="hidden" name="_wysihtml5_mode" value="1">
 		</form>
 	</div>
@@ -159,8 +173,44 @@
 <br>
 <div style="text-align: right;">
 	<button type="button" class="btn btn-outline-danger btn-lg me-1 mb-1" style="margin-right: 1cm;">Cancelar</button>
-	<button type="submit" class="btn btn-info btn-lg me-1 mb-1" style="margin-right: 1cm;">Enviar</button>
+	<a href="#swal-modal" data-click="swal-success" class="btn btn-success me-1">Enviar</a>
 </div>
 </div>
 <!-- END #content -->
+<div class="swal-overlay swal-overlay--show-modal--fade" id="swal-modal">
+<div class="swal-modal" role="dialog" aria-modal="true">
+	<div class="swal-icon swal-icon--success">
+		<span class="swal-icon--success__line swal-icon--success__line--long"></span>
+		<span class="swal-icon--success__line swal-icon--success__line--tip"></span>
+
+		<div class="swal-icon--success__ring"></div>
+		<div class="swal-icon--success__hide-corners"></div>
+	</div>
+	<div class="swal-title" style="">¡Listo!</div>
+	<div class="swal-text" style="">La solicitud se envió exitosamente</div>
+	<div class="swal-footer">
+		<div class="swal-button-container">
+
+			<button class="swal-button swal-button--cancel btn btn-default">Cancel</button>
+
+			<div class="swal-button__loader">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+
+		</div>
+		<div class="swal-button-container">
+
+			<button class="swal-button swal-button--confirm btn btn-success">Success</button>
+
+			<div class="swal-button__loader">
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
+
+		</div>
+	</div>
+</div>
 {% endblock content %}

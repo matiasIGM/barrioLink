@@ -70,8 +70,6 @@
 
 	{% include 'scripts.html' %}
 
-	{% block scripts %}
-	{% endblock scripts %}
 	<script src="{% static 'js/demo/ui-modal-notification.demo.js' %}"></script> 
 	<script src="{% static '/plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js' %}" rel=stylesheet></script>
 	<!-- ================== BEGIN core-js ================== -->
@@ -84,8 +82,13 @@
 	<script src="{% static 'js/demo/render.highlight.js' %}"></script>
 	<script src="{% static 'plugins/bootstrap/dist/js/bootstrap.min.js' %}"></script>
 	<!-- ================== BEGIN page-js ================== -->
+	<script src="{% static '/plugins/sweetalert/dist/sweetalert.min.js' %}"></script>
+	<script src="{% static '/plugins/photoswipe/dist/photoswipe-lightbox.esm.js' %}"></script>
+	
+	{% block scripts %}
+	{% endblock scripts %}
 
-
+	
 </body>
 
 </html>
