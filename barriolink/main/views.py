@@ -5,7 +5,6 @@ from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
 from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, CommunitySpace, Resident, Publicacion  # Importar el modelo de usuario personalizado
 from django.urls import reverse
-from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import PasswordResetForm
 from django.template.loader import render_to_string
@@ -14,13 +13,16 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
-import logging
 from django.contrib import messages
 import telegram
 from reportlab.pdfgen import canvas
 from django.utils import timezone
-
-
+from django.template.loader import get_template
+from django.views import View
+from xhtml2pdf import pisa
+from io import BytesIO
+import os
+from datetime import date
 
 
 # @login_required(login_url="/login")
@@ -115,57 +117,105 @@ def userDocuments(request):
 
 def adminDocuments(request):
     return render(request, 'account/adm/documents.html')
+
 #Generación de certificado de residencia
 #==============================================================
-def load_certificate_content():
-    with open('templates/account/messages/residencia.txt', 'r', encoding='utf-8') as file:
-        certificate_content = file.read()
-    return certificate_content
+#Ruta de template html base para renderizar el PDF
+template = get_template(os.path.join('account', 'pdf', 'pdf_template.html'))
 
-def generate_pdf(request):
-    try:
-        # Obtener el residente asociado al usuario actual
-        resident = Resident.objects.get(user=request.user)
-        # Obtener los datos de la Junta de Vecinos relacionados con el residente
-        hoa_data = resident.hoa
-        # Obtener los datos del usuario
+def render_to_pdf(template_src, context_dict={}):
+    template_path = os.path.join('account', 'pdf', template_src)
+    template = get_template(template_path)
+    html = template.render(context_dict)
+    result = BytesIO()
+    pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return None
+
+class ViewPDF(View):
+    def get(self, request, *args, **kwargs):
+        result = {}  #  diccionario vacío para guardar datos
+
+        try:
+            # Obtener el residente asociado al usuario actual
+            resident = Resident.objects.get(user=request.user.id)
+            # Obtener los datos de la Junta de Vecinos relacionados con el usuario
+            hoa_data = resident.hoa
+        except Resident.DoesNotExist:
+            # Manejar el caso en que el usuario no tiene un residente asociado
+            hoa_data = None
+
+        # Obtener los datos del usuario actual(logeado)
         user_data = request.user
-    except (Resident.DoesNotExist, CustomUser.DoesNotExist):
-        # Manejar el caso en el que el usuario no tiene un residente asociado
-        hoa_data = None
-        user_data = None
+        if hoa_data:
+            # Obtener los datos de la Junta de Vecinos asociada al usuario
+            junta_data = hoa_data
+        else:
+            # En caso de que no haya una asociación de usuario
+            junta_data = None
 
-    response = PDFResponse(response_type='inline', filename=f'{user_data.username}_certificate.pdf')
-    p = canvas.Canvas(response)
+        # Agregar datos al diccionario de resultado
+        if junta_data:
+            result["hoa_name"] = junta_data.hoa_name
+            result["hoa_city"] = junta_data.legal_address
+            result["junta_rut"] = junta_data.rut
+            result["junta_contact_phone"] = junta_data.contact_phone
+            result["junta_email"] = junta_data.contact_email
+        else:
+            # Puedes manejar esto según tus necesidades
+            result["hoa_name"] = "No disponible"
+            result["hoa_city"] = "No disponible"
+            result["junta_rut"] = "No disponible"
+            result["junta_contact_phone"] = "No disponible"
 
-    # Cargar el contenido del certificado desde el archivo
-    certificate_content = load_certificate_content()
+        result["user_name"] = user_data.nombres
+        result["user_lastname"] = user_data.apellidos
+        result["user_rut"] = user_data.rut
+        result["user_comuna"] = user_data.comuna
+        result["user_calle"] = user_data.calle
+        result["user_numero_domicilio"] = user_data.numero_domicilio
+        result["user_celular"] = user_data.celular
+        result["current_date"] = date.today()
 
-    # Reemplazar las variables del certificado con los datos reales
-    certificate_content = certificate_content.format(
-        hoa_name=hoa_data.hoa_name if hoa_data else '',
-        rut_hoa=hoa_data.rut if hoa_data else '',
-        legal_address=hoa_data.legal_address if hoa_data else '',
-        resident_name=f'{user_data.nombres} {user_data.apellidos}' if user_data else '',
-        rut_resident=user_data.rut if user_data else '',
-        comuna=user_data.comuna if user_data else '',
-        street=user_data.calle if user_data else '',
-        house_number=user_data.numero_domicilio if user_data else '',
-        phone=user_data.celular if user_data else '',
-        today=timezone.now().strftime('%Y-%m-%d')  # Usa timezone.now() para obtener la fecha actual
-    )
+        template = get_template(os.path.join('account', 'pdf', 'pdf_template.html'))
+        context = {'result': result}  # Corregir la clave a 'result'
+        html = template.render(context)
+        response = BytesIO()
+        pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), response)
 
-    # Agregar el contenido del certificado al PDF
-    lines = certificate_content.split('\n')
-    y_position = 800
-    for line in lines:
-        p.drawString(100, y_position, line)
-        y_position -= 20
+        if not pdf.err:
+            return HttpResponse(response.getvalue(), content_type='application/pdf')
 
-    p.showPage()
-    p.save()
+        return None
 
-    return render(request, 'account/adm/hoa_config.html')
+class ViewPDF1(View):
+    def get(self, request, *args, **kwargs):
+        data = hoaConfig(request)
+        template = get_template(os.path.join('account', 'pdf', 'pdf_template.html'))
+        context = {'data': data}  # Crear un diccionario con la clave 'data'
+        print(context)
+        html = template.render(context)
+        response = BytesIO()
+        pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), response)
+
+        if not pdf.err:
+            return HttpResponse(response.getvalue(), content_type='application/pdf')
+
+        return None
+# class ViewPDF(View):
+#     def get(self, request, *args, **kwargs):
+#         pdf = render_to_pdf('pdf_template.html', data)
+#         return HttpResponse(pdf, content_type='application/pdf')
+
+class DownloadPDF(View):
+    def get(self, request, *args, **kwargs):
+        pdf = render_to_pdf('pdf_template.html', data)
+        response = HttpResponse(pdf, content_type='application/pdf')
+        filename = "Invoice_%s.pdf" % ("12341231")
+        content = "attachment; filename='%s'" % (filename)
+        response['Content-Disposition'] = content
+        return response
 
 #====================================================================================================
 

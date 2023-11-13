@@ -14,7 +14,10 @@ urlpatterns = [
      
      path('Admindocuments/', views.adminDocuments, name='documents'),
      path('documents/', views.userDocuments, name='documents'),
-     path('generate-pdf', views.generate_pdf, name='generate-pdf'),
+     
+     
+     path('pdf_view/', views.ViewPDF.as_view(), name="pdf_view"),
+     path('pdf_download/', views.DownloadPDF.as_view(), name="pdf_download"),
      
      path('userNews/', views.newsPublish, name='users_news'),
      path('userProfile/', views.userProfile, name='user_profile'),

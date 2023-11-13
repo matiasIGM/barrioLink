@@ -5,3 +5,5 @@ __pycache__
 *.pyd
 # Archivo de configuración local
 .env
+#Carpeta env
+/app_env/

@@ -5,14 +5,25 @@
 
 		<!-- BEGIN #content -->
 		<div id="content" class="app-content p-0">
-			<h1>Certificate Panel</h1>
-			<p>Bienvenido, {{ user_name }}.</p>
-
-			<p>Visualiza tu certificado:</p>
-			<iframe src="{{ pdf_response.url }}" width="100%" height="500px"></iframe>
-
-			<p>O descárgalo:</p>
-			<a href="{% url 'generate-pdf' %}" target="_blank" class="btn btn-sm btn-success">Generate Pdf</a>
+			<div class="container">
+				<div class="row">
+					<div class="col-md"></div>
+		
+					<div class="col-md">
+						<div class="card card-body">
+							 <div class="text-center"> 
+							<h3>View Invoices or download directly to PDF</h3>
+							<p>Turn HTML templates into PDF's with Django + XHTML 2 PDF. This example gives you the option of  <br> view a template as a PDF or Downloading directly.</p>
+							<a class="btn btn-info" href="{% url 'pdf_view' %}" target="_blank">View Invoice</a>
+							<a class="btn btn-info"  href="{% url 'pdf_download' %}">Download Invoice</a>
+							</div>
+						</div>
+					</div>
+		
+					<div class="col-md"></div>
+				</div>
+			</div>
+		
 		</div>
 		<!-- END #content -->
 
