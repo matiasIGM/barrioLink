@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistra
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, CommunitySpace, Resident, Publicacion  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, Publicacion  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -23,7 +23,8 @@ from xhtml2pdf import pisa
 from io import BytesIO
 import os
 from datetime import date
-
+import uuid
+import qrcode
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -134,6 +135,24 @@ def render_to_pdf(template_src, context_dict={}):
     return None
 
 class ViewPDF(View):
+    
+    def save_certificate_to_db(self, resident, hoa_data, user_data):
+        # Obtener la fecha actual
+        current_date = date.today()
+
+        # Crear un nuevo objeto de certificado de residencia
+        certificate = ResidenceCertificate.objects.create(
+            resident=user_data,
+            certificate_date=current_date,
+            certificate_filename='nombre_archivo.pdf',  # Reemplaza con el nombre real del archivo PDF
+            certificate_status='Generado',
+            hoa=hoa_data,
+            generated_by_user=user_data
+        )
+
+        # Guardar el objeto en la base de datos
+        certificate.save()
+        
     def get(self, request, *args, **kwargs):
         result = {}  #  diccionario vacío para guardar datos
 
@@ -162,8 +181,11 @@ class ViewPDF(View):
             result["junta_rut"] = junta_data.rut
             result["junta_contact_phone"] = junta_data.contact_phone
             result["junta_email"] = junta_data.contact_email
+            result["rep_name"] = junta_data.legal_representative_name
+            result["rep_rut"] = junta_data.legal_representative_rut
+             
         else:
-            # Puedes manejar esto según tus necesidades
+            # Set como no disponible si los datos no existen o faltan
             result["hoa_name"] = "No disponible"
             result["hoa_city"] = "No disponible"
             result["junta_rut"] = "No disponible"
@@ -178,6 +200,25 @@ class ViewPDF(View):
         result["user_celular"] = user_data.celular
         result["current_date"] = date.today()
 
+        # Generar un UUID4
+        result["uuid"] = str(uuid.uuid4())
+
+        # Generar un código QR para la URL 'barriolink.online/certifica/:uuid'
+        qr_data = f'barriolink.online/certifica/{result["uuid"]}'
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        qr_image = BytesIO()
+        img.save(qr_image, format='PNG')
+        result["qr_code"] = qr_image.getvalue()
+
+         # Generar el certificado PDF
         template = get_template(os.path.join('account', 'pdf', 'pdf_template.html'))
         context = {'result': result}  # Corregir la clave a 'result'
         html = template.render(context)
@@ -185,9 +226,19 @@ class ViewPDF(View):
         pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), response)
 
         if not pdf.err:
-            return HttpResponse(response.getvalue(), content_type='application/pdf')
+            # Enviar el certificado PDF como respuesta HTTP
+            certificate_data = response.getvalue()
+            response.close()
+            response = HttpResponse(certificate_data, content_type='application/pdf')
+
+            # Guardar los datos en la base de datos
+            self.save_certificate_to_db(resident, hoa_data, user_data)
+
+            return response
 
         return None
+    
+        
 
 class ViewPDF1(View):
     def get(self, request, *args, **kwargs):
@@ -281,11 +332,6 @@ def hoaConfig(request):
     except Resident.DoesNotExist:
         # Manejar el caso en el que el usuario no tiene un residente asociado
         hoa_data = None
-
-    # Imprimir información en la consola
-    # print("ID del usuario actual:", request.user.id)
-    # print("Residente asociado:", resident)
-    # print("Datos de la Junta de Vecinos:", hoa_data)
 
     # Pasar datos al contexto
     context = {'hoa_data': hoa_data}
