@@ -20,7 +20,7 @@ import telegram
 from django.shortcuts import render, redirect
 from .forms import PublicacionForm
 from .forms import SolPublicacionForm
-from .forms import crearsolicitud
+
 
 
 # @login_required(login_url="/login")
@@ -237,7 +237,7 @@ def validationoticias(request):
 def solnoticias(request): # usuario solicitud de publicacion de noticia
     return render(request, 'account/users/news_publish.html')   
 
-def crearsol(request): # usuario solicitud de publicacion de noticia
+def crearsolicitud(request): # usuario solicitud de publicacion de noticia
     if request.method == 'POST':
         form = SolPublicacionForm(request.POST)
         if form.is_valid():

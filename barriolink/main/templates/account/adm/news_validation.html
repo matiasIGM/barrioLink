@@ -4,113 +4,38 @@
 {% block content %}
 
 <!-- BEGIN #content -->
-	<h1 class="page-header mb-0" style="margin-left: 7cm;">Solicitudes</h1>
-	    <br>
-		<div class="card border-0" style="margin-left: auto; width: 85%; margin-right: 1cm;">
-			<ul class="nav nav-tabs nav-tabs-v2 px-3" role="tablist">
-				<li class="nav-item me-2" role="presentation"><a href="#allTab" class="nav-link px-2 active" data-bs-toggle="tab" aria-selected="true" role="tab">Todas</a></li>
-				<li class="nav-item me-2" role="presentation"><a href="#publishedTab" class="nav-link px-2" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Nuevas</a></li>
-				<li class="nav-item me-2" role="presentation"><a href="#expiredTab" class="nav-link px-2" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Validadas</a></li>
-				<li class="nav-item me-2" role="presentation"><a href="#deletedTab" class="nav-link px-2" data-bs-toggle="tab" aria-selected="false" role="tab" tabindex="-1">Eliminadas</a></li>
-			</ul>
-			<div class="tab-content p-3">
-				<div class="tab-pane fade active show" id="allTab" role="tabpanel">
-					<!-- BEGIN input-group -->
-					<div class="input-group mb-3">
-						<button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown"><span class="d-none d-md-inline">Filtro</span><span class="d-inline d-md-none"><i class="fa fa-credit-card"></i></span> <b class="caret"></b></button>
-						<div class="dropdown-menu">
-							<a class="dropdown-item" href="#">Nuevas</a>
-							<a class="dropdown-item" href="#">Validadas</a>
-							<a class="dropdown-item" href="#">Eliminadas</a>
-							<div role="separator" class="dropdown-divider"></div>
-						</div>
-						<div class="flex-fill position-relative">
-							<div class="input-group">
-								<div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0" style="z-index: 1;">
-									<i class="fa fa-search opacity-5"></i>
-								</div>
-								<input type="text" class="form-control px-35px bg-light" placeholder="Buscar...">
-							</div>
-						</div>
-					</div>
-					<!-- END input-group -->				
-					<!-- BEGIN table -->
-					<div class="table-responsive mb-3">
-						<table class="table table-hover table-panel text-nowrap align-middle mb-0">
-							<thead>
-								<tr>
-									<th>Estado</th>
-									<th>Fecha</th>
-									<th>Nombre</th>
-									<th>Descripción</th>
-									<th>Ver información</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Nueva</span></td>
-									<td>{{ solicitudes.fecha_solicitud }}</td>
-									<td>{{ solicitudes.usuario.username }}</td>
-									<td>{{ solicitudes.contenido }}</td>
-									<td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a></td>									
-								</tr>
-								<tr>
-									<td><span class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Eliminada</span></td>							
-									<td>Miercoles 25 Oct, 11:54pm</td>
-									<td>Señor Darcy</td>
-									<td>Baile de invierno</td>
-									<td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a></td>
-								</tr>
-								<tr>
-									<td><span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i class="fa fa-circle fs-9px fa-fw me-5px"></i> Validada</span></td>
-									<td>Lunes 05 Nov, 11:53pm</td>
-									<td>Armando Salgado</td>
-									<td>Clases de Informática General</td>
-									<td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a></td>
-								</tr>
-							</tbody>
-						</table>
-					</div>
-					<br>
-					<!-- END table -->
-					<div class="d-md-flex align-items-center">
-						<div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-							Mostrando 3 to 3 
-						</div>
-						<ul class="pagination mb-0 justify-content-center">
-							<li class="page-item disabled"><a class="page-link">Anterior</a></li>
-							<li class="page-item"><a class="page-link" href="#">1</a></li>
-							<li class="page-item active"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item"><a class="page-link" href="#">4</a></li>
-							<li class="page-item"><a class="page-link" href="#">5</a></li>
-							<li class="page-item"><a class="page-link" href="#">6</a></li>
-							<li class="page-item"><a class="page-link" href="#">Proxima</a></li>
-						</ul>
-					</div>
-				</div>
-			</div>
-		</div>
-		<!-- END #content -->
-		<div class="modal fade" id="modal-dialog">
-			<div class="modal-dialog">
-				<div class="modal-content">
-					<div class="modal-header">
-						<h4 class="modal-title">Solicitud</h4>
-						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-					</div>
-					<div class="modal-body">
-						<div class="alert alert-danger">
-							<h5><i class="fa fa-info-circle"></i> Información de noticia</h5>
-							<p>Bingo a beneficio</p>
-						</div>
-					</div>
-					<div class="modal-footer">
-						<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Validar</a>
-						<a href="javascript:;" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</a>
-					</div>
-				</div>
-			</div>
-		</div>
-	<!-- END panel-body -->
+<!-- account/adm/news_validation.html -->
+
+<!-- ... tu código HTML anterior ... -->
+
+<tbody>
+    {% for solicitud in solicitudes %}
+        <tr>
+            <td>
+                {% if solicitudes.estado == 'nueva' %}
+                    <span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                        <i class="fa fa-circle fs-9px fa-fw me-5px"></i> Nueva
+                    </span>
+                {% elif solicitudes.estado == 'eliminada' %}
+                    <span class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                        <i class="fa fa-circle fs-9px fa-fw me-5px"></i> Eliminada
+                    </span>
+                {% elif solicitudes.estado == 'validada' %}
+                    <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                        <i class="fa fa-circle fs-9px fa-fw me-5px"></i> Validada
+                    </span>
+                {% endif %}
+            </td>
+            <td>{{ solicitudes.fecha_solicitud }}</td>
+            <td>{{ solicitudes.usuario.username }}</td>
+            <td>{{ solicitudes.contenido }}</td>
+            <td>
+                <a href="#modal-dialog" class="btn btn-sm btn-success w-100px" data-bs-toggle="modal">ver</a>
+            </td>
+        </tr>
+    {% endfor %}
+</tbody>
+
+<!-- ... el resto de tu código HTML ... -->
+
 {% endblock content %}
