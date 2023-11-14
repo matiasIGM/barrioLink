@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, PostForm, RegisterForm2, CustomUserAdminRe
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, JuntaDeVecinos, Comuna, Region  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, Crearsol  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, JsonResponse
@@ -18,8 +18,10 @@ import logging
 from django.shortcuts import render
 import telegram
 from django.shortcuts import render, redirect
-from .forms import PublicacionForm
-from .forms import SolPublicacionForm
+from .forms import PublicacionForm, SolPublicacionForm
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+
 
 
 
@@ -227,9 +229,28 @@ def publicacion(request):# crea una vista para el formulario y la página donde 
 
 # validacion de solicitudes de publicacion de noticias 
 def validationoticias(request): 
-    solicitudes = crearsol.objects.all()
-    return render(request, 'account/adm/news_validation.html', {'solicitudes': solicitudes})
+    solicitudes = Crearsol.objects.all()
 
+    filtro = request.GET.get('filtro', None)
+
+    #filtr0 según el parámetro 'filtro'
+    if filtro == 'nuevas':
+        solicitudes = Crearsol.objects.filter(estado='Nueva')
+    elif filtro == 'validadas':
+        solicitudes = Crearsol.objects.filter(estado='Validada')
+    elif filtro == 'eliminadas':
+        solicitudes = Crearsol.objects.filter(estado='Eliminada')
+    else:
+        solicitudes = Crearsol.objects.all()
+
+    # Configura la paginación
+    paginator = Paginator(solicitudes, 10)  # 10 solicitudes por página
+    page = request.GET.get('page', 1)
+    solicitudes_paginadas = paginator.get_page(page)
+
+    # Envia las solicitudes paginadas a la plantilla
+    context = {'solicitudes': solicitudes_paginadas, 'filtro_actual': filtro}
+    return render(request, 'account/adm/news_validation.html', context)
 
 # User Functions 
 #==============================================================
@@ -242,12 +263,13 @@ def crearsolicitud(request): # usuario solicitud de publicacion de noticia
         form = SolPublicacionForm(request.POST)
         if form.is_valid():
             solnoticias = form.save(commit=False)
-            solnoticias.usuario = request.user
+            usuario = request.user
+            solnoticias.usersol = usuario
             solnoticias.save()
-            return redirect('account/users/news_publish.html')  
+        return redirect(request, 'account/users/news_publish.html')  
     else:
         form = SolPublicacionForm()
-    return render(request, 'account/users/news_publish.html', {'form': form}) 
+    return render(request, 'account/users/news_publish.html', {'form': form})    
 
 
 

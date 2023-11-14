@@ -4,7 +4,7 @@ from .models import Post, CustomUser, JuntaDeVecinos
 from datetime import datetime 
 from django import forms
 from .models import Publicacion
-from .models import crearsol
+from .models import Crearsol
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -53,7 +53,7 @@ class PublicacionForm(forms.ModelForm):
 
 class SolPublicacionForm(forms.ModelForm):
     class Meta:
-        model = crearsol
+        model = Crearsol
         fields = ['contenido']
         exclude = ['fecha_publicacion'] 
 

@@ -139,7 +139,7 @@ class Publicacion(models.Model): # Este modelo representa una publicación de no
 # User Functions 
 #==============================================================
 
-class crearsol(models.Model):
+class Crearsol(models.Model):
     ESTADO_CHOICES = [
         ('nueva', 'Nueva'),
         ('eliminada', 'Eliminada'),
@@ -148,6 +148,10 @@ class crearsol(models.Model):
     estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='nueva')
     fecha_publicacion = models.DateTimeField(auto_now_add=True) 
     contenido = models.TextField()
+    usersol = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def formatted_fecha_publicacion(self):
+        return self.fecha_publicacion.strftime("%d-%m-%Y %H:%M:%S")
 
 class Noticia(models.Model):
     contenido = models.TextField()
