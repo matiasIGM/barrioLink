@@ -25,6 +25,8 @@ import os
 from datetime import date
 import uuid
 import qrcode
+from django.views.generic import TemplateView, ListView, UpdateView
+from django.urls import reverse_lazy
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -352,23 +354,21 @@ def adminConfigPlaces(request):
   
     return render(request, 'account/adm/reservation_config.html', context)
 
-#Registrar Espacios Comunitarios
-def registerPlace(request):
-    form = CommunitySpaceForm()
-    
-    if request.method == 'POST':
-        form = CommunitySpaceForm(request.POST)
-        if form.is_valid():
-            form.save()
-            messages.success(request, 'Espacio registrado!')
-            return redirect('/placesConfig/')
-        else:
-            messages.error(request, 'Error en el formulario. Por favor, verifica los datos.')
-    else:
-        form = CommunitySpaceForm()
 
-    return render(request, 'account/adm/reservation_config.html', {'form': form})
 
+def editCommunitySpace(request, space_id):
+    space = get_object_or_404(CommunitySpace, id=space_id)
+    form = CommunitySpaceForm(instance=space)
+    return render(request, 'account/adm/edit_form.html', {'form': form, 'space_id': space_id})
+
+
+def updateCommunitySpace(request, space_id):
+    space = get_object_or_404(CommunitySpace, id=space_id)
+    form = CommunitySpaceForm(request.POST, instance=space)
+    if form.is_valid():
+        form.save()
+        return JsonResponse({'success': 'Space updated successfully'})
+    return JsonResponse({'error': 'Invalid form data'})
 
 #Eliminar Espacios Comunitarios
 def deletePlace(request, id):

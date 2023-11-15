@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="modal" id="modal-dialog">
+    <div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title">Modal Dialog</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+        </div>
+        <div class="modal-body">
+            <form id="edit-form" method="post" action="{% url 'update_space' space_id=space_id %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Guardar cambios" class="btn btn-primary">
+            </form>
+        </div>
+        <div class="modal-footer">
+            <a href="placesConf/" class="btn btn-white">Close</a>
+            <a href="placesConf/" class="btn btn-success">Action</a>
+        </div>
+    </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#modal-dialog').modal('show');
+    });
+</script>
+{% endblock %}
+
+
+

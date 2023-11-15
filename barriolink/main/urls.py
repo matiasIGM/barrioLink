@@ -32,9 +32,9 @@ urlpatterns = [
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
      path('placesConfig/deletePlace/<id>', views.deletePlace,  name='delete_places'),
-     path('placesConfig/register/', views.registerPlace, name='register_place'),
+
      path('placesConfig/updatePlace/<id>', views.deletePlace,  name='update_places'),
-     path('placesConfig/update/<int:id>/', views.updatePlace, name='update_place'),
+
 
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),
@@ -50,5 +50,9 @@ urlpatterns = [
      path('admNewspublish/', views.publicacion, name='news_publish'), # URL para el formulario publicaciones
      path('admValpublish/', views.validationoticias, name='news_validation'), # URL para el formulario validacion publicaciones
      path('solnoticiasuser/', views.solnoticias, name='news_publish'), # solicitud user noticia
+     
+ 
+    path('edit-space/<int:space_id>/', views.editCommunitySpace, name='edit_space'),
+    path('update-space/<int:space_id>/', views.updateCommunitySpace, name='update_space'),
 
 ]

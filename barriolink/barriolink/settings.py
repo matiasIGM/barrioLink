@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'crispy_bootstrap5', 
     'telegram',
     'reportlab',
+    'certificates',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"

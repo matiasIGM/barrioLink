@@ -42,7 +42,7 @@
                                 <td>{{ space.description }}</td>
                                 <td>{{ space.max_capacity }}</td>
                                 <td class="with-btn" nowrap="">
-                                    <a href="{% url 'edit_space' space_id=space.id %}" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
+                                    <a href="#modal-dialog"  data-bs-toggle="modal" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
                                     <a href="{% url 'delete_places' id=space.id %}" class="btn btn-sm btn-danger w-70px">Eliminar</a>
                                      <!-- Agrega este bloque para imprimir el ID -->
                                     {% if space.id %}
@@ -105,7 +105,11 @@
                         </div>
                     </form> {% endcomment %}
 
-
+                    <form id="edit-form" method="post" action="{% url 'update_space' %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                    </form>
                 </div>
                 <!-- END panel-body -->
             </div>
@@ -155,7 +159,7 @@
     </div> {% endcomment %}
 </div>
 
-{% comment %} <script>
+<script>
     // Puedes ajustar este código según la estructura de tu modal
     $(document).ready(function() {
         $('#updatePlaceModal').modal('show');
@@ -180,6 +184,6 @@
             });
         });
     });
-</script> {% endcomment %}
+</script>
 {% endblock content %}
 
