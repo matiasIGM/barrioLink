@@ -56,6 +56,7 @@ class CustomUserAdminRegistrationForm(forms.ModelForm):
         model = CustomUser
         fields = ["username", "email", "password", "is_hoa_admin"]
 
+#Configuracion de Junta de Vecinos 
 class JuntaDeVecinosForm(forms.ModelForm):
     class Meta:
         model = JuntaDeVecinos

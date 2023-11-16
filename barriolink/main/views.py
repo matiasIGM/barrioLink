@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistra
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, Publicacion  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, JuntaDeVecinos  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -340,7 +340,37 @@ def hoaConfig(request):
 
     # Renderizar la página con el contexto
     return render(request, 'account/adm/hoa_config.html', context)
-   
+
+@login_required
+def editHoaConfig(request, hoa_id):
+    # Obtener los datos de la Junta de Vecinos para editar
+    hoa_data = get_object_or_404(JuntaDeVecinos, hoa_id=hoa_id)
+    return render(request, 'account/adm/hoa_config.html', {'hoa_data': hoa_data, 'editable': True})
+
+@login_required
+def updateHoaConfig(request, hoa_id):
+    # Obtener los datos de la Junta de Vecinos a actualizar
+    hoa_data = get_object_or_404(JuntaDeVecinos, hoa_id=hoa_id)
+
+    if request.method == 'POST':
+        # Procesar el formulario con los datos actualizados
+        form = JuntaDeVecinosForm(request.POST, instance=hoa_data)
+        if form.is_valid():
+            # Guardar los cambios si el formulario es válido
+            form.save()
+            # Mostrar mensaje de éxito
+            messages.success(request, 'Cambios guardados exitosamente.')
+            # Redirigir a la vista de configuración
+            return redirect('hoa_config')
+        else:
+            # Mostrar mensaje de error si hay problemas en el formulario
+            messages.error(request, 'Error en el formulario. Por favor, corrige los errores.')
+    else:
+        # Formulario para mostrar los datos actuales
+        form = JuntaDeVecinosForm(instance=hoa_data)
+
+    return render(request, 'account/adm/hoa_config.html', {'hoa_data': hoa_data, 'editable': True, 'form': form})
+#===================================================================================================
    
 #Administración de espacios comunes.
 

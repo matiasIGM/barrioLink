@@ -35,6 +35,10 @@ urlpatterns = [
 
      path('placesConfig/updatePlace/<id>', views.deletePlace,  name='update_places'),
 
+     #Mantenedores configuración junta de vecinos
+     path('hoaConfig/', views.hoaConfig, name='admin_hoa'),
+     path('edit-hoa-config/<int:hoa_id>/', views.editHoaConfig, name='edit_hoa_data'),
+     path('update-hoa-config/<int:hoa_id>/', views.updateHoaConfig, name='update_hoa_data'),
 
       path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),
