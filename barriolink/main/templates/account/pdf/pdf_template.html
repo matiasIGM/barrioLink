@@ -70,7 +70,7 @@
             <strong>Telefono : </strong>{{ result.junta_contact_phone }} <br>
             <strong>Email : </strong>{{ result.contact_email }}
         </div>
-        <img id="logo" src="http://localhost:8000/{{ result.logo }}" alt="Logo">
+        <img id="logo" src="{{ result.logo.url }}" alt="Logo">
     </div>
 
     <!-- Content for Static Frame 'content_frame' -->
