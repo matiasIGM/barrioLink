@@ -1,6 +1,8 @@
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_view
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     
@@ -59,4 +61,4 @@ urlpatterns = [
     path('edit-space/<int:space_id>/', views.editCommunitySpace, name='edit_space'),
     path('update-space/<int:space_id>/', views.updateCommunitySpace, name='update_space'),
 
-]
+] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

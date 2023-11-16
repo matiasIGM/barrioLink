@@ -42,15 +42,16 @@ class CustomUser(AbstractUser):# Define una clase CustomUser que extiende Abstra
 class JuntaDeVecinos(models.Model):
     
     hoa_id = models.AutoField(primary_key=True)
-    rut = models.CharField(max_length=12)
+    rut = models.CharField(max_length=12, blank=True)
     hoa_name = models.CharField(max_length=70, blank=True)
-    legal_address = models.CharField(max_length=255)
+    legal_address = models.CharField(max_length=255, blank=True)
     contact_phone = models.CharField(max_length=20, blank=True, null=True)
     contact_email = models.EmailField(blank=True, null=True)
     foundation_date = models.DateField(blank=True, null=True)
-    logo_symbol = models.CharField(max_length=255, blank=True, null=True)
-    legal_representative_name = models.CharField(max_length=255)
-    legal_representative_rut = models.CharField(max_length=12)
+    legal_representative_name = models.CharField(max_length=255, blank=True)
+    legal_representative_rut = models.CharField(max_length=12, blank=True)
+    logo_symbol = models.ImageField(upload_to='uploads/logos/', blank=True)
+    signature_img = models.ImageField(upload_to='uploads/signatures/', blank=True)
 
     
     def __str__(self):

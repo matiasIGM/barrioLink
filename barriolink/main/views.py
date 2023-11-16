@@ -27,6 +27,7 @@ import uuid
 import qrcode
 from django.views.generic import TemplateView, ListView, UpdateView
 from django.urls import reverse_lazy
+from django.template import defaultfilters
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -185,6 +186,8 @@ class ViewPDF(View):
             result["junta_email"] = junta_data.contact_email
             result["rep_name"] = junta_data.legal_representative_name
             result["rep_rut"] = junta_data.legal_representative_rut
+            result["signature"] = junta_data.signature_img
+            result["logo"] = junta_data.logo_symbol
              
         else:
             # Set como no disponible si los datos no existen o faltan
@@ -201,6 +204,7 @@ class ViewPDF(View):
         result["user_numero_domicilio"] = user_data.numero_domicilio
         result["user_celular"] = user_data.celular
         result["current_date"] = date.today()
+        
 
         # Generar un UUID4
         result["uuid"] = str(uuid.uuid4())
@@ -345,30 +349,34 @@ def hoaConfig(request):
 def editHoaConfig(request, hoa_id):
     # Obtener los datos de la Junta de Vecinos para editar
     hoa_data = get_object_or_404(JuntaDeVecinos, hoa_id=hoa_id)
+    hoa_data.formatted_foundation_date = defaultfilters.date(hoa_data.foundation_date, "d-m-Y")
     return render(request, 'account/adm/hoa_config.html', {'hoa_data': hoa_data, 'editable': True})
 
 @login_required
 def updateHoaConfig(request, hoa_id):
     # Obtener los datos de la Junta de Vecinos a actualizar
     hoa_data = get_object_or_404(JuntaDeVecinos, hoa_id=hoa_id)
-
     if request.method == 'POST':
+        
         # Procesar el formulario con los datos actualizados
         form = JuntaDeVecinosForm(request.POST, instance=hoa_data)
+        
         if form.is_valid():
-            # Guardar los cambios si el formulario es válido
+            
+                    # Guardar los cambios si el formulario es válido
             form.save()
-            # Mostrar mensaje de éxito
+                    # Mostrar mensaje de éxito
             messages.success(request, 'Cambios guardados exitosamente.')
-            # Redirigir a la vista de configuración
-            return redirect('hoa_config')
+                    # Redirigir a la vista de configuración
+            return redirect('admin_hoa')
         else:
             # Mostrar mensaje de error si hay problemas en el formulario
+            print("Errores en el formulario:", form.errors)
             messages.error(request, 'Error en el formulario. Por favor, corrige los errores.')
     else:
-        # Formulario para mostrar los datos actuales
-        form = JuntaDeVecinosForm(instance=hoa_data)
-
+            # Formulario para mostrar los datos actuales
+            form = JuntaDeVecinosForm(instance=hoa_data)
+    
     return render(request, 'account/adm/hoa_config.html', {'hoa_data': hoa_data, 'editable': True, 'form': form})
 #===================================================================================================
    

@@ -29,6 +29,7 @@
                     <table class="table table-striped mb-0 align-middle">
                         <thead>
                             <tr>
+                                <th>Estado</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Capacidad Máxima</th>
@@ -38,6 +39,11 @@
                         <tbody> 
                             {% for space in community_spaces %}
                             <tr>
+                                <td>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                                    </div>
+                                </td>
                                 <td>{{ space.name }}</td>
                                 <td>{{ space.description }}</td>
                                 <td>{{ space.max_capacity }}</td>

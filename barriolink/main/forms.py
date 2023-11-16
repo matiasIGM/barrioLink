@@ -62,6 +62,10 @@ class JuntaDeVecinosForm(forms.ModelForm):
         model = JuntaDeVecinos
         fields = '__all__'
         
+        widgets = {
+            'foundation_date': forms.DateInput(attrs={'type': 'date'}),
+        }
+        
         
 #Espacio comunitarios        
 class CommunitySpaceForm(forms.ModelForm):
