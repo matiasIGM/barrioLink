@@ -6,19 +6,61 @@
     <div class="modal-dialog">
     <div class="modal-content">
         <div class="modal-header">
-        <h4 class="modal-title">Modal Dialog</h4>
+        <h4 class="modal-title">Actualización de Espacio Comunitario</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
         </div>
         <div class="modal-body">
-            <form id="edit-form" method="post" action="{% url 'update_space' space_id=space_id %}">
+            {% comment %} <form id="edit-form" method="post" action="{% url 'update_space' space_id=space_id %}">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Guardar cambios" class="btn btn-primary">
-            </form>
+            </form> {% endcomment %}
+                <br>
+            <div class="panel-body">
+                <form id="edit-form" method="post" action="{% url 'update_space' space_id=space_id %}">
+                    {% csrf_token %}
+                    
+                    <div class="row mb-15px">
+                        <label for="{{ form.name.id_for_label }}" class="form-label col-form-label col-md-3">Nombre Espacio</label>
+                        <div class="col-md-9">
+                            <input type="text" class="form-control mb-5px" placeholder="" value="{{ form.name.value }}" name="{{ form.name.name }}" >
+                            {% if form.name.errors %}
+                                <label class="text-danger">{{ form.name.errors.0 }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-15px">
+                        <label for="{{ form.description.id_for_label }}" class="form-label col-form-label col-md-3">Descripción</label>
+                        <div class="col-md-9">
+                            <textarea class="form-control" rows="3" name="{{ form.description.name }}">{{ form.description.value }}</textarea>
+                            {% if form.description.errors %}
+                                <label class="text-danger">{{ form.description.errors.0 }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-15px">
+                        <label for="{{ form.max_capacity.id_for_label }}" class="form-label col-form-label col-md-3">Capacidad</label>
+                        <div class="col-md-9">
+                            <input class="form-control"  type="number"  value="{{ form.max_capacity.value }}"  name="{{ form.max_capacity.name }}">
+                            {% if form.max_capacity.errors %}
+                                <label class="text-danger">{{ form.max_capacity.errors.0 }}</label>
+                            {% endif %}
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-15px">
+                        <!-- Agrega aquí otros campos personalizados según sea necesario -->
+                    </div>
+                    
+                    <input type="submit" value="Guardar cambios" class="btn btn-primary">
+                </form>
+            </div>
         </div>
         <div class="modal-footer">
-            <a href="placesConf/" class="btn btn-white">Close</a>
-            <a href="placesConf/" class="btn btn-success">Action</a>
+            <a href="placesConf/" class="btn btn-success">Cerrar</a>
+            <a href="placesConf/" class="btn btn-danger">Cancelar</a>
         </div>
     </div>
     </div>
@@ -31,6 +73,5 @@
     });
 </script>
 {% endblock %}
-
 
 

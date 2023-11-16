@@ -367,8 +367,9 @@ def updateCommunitySpace(request, space_id):
     form = CommunitySpaceForm(request.POST, instance=space)
     if form.is_valid():
         form.save()
-        return JsonResponse({'success': 'Space updated successfully'})
+        return redirect('/placesConfig/')
     return JsonResponse({'error': 'Invalid form data'})
+
 
 #Eliminar Espacios Comunitarios
 def deletePlace(request, id):
