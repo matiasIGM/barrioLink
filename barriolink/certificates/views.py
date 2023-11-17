@@ -22,8 +22,8 @@ import os
 from datetime import date
 import uuid
 import qrcode
+import base64
 
-# Create your views here.
 
 
 
@@ -31,6 +31,16 @@ import qrcode
 #==============================================================
 def userDocuments(request):
     return render(request, 'account/users/documents.html')
+
+def adminDocuments(request):
+    return render(request, 'account/adm/documents.html')
+
+#Generación de certificado de residencia
+#==============================================================
+#Ruta de template html base para renderizar el PDF
+#==============================================================
+def validator(request):
+    pass
 
 def adminDocuments(request):
     return render(request, 'account/adm/documents.html')
@@ -99,6 +109,8 @@ class ViewPDF(View):
             result["junta_email"] = junta_data.contact_email
             result["rep_name"] = junta_data.legal_representative_name
             result["rep_rut"] = junta_data.legal_representative_rut
+            result["signature"] = junta_data.signature_img
+            result["logo"] = junta_data.logo_symbol
              
         else:
             # Set como no disponible si los datos no existen o faltan
@@ -115,6 +127,7 @@ class ViewPDF(View):
         result["user_numero_domicilio"] = user_data.numero_domicilio
         result["user_celular"] = user_data.celular
         result["current_date"] = date.today()
+        
 
         # Generar un UUID4
         result["uuid"] = str(uuid.uuid4())
@@ -124,7 +137,7 @@ class ViewPDF(View):
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
-            box_size=10,
+            box_size=3,
             border=4,
         )
         qr.add_data(qr_data)
@@ -132,7 +145,7 @@ class ViewPDF(View):
         img = qr.make_image(fill_color="black", back_color="white")
         qr_image = BytesIO()
         img.save(qr_image, format='PNG')
-        result["qr_code"] = qr_image.getvalue()
+        result["qr_code"] = base64.b64encode(qr_image.getvalue()).decode('utf-8')  # Convierte a base64
 
          # Generar el certificado PDF
         template = get_template(os.path.join('account', 'pdf', 'pdf_template.html'))
@@ -155,6 +168,21 @@ class ViewPDF(View):
         return None
     
         
+
+class ViewPDF1(View):
+    def get(self, request, *args, **kwargs):
+        data = hoaConfig(request)
+        template = get_template(os.path.join('account', 'pdf', 'pdf_template.html'))
+        context = {'data': data}  # Crear un diccionario con la clave 'data'
+        print(context)
+        html = template.render(context)
+        response = BytesIO()
+        pdf = pisa.pisaDocument(BytesIO(html.encode("ISO-8859-1")), response)
+
+        if not pdf.err:
+            return HttpResponse(response.getvalue(), content_type='application/pdf')
+
+        return None
 # class ViewPDF(View):
 #     def get(self, request, *args, **kwargs):
 #         pdf = render_to_pdf('pdf_template.html', data)

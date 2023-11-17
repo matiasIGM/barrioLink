@@ -50,6 +50,7 @@
                                 <td class="with-btn" nowrap="">
                                     <a href="{% url 'edit_space' space_id=space.id %}" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
                                     <a href="{% url 'delete_places' id=space.id %}" class="btn btn-sm btn-danger w-70px">Eliminar</a>
+                                    
                                      <!-- Agrega este bloque para imprimir el ID -->
                                     {% if space.id %}
                                         {{ space.id }}

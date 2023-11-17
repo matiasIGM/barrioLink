@@ -12,19 +12,23 @@
                 width: 512pt;
                 top: 50pt;
                 height: 100pt;
+                
             }
             @frame content_frame {          
                 left: 50pt; 
                 width: 512pt; 
                 top: 160pt; 
-                height: 552pt; 
+                height: 450pt;
+                
+                 
             }
             @frame footer_frame {           
                 -pdf-frame-content: footer_content;
                 left: 50pt; 
                 width: 512pt; 
-                top: 772pt; 
-                height: 80pt;
+                top: 630pt; /* Posiciona el footer debajo del content_frame con un 5% más de altura */
+                height: 525pt; /* Aumenta la altura del footer en un 5% */
+                 
             }
         }
 
@@ -55,7 +59,17 @@
 
         #footer_content {
             font-size: 10px;
+            text-align: left;
+            
+        }
+        #footer_qr_code {
             text-align: center;
+            text-align: left;
+            margin-top: 10px; /* ajusta el margen según sea necesario */
+        }
+        #footer_qr_code img {
+            max-width: 300px; /*  ancho máximo del QR Code */
+            max-height: 300px; /*  altura máxima del QR Code */
         }
     </style>
 </head>
@@ -95,9 +109,19 @@
         </p>
     </div>
 
-    <!-- Content for Static Frame 'footer_frame' -->
-    Verification Code: {{ verification_code }}
-    <div id="footer_content">(c) - page <pdf:pagenumber> of <pdf:pagecount></div>
 
+
+     <!-- Content for Static Frame 'footer_frame' -->
+     <br>
+     <div id="footer_content">
+        <div>QR Verificación:</div>
+        <div id="footer_qr_code">
+            <img src="data:image/png;base64,{{ result.qr_code }}" alt="QR Code">
+        </div>
+        <div>Código de verificación:</div>
+        <div>{{ result.uuid }}</div>
+        <div>Verifique la validez de este documento en: 
+        <a href="https://barriolink.online/validador/{{ result.uuid }}">https://barriolink.online/validador</a></div>
+    </div>
 </body>
 </html>

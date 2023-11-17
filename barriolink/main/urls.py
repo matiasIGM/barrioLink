@@ -14,13 +14,6 @@ urlpatterns = [
      path('profile/', views.profileUser, name='profile'),
      path('userProfileConfig/', views.userProfileConfig, name='user_profile_config'),
      
-     path('Admindocuments/', views.adminDocuments, name='documents'),
-     path('documents/', views.userDocuments, name='documents'),
-     
-     
-     path('pdf_view/', views.ViewPDF.as_view(), name="pdf_view"),
-     path('pdf_download/', views.DownloadPDF.as_view(), name="pdf_download"),
-     
      path('userNews/', views.newsPublish, name='users_news'),
      path('userProfile/', views.userProfile, name='user_profile'),
      path('adminProfileConfig/', views.adminProfileConfig, name='user_profile_config'),
