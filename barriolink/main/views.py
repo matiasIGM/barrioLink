@@ -234,17 +234,17 @@ def validationoticias(request):
     filtro = request.GET.get('filtro', None)
 
     #filtr0 según el parámetro 'filtro'
-    if filtro == 'nuevas':
-        solicitudes = Crearsol.objects.filter(estado='Nueva')
-    elif filtro == 'validadas':
-        solicitudes = Crearsol.objects.filter(estado='Validada')
-    elif filtro == 'eliminadas':
-        solicitudes = Crearsol.objects.filter(estado='Eliminada')
+    if filtro == 'nueva':
+        solicitudes = Crearsol.objects.filter(estado='nueva')
+    elif filtro == 'validada':
+        solicitudes = Crearsol.objects.filter(estado='validada')
+    elif filtro == 'eliminada':
+        solicitudes = Crearsol.objects.filter(estado='eliminada')
     else:
         solicitudes = Crearsol.objects.all()
 
     # Configura la paginación
-    paginator = Paginator(solicitudes, 10)  # 10 solicitudes por página
+    paginator = Paginator(solicitudes, 5)  # 10 solicitudes por página
     page = request.GET.get('page', 1)
     solicitudes_paginadas = paginator.get_page(page)
 
@@ -266,7 +266,9 @@ def crearsolicitud(request): # usuario solicitud de publicacion de noticia
             usuario = request.user
             solnoticias.usersol = usuario
             solnoticias.save()
-        return redirect(request, 'account/users/news_publish.html')  
+            # Limpiar el formulario
+            #form = SolPublicacionForm()
+            return render(request, 'account/users/news_publish.html')  
     else:
         form = SolPublicacionForm()
     return render(request, 'account/users/news_publish.html', {'form': form})    

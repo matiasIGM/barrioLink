@@ -5,7 +5,6 @@
 
 <!-- BEGIN #content -->
 <!-- account/adm/news_validation.html -->
-
 <!-- ... tu código HTML anterior ... -->
 
 <h1 class="page-header mb-0" style="margin-left: 7cm;">Solicitudes</h1>
@@ -23,19 +22,8 @@
     </ul>
     <div class="tab-content p-3">
         <div class="tab-pane fade active show" id="allTab" role="tabpanel">
-            <!-- BEGIN input-group -->
+            <!-- 1 Pestaña Todas -->
             <div class="input-group mb-3">
-                <button class="btn btn-white dropdown-toggle" type="button" data-bs-toggle="dropdown">
-                    <span class="d-none d-md-inline">Filtro</span>
-                    <span class="d-inline d-md-none"><i class="fa fa-credit-card"></i></span>
-                    <b class="caret"></b>
-                </button>
-                <div class="dropdown-menu">
-                    <a class="dropdown-item" href="?filtro=nuevas">Nuevas</a>
-                    <a class="dropdown-item" href="?filtro=validadas">Validadas</a>
-                    <a class="dropdown-item" href="?filtro=eliminadas">Eliminadas</a>
-                    <div role="separator" class="dropdown-divider"></div>
-                </div>
                 <div class="flex-fill position-relative">
                     <div class="input-group">
                         <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0"
@@ -55,21 +43,20 @@
                             <th>Estado</th>
                             <th>Fecha</th>
                             <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Ver información</th>
+                            <th>Información</th>
+                            <th>Opción</th>
                         </tr>
                     </thead>
                     <tbody>
                         {% for solicitud in solicitudes %}
                         <tr>
                             <td><span
-                                    class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
-                                        class="fa fa-circle fs-9px fa-fw me-5px"></i> Nueva</span></td>
+                                class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
+                                    class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
                             <td>{{ solicitud.formatted_fecha_publicacion }}</td>
                             <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
                             <td>{{ solicitud.contenido }}</td>
-                            <td><a href="#modal-dialog" class="btn btn-sm btn-success w-100px"
-                                    data-bs-toggle="modal">ver</a></td>
+                            <td><a href="#modal-dialog" class="btn btn-sm btn-info w-100px ver-btn" data-bs-toggle="modal" data-solicitud="{{ solicitud.contenido }}">ver</a></td>
                         </tr>
                         {% endfor %}
                     </tbody>
@@ -79,8 +66,7 @@
             <!-- END table -->
             <div class="d-md-flex align-items-center">
                 <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
-                    Mostrando {{ solicitudes.start_index }} de {{ solicitudes.end_index }} de {{
-                    solicitudes.paginator.count }} filas
+                    Mostrando {{ solicitudes.start_index }} de {{ solicitudes.end_index }} de {{ solicitudes.paginator.count }} filas
                 </div>
                 <ul class="pagination mb-0 justify-content-center">
                     {% if solicitudes.has_previous %}
@@ -106,10 +92,228 @@
                 </ul>
             </div>
         </div>
+        <div class="tab-pane fade" id="publishedTab" role="tabpanel">
+            <!-- 2 Pestaña nuevas -->
+            <div class="input-group mb-3">
+                <div class="flex-fill position-relative">
+                    <div class="input-group">
+                        <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0"
+                            style="z-index: 1;">
+                            <i class="fa fa-search opacity-5"></i>
+                        </div>
+                        <input type="text" class="form-control px-35px bg-light" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>
+            <!-- END input-group -->
+            <div class="table-responsive mb-3">
+                <table class="table table-hover table-panel text-nowrap align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Información</th>
+                            <th>Validar</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for solicitud in solicitudes %}
+                        {% if solicitud.estado == 'nueva' %}
+                        <tr>
+                            <td><span
+                                class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
+                                    class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
+                            <td>{{ solicitud.formatted_fecha_publicacion }}</td>
+                            <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
+                            <td>{{ solicitud.contenido }}</td>
+                            <td><button type="submit" class="btn btn-sm btn-success w-100px">Validar</button></td>
+                            <td><button type="submit" class="btn btn-sm btn-danger w-100px">Eliminar</button></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <!-- END table -->
+            <div class="d-md-flex align-items-center">
+                <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+                    Mostrando {{ solicitudes.start_index }} de {{ solicitudes.end_index }} de {{ solicitudes.paginator.count }} filas
+                </div>
+                <ul class="pagination mb-0 justify-content-center">
+                    {% if solicitudes.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Primera</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.previous_page_number }}">Anterior</a></li>
+                    {% endif %}
+
+                    {% for i in solicitudes.paginator.page_range %}
+                    {% if solicitudes.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if solicitudes.has_next %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.next_page_number }}">Proxima</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.paginator.num_pages }}">Ultima</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="expiredTab" role="tabpanel">
+            <!-- 3 Pestaña validadas -->
+            <div class="input-group mb-3">
+                <div class="flex-fill position-relative">
+                    <div class="input-group">
+                        <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0"
+                            style="z-index: 1;">
+                            <i class="fa fa-search opacity-5"></i>
+                        </div>
+                        <input type="text" class="form-control px-35px bg-light" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>
+            <!-- END input-group -->
+            <div class="table-responsive mb-3">
+                <table class="table table-hover table-panel text-nowrap align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Información</th>
+                            <th>Opción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for solicitud in solicitudes %}
+                        {% if solicitud.estado == 'validada' %}
+                        <tr>
+                            <td><span
+                                class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
+                                    class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
+                            <td>{{ solicitud.formatted_fecha_publicacion }}</td>
+                            <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
+                            <td>{{ solicitud.contenido }}</td>
+                            <td><button type="submit" class="btn btn-sm btn-success w-100px">Publicar</button></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <!-- END table -->
+            <div class="d-md-flex align-items-center">
+                <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+                    Mostrando {{ solicitudes.start_index }} de {{ solicitudes.end_index }} de {{ solicitudes.paginator.count }} filas
+                </div>
+                <ul class="pagination mb-0 justify-content-center">
+                    {% if solicitudes.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Primera</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.previous_page_number }}">Anterior</a></li>
+                    {% endif %}
+
+                    {% for i in solicitudes.paginator.page_range %}
+                    {% if solicitudes.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if solicitudes.has_next %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.next_page_number }}">Proxima</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.paginator.num_pages }}">Ultima</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="deletedTab" role="tabpanel">
+            <!-- 4 Pestaña eliminar -->           
+            <div class="input-group mb-3">
+                <div class="flex-fill position-relative">
+                    <div class="input-group">
+                        <div class="input-group-text position-absolute top-0 bottom-0 bg-none border-0 start-0"
+                            style="z-index: 1;">
+                            <i class="fa fa-search opacity-5"></i>
+                        </div>
+                        <input type="text" class="form-control px-35px bg-light" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>
+            <!-- END input-group -->
+            <div class="table-responsive mb-3">
+                <table class="table table-hover table-panel text-nowrap align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th>Estado</th>
+                            <th>Fecha</th>
+                            <th>Nombre</th>
+                            <th>Información</th>
+                            <th>Opción</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for solicitud in solicitudes %}
+                    {% if solicitud.estado == 'eliminada' %}
+                        <tr>
+                            <td><span
+                                class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
+                                    class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
+                            <td>{{ solicitud.formatted_fecha_publicacion }}</td>
+                            <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
+                            <td>{{ solicitud.contenido }}</td>
+                            <td><button type="submit" class="btn btn-sm btn-warning w-100px">Recuperar</button></td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <br>
+            <!-- END table -->
+            <div class="d-md-flex align-items-center">
+                <div class="me-md-auto text-md-left text-center mb-2 mb-md-0">
+                    Mostrando {{ solicitudes.start_index }} de {{ solicitudes.end_index }} de {{ solicitudes.paginator.count }} filas
+                </div>
+                <ul class="pagination mb-0 justify-content-center">
+                    {% if solicitudes.has_previous %}
+                    <li class="page-item"><a class="page-link" href="?page=1">Primera</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.previous_page_number }}">Anterior</a></li>
+                    {% endif %}
+
+                    {% for i in solicitudes.paginator.page_range %}
+                    {% if solicitudes.number == i %}
+                    <li class="page-item active"><span class="page-link">{{ i }}</span></li>
+                    {% else %}
+                    <li class="page-item"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+
+                    {% if solicitudes.has_next %}
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.next_page_number }}">Proxima</a></li>
+                    <li class="page-item"><a class="page-link"
+                            href="?page={{ solicitudes.paginator.num_pages }}">Ultima</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>       
     </div>
 </div>
-<!-- END #content -->
-<div class="modal fade" id="modal-dialog">
+<!-- Modal allTab -->
+<div class="modal fade" id="modal-dialog" tabindex="-1" aria-labelledby="modal-dialog-label" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -119,17 +323,30 @@
             <div class="modal-body">
                 <div class="alert alert-danger">
                     <h5><i class="fa fa-info-circle"></i> Información de noticia</h5>
-                    <p></p>
+                    <p id="solicitud-contenido"></p>
                 </div>
             </div>
             <div class="modal-footer">
-                <a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Validar</a>
-                <a href="javascript:;" class="btn btn-danger" data-bs-dismiss="modal">Eliminar</a>
+                <a href="javascript:;" class="btn btn-danger" data-bs-dismiss="modal">Cerrar</a>
             </div>
         </div>
     </div>
 </div>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Manejar clic en los botones del primer modal
+    var verButtons = document.querySelectorAll('.ver-btn');
+    verButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var contenido = button.getAttribute('data-solicitud');
+            var modalContent = document.getElementById('modal-dialog').querySelector('.modal-body p');
+            modalContent.textContent = contenido;
+        });
+    });
+});
+</script>
 
-<!-- ... el resto de tu código HTML ... -->
+
+
 
 {% endblock content %}
