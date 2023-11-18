@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, PostForm, RegisterForm2, CustomUserAdminRe
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, Crearsol  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, JuntaDeVecinos, Comuna, Region, Crearsol
 from django.urls import reverse
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, JsonResponse
@@ -21,6 +21,8 @@ from django.shortcuts import render, redirect
 from .forms import PublicacionForm, SolPublicacionForm
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
 
 
 
@@ -251,6 +253,18 @@ def validationoticias(request):
     # Envia las solicitudes paginadas a la plantilla
     context = {'solicitudes': solicitudes_paginadas, 'filtro_actual': filtro}
     return render(request, 'account/adm/news_validation.html', context)
+
+def cambiar_estado(request, solicitud_id, nuevo_estado):
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
+    solicitud.estado = nuevo_estado
+    solicitud.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def recuperar_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
+    solicitud.estado = 'nueva'
+    solicitud.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 # User Functions 
 #==============================================================

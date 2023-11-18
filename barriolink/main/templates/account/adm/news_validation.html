@@ -128,8 +128,8 @@
                             <td>{{ solicitud.formatted_fecha_publicacion }}</td>
                             <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
                             <td>{{ solicitud.contenido }}</td>
-                            <td><button type="submit" class="btn btn-sm btn-success w-100px">Validar</button></td>
-                            <td><button type="submit" class="btn btn-sm btn-danger w-100px">Eliminar</button></td>
+                            <td><a href="{% url 'cambiar_estado' solicitud.id 'validada' %}" class="btn btn-sm btn-success w-100px">Validar</a></td>
+                            <td><a href="{% url 'cambiar_estado' solicitud.id 'eliminada' %}" class="btn btn-sm btn-danger w-100px">Eliminar</a></td>
                         </tr>
                         {% endif %}
                     {% endfor %}
@@ -201,7 +201,7 @@
                             <td>{{ solicitud.formatted_fecha_publicacion }}</td>
                             <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
                             <td>{{ solicitud.contenido }}</td>
-                            <td><button type="submit" class="btn btn-sm btn-success w-100px">Publicar</button></td>
+                            <td><a href="" class="btn btn-sm btn-success w-100px">Publicar</a></td>
                         </tr>
                         {% endif %}
                     {% endfor %}
@@ -273,7 +273,7 @@
                             <td>{{ solicitud.formatted_fecha_publicacion }}</td>
                             <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
                             <td>{{ solicitud.contenido }}</td>
-                            <td><button type="submit" class="btn btn-sm btn-warning w-100px">Recuperar</button></td>
+                            <td><a href="{% url 'recuperar_solicitud' solicitud.id %}" class="btn btn-sm btn-warning w-100px">Recuperar</a></td>
                         </tr>
                         {% endif %}
                     {% endfor %}

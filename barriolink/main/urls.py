@@ -37,4 +37,7 @@ urlpatterns = [
      path('admValpublish/', views.validationoticias, name='news_validation'), # URL para el formulario validacion publicaciones
      path('solnoticiasuser/', views.solnoticias, name='news_publish'), # solicitud user noticia
      path('crearsolicitud/', views.crearsolicitud, name='news_publish'),
+     path('cambiar_estado/<int:solicitud_id>/<str:nuevo_estado>/', views.cambiar_estado, name='cambiar_estado'),
+     path('recuperar_solicitud/<int:solicitud_id>/', views.recuperar_solicitud, name='recuperar_solicitud'),
+
 ]
