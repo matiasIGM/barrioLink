@@ -1,7 +1,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion
+from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion
 from datetime import datetime 
 from django import forms
 from .models import Publicacion
@@ -50,11 +50,6 @@ class RegisterForm2(forms.ModelForm):
         fields = ["numero_documento","region", "comuna", "calle", "numero_domicilio"]
     
     
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ["title", "description"]
 
 class CustomUserAdminRegistrationForm(forms.ModelForm):
     class Meta:
