@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistra
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, JuntaDeVecinos  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, ResidenceCertificate, Crearsol, Region, CommunitySpace, Resident, JuntaDeVecinos  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -13,16 +13,22 @@ from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
-from django.contrib import messages
+import logging
+from django.shortcuts import render
 import telegram
+from django.shortcuts import render, redirect
+from .forms import PublicacionForm, SolPublicacionForm
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator
+from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.contrib import messages
 from django.utils import timezone
 from django.template.loader import get_template
 from django.views import View
 from django.views.generic import TemplateView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.template import defaultfilters
-
-
 
 
 
@@ -93,7 +99,6 @@ def filter_user_adm(request):
     
     context = {'usuarios': usuarios}
     return render(request, 'adm/users_admin.html', context)
-
 
 
 def certificado(request):
@@ -275,6 +280,77 @@ def updatePlace(request, id):
     return render(request, 'account/adm/update_place_modal.html', {'form': form, 'place': place})
 
 
+# Admin User Functions 
+#==============================================================
+def publicacion(request):# crea una vista para el formulario y la página donde el usuario administrador completara la información
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST)
+        if form.is_valid():
+            publicacion = form.save()
+            # Triggea el evento para enviar un mensaje a través del bot de Telegram
+            enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
+            return redirect('ruta_de_redireccion')
+    else:
+        form = PublicacionForm()
+    return render(request, 'account/adm/news_publish.html', {'form': form})
+
+# validacion de solicitudes de publicacion de noticias 
+def validationoticias(request): 
+    solicitudes = Crearsol.objects.all()
+
+    filtro = request.GET.get('filtro', None)
+
+    #filtr0 según el parámetro 'filtro'
+    if filtro == 'nueva':
+        solicitudes = Crearsol.objects.filter(estado='nueva')
+    elif filtro == 'validada':
+        solicitudes = Crearsol.objects.filter(estado='validada')
+    elif filtro == 'eliminada':
+        solicitudes = Crearsol.objects.filter(estado='eliminada')
+    else:
+        solicitudes = Crearsol.objects.all()
+
+    # Configura la paginación
+    paginator = Paginator(solicitudes, 5)  # 10 solicitudes por página
+    page = request.GET.get('page', 1)
+    solicitudes_paginadas = paginator.get_page(page)
+
+    # Envia las solicitudes paginadas a la plantilla
+    context = {'solicitudes': solicitudes_paginadas, 'filtro_actual': filtro}
+    return render(request, 'account/adm/news_validation.html', context)
+
+def cambiar_estado(request, solicitud_id, nuevo_estado):
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
+    solicitud.estado = nuevo_estado
+    solicitud.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def recuperar_solicitud(request, solicitud_id):
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
+    solicitud.estado = 'nueva'
+    solicitud.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+# User Functions 
+#==============================================================
+
+def solnoticias(request): # usuario solicitud de publicacion de noticia
+    return render(request, 'account/users/news_publish.html')   
+
+def crearsolicitud(request): # usuario solicitud de publicacion de noticia
+    if request.method == 'POST':
+        form = SolPublicacionForm(request.POST)
+        if form.is_valid():
+            solnoticias = form.save(commit=False)
+            usuario = request.user
+            solnoticias.usersol = usuario
+            solnoticias.save()
+            # Limpiar el formulario
+            #form = SolPublicacionForm()
+            return render(request, 'account/users/news_publish.html')  
+    else:
+        form = SolPublicacionForm()
+    return render(request, 'account/users/news_publish.html', {'form': form})    
 
 
 # crea una vista para el formulario y la página donde el usuario administrador completara la información
@@ -298,3 +374,11 @@ def solnoticias(request):
 # validacion de solicitudes de publicacion de noticias 
 def validationoticias(request): 
     return render(request, 'account/adm/news_validation.html')
+
+
+
+
+
+
+
+    

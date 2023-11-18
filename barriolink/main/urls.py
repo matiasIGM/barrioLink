@@ -4,6 +4,7 @@ from django.contrib.auth import views as auth_view
 from django.conf import settings
 from django.conf.urls.static import static
 
+
 urlpatterns = [
     
      path('login/', views.user_login, name='login'),
@@ -35,13 +36,14 @@ urlpatterns = [
      path('edit-hoa-config/<int:hoa_id>/', views.editHoaConfig, name='edit_hoa_data'),
      path('update-hoa-config/<int:hoa_id>/', views.updateHoaConfig, name='update_hoa_data'),
 
-      path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
+          
+     path('password_reset/', auth_view.PasswordResetView.as_view(template_name="users/password_reset.html"),
            name='password_reset'),
-      path('password_reset_done/', auth_view.PasswordResetDoneView.as_view(template_name="users/password_reset_done.html"),
+     path('password_reset_done/', auth_view.PasswordResetDoneView.as_view(template_name="users/password_reset_done.html"),
             name='password_reset_done'),
-      path('password_reset_confirm/<uidb64>/<token>/', auth_view.PasswordResetConfirmView.as_view(template_name="users/password_reset_confirm.html"),
+     path('password_reset_confirm/<uidb64>/<token>/', auth_view.PasswordResetConfirmView.as_view(template_name="users/password_reset_confirm.html"),
            name='password_reset_confirm'),
-      path('password_reset_complete/', auth_view.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
+     path('password_reset_complete/', auth_view.PasswordResetCompleteView.as_view(template_name="users/password_reset_complete.html"),
            name='password_reset_complete'),
       
       
@@ -53,5 +55,11 @@ urlpatterns = [
  
     path('edit-space/<int:space_id>/', views.editCommunitySpace, name='edit_space'),
     path('update-space/<int:space_id>/', views.updateCommunitySpace, name='update_space'),
+     path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
+     path('admValpublish/', views.validationoticias, name='news_validation'), # URL para el formulario validacion publicaciones
+     path('solnoticiasuser/', views.solnoticias, name='news_publish'), # solicitud user noticia
+     path('crearsolicitud/', views.crearsolicitud, name='news_publish'),
+     path('cambiar_estado/<int:solicitud_id>/<str:nuevo_estado>/', views.cambiar_estado, name='cambiar_estado'),
+     path('recuperar_solicitud/<int:solicitud_id>/', views.recuperar_solicitud, name='recuperar_solicitud'),
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

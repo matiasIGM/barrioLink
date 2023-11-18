@@ -1,22 +1,22 @@
-
 {% load static %} <!-- cargar la etiqueta static -->
 
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="utf-8" />
-    <title>BarrioLink</title>
-	{% block extra_head %}
-    {% endblock %}
-    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
-    <meta content="" name="description" />
-    <meta content="" name="author" />
-    
-    <!-- cargar archivos CSS -->
-    <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
 
-    <!-- ================== BEGIN page-css ================== -->
+<head>
+	<meta charset="utf-8" />
+	<title>BarrioLink</title>
+	{% block extra_head %}
+	{% endblock %}
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+
+	<!-- cargar archivos CSS -->
+	<link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+
+	<!-- ================== BEGIN page-css ================== -->
 	<link href="{% static 'plugins/datatables.net-bs5/css/dataTables.bootstrap5.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'plugins/datatables.net-responsive-bs5/css/responsive.bootstrap5.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'plugins/datatables.net-buttons-bs5/css/buttons.bootstrap5.min.css' %}" rel="stylesheet" />
@@ -24,44 +24,61 @@
 	<link href="{% static 'plugins/datatables.net-keytable-bs5/css/keyTable.bootstrap5.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'plugins/datatables.net-rowreorder-bs5/css/rowReorder.bootstrap5.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'plugins/datatables.net-select-bs5/css/select.bootstrap5.min.css' %}" rel="stylesheet" />
+	<link href="{% static 'plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.min.css' %}" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
 </head>
+
 <body>
 	<!-- BEGIN #app -->
 	<div id="app" class="app app-header-fixed app-sidebar-fixed">
 		<header>
 			<!-- BEGIN #header -->
 			{% if user.is_authenticated %}
-				{% if user.is_hoa_admin %}
-					{% include 'admin_navbar.html' %}
-				{% else %}
-					{% include 'navbar.html' %}
-				{% endif %}
+			{% if user.is_hoa_admin %}
+			{% include 'admin_navbar.html' %}
+			{% else %}
+			{% include 'navbar.html' %}
+			{% endif %}
 			{% endif %}
 			<!-- END #header -->
-		</header>	
-		
+		</header>
+
 		<!-- BEGIN #sidebar -->
 		{% if user.is_authenticated %}
-        	{% if user.is_hoa_admin %}
-            	{% include 'admin_sidebar.html' %}
-        	{% else %}
-            	{% include 'sidebar.html' %}
-        	{% endif %}
-    	{% endif %}
+		{% if user.is_hoa_admin %}
+		{% include 'admin_sidebar.html' %}
+		{% else %}
+		{% include 'sidebar.html' %}
+		{% endif %}
+		{% endif %}
 		<!-- END #sidebar -->
 
 		{% block content %}
 		{% endblock content %}
 
-	</div>		
+	</div>
+
+	{% include 'scripts.html' %}
+
+	<script src="{% static 'js/demo/ui-modal-notification.demo.js' %}"></script> 
+	<script src="{% static 'plugins/bootstrap3-wysihtml5-bower/dist/bootstrap3-wysihtml5.all.min.js' %}" rel=stylesheet></script>
+	<!-- ================== BEGIN core-js ================== -->
+	<script src="{% static 'js/one-page-parallax/vendor.min.js' %}"></script>
+	<script src="{% static 'js/app.min.js' %}"></script>
+
+	<script src="{% static 'plugins/bootstrap3-wysihtml5-bower/src/bootstrap3-wysihtml5.css' %}"></script>
+	<script src="{% static 'js/demo/form-wysiwyg.demo.js' %}"></script>
+	<script src="{% static 'plugins/@highlightjs/cdn-assets/highlight.min.js' %}"></script>
+	<script src="{% static 'js/demo/render.highlight.js' %}"></script>
+	<script src="{% static 'plugins/bootstrap/dist/js/bootstrap.min.js' %}"></script>
+	<!-- ================== BEGIN page-js ================== -->
+	<script src="{% static 'plugins/sweetalert/dist/sweetalert.min.js' %}"></script>
+	<script src="{% static 'plugins/photoswipe/dist/photoswipe-lightbox.esm.js' %}"></script>
+	
+	{% block scripts %}
+	{% endblock scripts %}
 
 	
-{% include 'scripts.html' %}
-
-{% block scripts %}
-{% endblock scripts %}
-
 </body>
 
 </html>

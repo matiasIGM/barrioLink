@@ -3,6 +3,9 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion
 from datetime import datetime 
+from django import forms
+from .models import Publicacion
+from .models import Crearsol
 
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -39,6 +42,9 @@ class RegisterFormStep2(UserCreationForm):
     calle = forms.CharField(max_length=255, required=True, label="Calle")
     numero_domicilio = forms.CharField(max_length=10, required=True, label="Número Domicilio")
 
+    fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos"]
+
+class RegisterForm2(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ["numero_documento","region", "comuna", "calle", "numero_domicilio"]
@@ -49,7 +55,6 @@ class PostForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ["title", "description"]
-
 
 class CustomUserAdminRegistrationForm(forms.ModelForm):
     class Meta:
@@ -82,3 +87,12 @@ class PublicacionForm(forms.ModelForm):
     class Meta:
         model = Publicacion
         fields = ['titulo', 'contenido']
+        fields = ['contenido']
+        exclude = ['fecha_publicacion'] 
+
+class SolPublicacionForm(forms.ModelForm):
+    class Meta:
+        model = Crearsol
+        fields = ['contenido']
+        exclude = ['fecha_publicacion'] 
+
