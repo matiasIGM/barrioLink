@@ -23,7 +23,10 @@ urlpatterns = [
      path('adminNotifications/', views.adminNotifications, name='admin_notifications'),
      path('adminProfile/', views.adminProfile, name='admin_profile'),
      path('adminUserList/', views.adminUserList, name='users_list'),
+     
      path('adminUserValidation/', views.def_validation_view, name='users_validation'),
+     path('activate_user/<int:user_id>/', views.activate_user, name='activate_user'),
+     
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
      path('placesConfig/deletePlace/<id>', views.deletePlace,  name='delete_places'),
@@ -45,13 +48,17 @@ urlpatterns = [
            name='password_reset_complete'),
       
       
-     path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
-     path('admNewspublish/', views.publicacion, name='news_publish'), # URL para el formulario publicaciones
      path('admValpublish/', views.validationoticias, name='news_validation'), # URL para el formulario validacion publicaciones
      path('solnoticiasuser/', views.solnoticias, name='news_publish'), # solicitud user noticia
+     path('crearsolicitud/', views.crearsolicitud, name='news_publish'),
+     path('cambiar_estado/<int:solicitud_id>/<str:nuevo_estado>/', views.cambiar_estado, name='cambiar_estado'),
+     path('recuperar_solicitud/<int:solicitud_id>/', views.recuperar_solicitud, name='recuperar_solicitud'),
      
  
     path('edit-space/<int:space_id>/', views.editCommunitySpace, name='edit_space'),
     path('update-space/<int:space_id>/', views.updateCommunitySpace, name='update_space'),
+    
+    path('email/', views.view_email, name='email'),
+    
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

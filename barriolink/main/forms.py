@@ -1,7 +1,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion
+from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol
 from datetime import datetime 
 
 
@@ -82,3 +82,11 @@ class PublicacionForm(forms.ModelForm):
     class Meta:
         model = Publicacion
         fields = ['titulo', 'contenido']
+        fields = ['contenido']
+        exclude = ['fecha_publicacion'] 
+
+class SolPublicacionForm(forms.ModelForm):
+    class Meta:
+        model = Crearsol
+        fields = ['contenido']
+        exclude = ['fecha_publicacion'] 

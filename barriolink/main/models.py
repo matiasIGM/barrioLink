@@ -165,3 +165,25 @@ class Publicacion(models.Model):
 
     def __str__(self):
         return self.titulo
+    
+    
+
+class Crearsol(models.Model):
+    ESTADO_CHOICES = [
+        ('nueva', 'Nueva'),
+        ('eliminada', 'Eliminada'),
+    ]
+    id = models.AutoField(primary_key=True)
+    estado = models.CharField(max_length=20, choices=ESTADO_CHOICES, default='nueva')
+    fecha_publicacion = models.DateTimeField(auto_now_add=True) 
+    contenido = models.TextField()
+    usersol = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+
+    def formatted_fecha_publicacion(self):
+        return self.fecha_publicacion.strftime("%d-%m-%Y %H:%M:%S")
+
+
+
+class Noticia(models.Model):
+    contenido = models.TextField()
+    fecha_publicacion = models.DateTimeField(auto_now_add=True)

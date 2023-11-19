@@ -1,0 +1,30 @@
+{% extends "email_base.html" %}
+{% load static %}
+
+{% block content %}
+<blockquote class="blockquote">
+    <!-- Texto justificado -->
+    <p><br/> <br/> <br/> <br/>
+        Estimado,<br/>
+        <br/>
+        Lamentamos informarte que no hemos podido validar tu cuenta de usuario en Barriolink debido a lo siguiente:<br/>
+        <br/>
+        [Indica aquí la razón específica por la cual no se pudo validar la cuenta]<br/>
+        <br/>
+        Si necesitas ayuda o tienes alguna pregunta, por favor, no dudes en contactarnos a través de la aplicación o respondiendo a este correo electrónico.<br/>
+        <br/>
+        Asegúrate de que has ingresado correctamente tus credenciales previamente registradas:<br/>
+        <br/>
+        <strong>Correo Electrónico:</strong> tu_correo_electronico@gmail.com<br/>
+        <br/>
+        Lamentamos los inconvenientes y estamos aquí para ayudarte.<br/>
+        <br/>
+        </p>
+</blockquote>
+
+<figcaption class="blockquote-footer mt-n2 mb-1 text-white text-opacity-75">
+    BarrioLink® <cite title="Source Title">2023</cite>
+</figcaption>
+</div>
+{% endblock content %}
+
