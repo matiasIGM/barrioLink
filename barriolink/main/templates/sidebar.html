@@ -14,12 +14,7 @@
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
 </head>
 <body>
-	<!-- BEGIN #loader -->
-	<div id="loader" class="app-loader">
-		<span class="spinner"></span>
-	</div>
-	<!-- END #loader -->
-	
+
 		<!-- BEGIN #sidebar -->
 		{% block sidebar %}
 		<div id="sidebar" class="app-sidebar">
@@ -57,18 +52,6 @@
 								<div class="menu-text">Settings</div>
 							</a>
 						</div>
-						<div class="menu-item">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
-								<div class="menu-text"> Send Feedback</div>
-							</a>
-						</div>
-						<div class="menu-item pb-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-question-circle"></i></div>
-								<div class="menu-text"> Helps</div>
-							</a>
-						</div>
 						<div class="menu-divider m-0"></div>
 					</div>
 					<div class="menu-header">Navigation</div>
@@ -82,12 +65,12 @@
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="chart-flot.html" class="menu-link">
+								<a href="/adminPublish" class="menu-link">
 									<div class="menu-text">Publicación de Noticias</div>
 								</a>
 							</div>
 							<div class="menu-item">
-								<a href="chart-js.html" class="menu-link">
+								<a href="/adminNewsValidation" class="menu-link">
 									<div class="menu-text">Validación de Noticias</div>
 								</a>
 							</div>
@@ -114,6 +97,22 @@
 							<div class="menu-item">
 								<a href="gallery.html" class="menu-link">
 									<div class="menu-text">Notificaciones Masivas</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="menu-item has-sub">
+						<a href="javascript:;" class="menu-link">
+							<div class="menu-icon">
+								<i class="fa fa-file-text"></i>
+							</div>
+							<div class="menu-text">Documentos</div>
+							<div class="menu-caret"></div>
+						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="/Admindocuments" class="menu-link">
+									<div class="menu-text">Certificado de Residencia</div>
 								</a>
 							</div>
 						</div>
