@@ -22,8 +22,9 @@ from django.views.generic import TemplateView, ListView, UpdateView
 from django.urls import reverse_lazy
 from django.template import defaultfilters
 from django.core.paginator import Paginator
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from . email_utils import *
+import json
 
 
 
@@ -167,13 +168,52 @@ def activate_user(request, user_id):
     custom_user = get_object_or_404(CustomUser, id=user_id)
     # Cambia el estado de is_active a True
     custom_user.is_active = True
+    # Llama a la función para enviar el correo de activación exitosa
+    activation_email_rendered(custom_user)
     # Guarda los cambios en la base de datos
     custom_user.save()
+    messages.error(request, "Usuario activado correctamente")
     # Puedes devolver una respuesta JSON si lo deseas
     return JsonResponse({'message': 'Usuario activado correctamente'})
 
+# def denegar_usuario(request):
+#     if request.method == 'POST':
+#         data = json.loads(request.body)
+#         user_id = data.get('user_id')
+#         motivo = data.get('motivo')
 
+#         # Obtén el objeto CustomUser o devuelve un error 404 si no existe
+#         custom_user = get_object_or_404(CustomUser, id=user_id)
 
+#         # Cambia el estado de is_active a False
+#         custom_user.is_active = False
+#         custom_user.save()
+
+#         # Envía el correo de rechazo
+#         reject_email_rendered(custom_user, motivo)
+
+#         # Devuelve una respuesta JSON si es necesario
+#         return JsonResponse({'message': 'Usuario denegado correctamente'})
+#     else:
+#         # Devuelve una respuesta de error si la solicitud no es de tipo POST
+#         return JsonResponse({'error': 'Método no permitido'}, status=405)
+
+def denegar_usuario(request):
+    try:
+        user_id = int(request.POST.get('user_id', ''))
+        motivo = request.POST.get('motivo', '')
+
+        # Asegúrate de que user_id sea un número válido
+        if not user_id:
+            return JsonResponse({'error': 'El ID del usuario no es un número válido.'}, status=400)
+
+        # Resto de la lógica para denegar al usuario...
+
+        return JsonResponse({'success': 'Usuario denegado correctamente.'})
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+     
+    
 def adminValidateReservations(request):
     return render(request, 'account/adm/reservations.html')
 

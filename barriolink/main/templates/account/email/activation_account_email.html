@@ -4,21 +4,17 @@
 {% block content %}
 <blockquote class="blockquote">
     <!-- Texto justificado -->
-    <p> <br/> <br/> <br/> <br/>Estimado,<br/> <br/>Es un placer informarle que su cuenta en nuestra página Barriolink ha sido creada. 
+    <p> <br/> <br/> <br/> <br/>Estimado(a), {{ user.nombres }} {{ user.apellidos }}<br/> <br/>Es un placer informarle que su cuenta en nuestra página Barriolink ha sido creada. 
         Ahora tiene acceso completo a todas las funcionalidades y servicios que ofrecemos para mejorar la comunicación y colaboración dentro de nuestra comunidad.<br/><br/>
         Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos a través de la aplicación o respondiendo a este correo electrónico.<br/><br/>
-        Recuerde iniciar sesión sus credenciales previamente registradas<br/><br/><strong>Correo Electrónico:</strong> tu_correo_electronico@gmail.com<br/>
-        <br/>Saludos cordiales, Equipo de BarrioLink<br/><br/>
+        Recuerde iniciar sesión sus credenciales previamente registradas<br/><br/><strong>Correo Electrónico:</strong> {{ user.email }}<br/>
+        <br/>Saludos cordiales, Equipo de BarrioLink.<br/><br/>
         </p>
         <div class="center-button">
             <!-- Botón de Iniciar Sesión -->
-            <button class="btn btn-primary">Iniciar Sesión</button>
+            <button href="https://barriolink.online/login" class="btn btn-primary">Iniciar Sesión</button>
         </div>
 </blockquote>
 
-<figcaption class="blockquote-footer mt-n2 mb-1 text-white text-opacity-75">
-    BarrioLink® <cite title="Source Title">2023</cite>
-</figcaption>
-</div>
 {% endblock content %}
 

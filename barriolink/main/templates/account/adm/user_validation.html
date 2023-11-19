@@ -44,21 +44,44 @@
 								<td>{{ usuario.birth_date }}</td>
 								<td> <a href=“”>Boleta.pdf</a></td>
 								<td>{{ usuario.comuna }}, {{ usuario.calle }}, {{ usuario.domicilio }}</td>
-								<td><a href="javascript:;" class="btn btn-danger btn-icon btn-circle btn-lg"><i class="fa fa-times"></i>  
+								<td><a data-bs-toggle="modal" onclick="openCancelModal({{ usuario.id }})" type="button" data-bs-target="#cancelModal" class="btn btn-danger btn-icon btn-circle btn-lg"><i class="fa fa-times"></i></a>  
 									<a href="{% url 'activate_user' user_id=usuario.id %}" class="btn btn-success btn-icon btn-circle btn-lg"><i class="fa fa-check"></i></a></td> <!--Btn para cambiar el estado del user-->
 						{% endfor %}
 						</tbody>
 					</table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="data-table-default_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="data-table-default_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="data-table-default_previous"><a href="#" aria-controls="data-table-default" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="data-table-default" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="data-table-default_next"><a href="#" aria-controls="data-table-default" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
 				</div>
 				<!-- END panel-body -->
-				<!-- BEGIN hljs-wrapper -->
-				<div class="hljs-wrapper">
-					
+
+				<!-- Modal -->
+				<div class="modal fade" id="cancelModal{{ usuario.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cancelModalLabel{{ usuario.id }}" aria-hidden="true">
+					<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title"  id="cancelModalLabel{{ usuario.id }}">Cancelar Solicitud de Activación de Cuenta</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body text-center">
+							<div class="alert alert-muted">
+								Al llevar a cabo esta acción, el <code>usuario</code> que está solicitando la activación de su cuenta deberá volver a enviar sus datos. <code>Es obligatorio especificar el motivo del 
+								rechazo</code> de la solicitud con el fin de transparentar la razón detrás de la negación.
+							</div>
+							<div class="col-md-9  mx-auto">
+								<textarea id="motivoTextArea{{ usuario.id }}" class="form-control" rows="3" required placeholder="Motivo"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="confirmDenegacion('{{ usuario.id }}')">Confirma Denegación</button>
+						</div>
+					</div>
+					</div>
 				</div>
 				<!-- END hljs-wrapper -->
 			</div>
 			<!-- END panel -->
 		</div>
 		<!-- END #content -->
+		
+	
 
 {% endblock content %}

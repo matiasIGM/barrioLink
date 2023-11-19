@@ -26,6 +26,7 @@ urlpatterns = [
      
      path('adminUserValidation/', views.def_validation_view, name='users_validation'),
      path('activate_user/<int:user_id>/', views.activate_user, name='activate_user'),
+     path('denegar_usuario/', views.denegar_usuario, name='denegar_usuario'),
      
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
