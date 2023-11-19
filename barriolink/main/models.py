@@ -84,7 +84,7 @@ class ResidenceCertificate(models.Model):
 
 class Resident(models.Model):
     resident_id = models.AutoField(primary_key=True)
-    hoa = models.ForeignKey(JuntaDeVecinos, on_delete=models.CASCADE)
+    hoa = models.ForeignKey(JuntaDeVecinos, on_delete=models.CASCADE, default=4)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     username = models.CharField(max_length=255)
 

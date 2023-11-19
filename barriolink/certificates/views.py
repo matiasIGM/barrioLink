@@ -43,7 +43,7 @@ def adminDocuments(request):
 #Ruta de template html base para renderizar el PDF
 #==============================================================
 def validator(request):
-    pass
+    return render(request, 'validate.html')
 
 def adminDocuments(request):
     return render(request, 'account/adm/documents.html')
