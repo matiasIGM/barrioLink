@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm, SolPublicacionForm
+from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm, SolPublicacionForm,  UsersUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
@@ -25,7 +25,7 @@ from django.core.paginator import Paginator
 from django.http import HttpResponseRedirect, JsonResponse
 from . email_utils import *
 import json
-
+from django.forms.models import model_to_dict
 
 
 # @login_required(login_url="/login")
@@ -416,3 +416,91 @@ def crearsolicitud(request): # usuario solicitud de publicacion de noticia
 
 
 
+#====================================================================
+#Funciones para edición perfil de usuario
+
+
+def userProfileConfig(request):
+    try:
+        profile = CustomUser.objects.get(id=request.user.id)
+        # Obtén todos los campos del modelo y conviértelos a un diccionario
+        profile_data = model_to_dict(profile)
+    except CustomUser.DoesNotExist:
+        profile_data = None
+
+    context = {'profile_data': profile_data}
+
+    return render(request, 'account/users/profile_settings.html', context)
+    
+    
+def editUserConfig(request, user_id):
+    profile = get_object_or_404(CustomUser, id=user_id)
+    return render (request, 'account/users/profile_settings.html',{'profile_edit': profile, 'editable': True})
+
+def userProfileUpdate(request, user_id):
+
+    editprofile = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        form = ProfileUpdateForm (request.POST, instance=editprofile)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(request, 'Cambios existosos')
+
+            return redirect('user_profile_config')
+        else:
+            print("Error en el formulario:", form.errors)
+            messages.error(request, 'Error en el formulario. Por favor, corriga los errores.')
+    else:
+        form = ProfileUpdateForm(instance=editprofile)
+
+    return render (request, 'account/users/profile_settings.html', {'editprofile':editprofile, 'editable': True, 'form': form})
+
+
+# funcion de listar datos de perfil de usuario
+
+@login_required
+def adminProfileConfig(request):
+    try:
+        profile = CustomUser.objects.get(id=request.user.id)
+        # Obtén todos los campos del modelo y conviértelos a un diccionario
+        profile_data = model_to_dict(profile)
+    except CustomUser.DoesNotExist:
+        profile_data = None
+
+    context = {'profile_data': profile_data}
+
+    return render(request, 'account/adm/profile_settings.html', context)
+
+
+
+@login_required
+def editAdmConfig(request, user_id):
+    profile= get_object_or_404(CustomUser, id=user_id)
+    return render (request, 'account/adm/profile_settings.html',{'profile_edit': profile, 'editable': True})
+
+
+
+    
+@login_required
+def adminProfileUpdate(request, user_id):
+    editprofile = get_object_or_404(CustomUser, id=user_id)
+    if request.method == 'POST':
+        form = ProfileUpdateForm (request.POST, instance=editprofile)
+
+        if form.is_valid():
+
+            form.save()
+
+            messages.success(request, 'Cambios existosos')
+
+            return redirect('adminProfileConfig')
+        else:
+            print("Error en el formulario:", form.errors)
+            messages.error(request, 'Error en el formulario. Por favor, corriga los errores.')
+    else:
+        form = ProfileUpdateForm(instance=editprofile)
+
+    return render (request, 'account/adm/profile_settings.html', {'editprofile':editprofile, 'editable': True, 'form': form})

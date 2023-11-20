@@ -12,7 +12,15 @@ urlpatterns = [
      path('adm/users_admin.html', views.users_admin_view, name='users_admin'),
      path('reserva/', views.reservation, name='reserva'),
      path('profile/', views.profileUser, name='profile'),
+     
      path('userProfileConfig/', views.userProfileConfig, name='user_profile_config'),
+     path('userUpdateProfile/<int:user_id>/', views.editUserConfig, name='user_profile_update'),
+     path('userUpdateProfile/', views.userProfileUpdate, name='user_update_profile'),
+     
+     path('adminProfileConfig/', views.adminProfileConfig, name='admin_profile_config'),
+     path('adminUpdateProfile/<int:user_id>/', views.editAdmConfig, name='admprofile_update'),
+     path('adminEditProfile/<int:user_id>/', views.adminProfileUpdate, name='admconfig_edit'),
+
      
      path('userNews/', views.newsPublish, name='users_news'),
      path('userProfile/', views.userProfile, name='user_profile'),

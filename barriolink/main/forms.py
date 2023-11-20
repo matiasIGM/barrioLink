@@ -90,3 +90,20 @@ class SolPublicacionForm(forms.ModelForm):
         model = Crearsol
         fields = ['contenido']
         exclude = ['fecha_publicacion'] 
+        
+        
+#Editar usuarios
+class UsersUpdateForm(forms.ModelForm):
+    user_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['nombres', 'apellidos', 'celular','calle']
+
+#Editar perfil
+class ProfileUpdateForm(forms.ModelForm):
+    user_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['nombres', 'apellidos', 'celular','calle','email','birth_date']
