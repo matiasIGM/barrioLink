@@ -30,7 +30,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.0','localhost', '3.86.91.69', '0.0.0.0', '127.0.0.1','*','barriolink.online']
+ALLOWED_HOSTS = ['127.0.0.0','localhost', '3.86.91.69', '0.0.0.0', '127.0.0.1','*','barriolink.online', 'localhost:8000']
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 
 # Application definition
@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     'telegram',
     'reportlab',
     'certificates',
+    
+    
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -62,6 +64,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://qmhpr9jr-8000-inspect.brs.devtunnels.ms",# Reemplaza con tu URL base
 ]
 
 ROOT_URLCONF = 'barriolink.urls'
