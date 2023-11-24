@@ -129,6 +129,7 @@ class Comuna(models.Model):
 # Admin User Functions 
 #==============================================================
 class Publicacion(models.Model): # Este modelo representa una publicación de noticias
+    id = models.AutoField(primary_key=True)
     titulo = models.CharField(max_length=200)
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)

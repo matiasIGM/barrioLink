@@ -221,10 +221,10 @@ def publicacion(request):# crea una vista para el formulario y la página donde 
     if request.method == 'POST':
         form = PublicacionForm(request.POST)
         if form.is_valid():
-            publicacion = form.save()
+            public_val = form.save()
             # Triggea el evento para enviar un mensaje a través del bot de Telegram
             enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
-            return redirect('ruta_de_redireccion')
+            return redirect('account/adm/news_publish.html')
     else:
         form = PublicacionForm()
     return render(request, 'account/adm/news_publish.html', {'form': form})
@@ -265,6 +265,12 @@ def recuperar_solicitud(request, solicitud_id):
     solicitud.estado = 'nueva'
     solicitud.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def public_val(request, solicitud_id):
+    solicitud = get_object_or_404(Publicacion, pk=solicitud_id)
+    solicitud.estado = 'validada'
+    solicitud.save()
+    return render(request, 'account/adm/news_publish.html')
 
 # User Functions 
 #==============================================================

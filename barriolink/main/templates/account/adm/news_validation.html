@@ -201,7 +201,7 @@
                             <td>{{ solicitud.formatted_fecha_publicacion }}</td>
                             <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
                             <td>{{ solicitud.contenido }}</td>
-                            <td><a href="" class="btn btn-sm btn-success w-100px">Publicar</a></td>
+                            <td><a href="{% url 'public_val' %}" class="btn btn-sm btn-success w-100px">Publicar</a></td>
                         </tr>
                         {% endif %}
                     {% endfor %}
