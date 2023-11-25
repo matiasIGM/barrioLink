@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_view
 from django.urls import path
+from .views import detalle_publicacion
 
 urlpatterns = [
     
@@ -40,5 +41,6 @@ urlpatterns = [
      path('cambiar_estado/<int:solicitud_id>/<str:nuevo_estado>/', views.cambiar_estado, name='cambiar_estado'),
      path('recuperar_solicitud/<int:solicitud_id>/', views.recuperar_solicitud, name='recuperar_solicitud'),
      path('public_val/<int:solicitud_id>', views.public_val, name='public_val'),
+     path('detalle/<int:pk>/', detalle_publicacion, name='detalle_publicacion'),
 
 ]

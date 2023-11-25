@@ -408,20 +408,25 @@
 					
 					<!-- begin row -->
 					<div class="row row-space-10">
-						<!-- begin col-3 -->
-						<div class="col-lg-6 col-md-4">
-							<!-- begin work -->
-							<div class="service">
-								<div class="info">
-									<h4 class="title">Titulo</h4>
-									<p class="desc" style="font-size: 16px">Organizar programas de salud, ferias de salud, y actividades deportivas para promover estilos de vida saludables entre los residentes.</p>
-									<b>21 <sub>NOV 2023</sub></b><span class="divider">|</span><a href="post_detail.html">Leer mas <i class="fa fa-angle-double-right"></i></a>
+						{% for publicacion in ultimas_publicaciones %}
+							<!-- begin col-3 -->
+							<div class="col-lg-6 col-md-4">
+								<!-- begin work -->
+								<div class="service">
+									<div class="info">
+										<h4 class="title">{{ publicacion.titulo }}</h4>
+										<p class="desc" style="font-size: 16px">{{ publicacion.contenido }}</p>
+										<b>{{ publicacion.fecha_publicacion | date:"d M Y" }}</b>
+										<span class="divider">|</span>
+										<a href="{% url 'detalle_publicacion' pk=publicacion.id %}">Leer más <i class="fa fa-angle-double-right"></i></a>
+									</div>
 								</div>
+								<!-- end work -->
 							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
+							<!-- end col-3 -->
+						{% endfor %}
 					</div>
+					
 					<!-- end row -->
 				</div>
 				<!-- end container -->

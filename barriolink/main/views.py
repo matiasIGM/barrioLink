@@ -154,10 +154,19 @@ def filter_user_adm(request):
 def certificado(request):
     return render('ruta certificado/certificado.html')
 
-#Renderizar home del sitio
 def home(request):
-    return render(request, 'main/home.html')
+    # Obtener las últimas publicaciones
+    ultimas_publicaciones = Publicacion.objects.all().order_by('-fecha_publicacion')[:2]  # Obtén las últimas 3 publicaciones, por ejemplo
 
+    context = {
+        'ultimas_publicaciones': ultimas_publicaciones,
+    }
+
+    return render(request, 'main/home.html', context)
+
+def detalle_publicacion(request, pk):
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    return render(request, 'main/detalle_publicacion.html', {'publicacion': publicacion})
 
 def reservation(request):
     return render(request, 'account/users/reservations.html')
