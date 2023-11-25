@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.0','localhost', '3.86.91.69', '0.0.0.0', '127.0.0.1','*','barriolink.online', 'localhost:8000']
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #for use on production ambient
 
 # Application definition
 
@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'telegram',
     'reportlab',
     'certificates',
+    'storages',
     
     
 ]
@@ -174,7 +175,43 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 print(os.path.join(BASE_DIR, 'templates'))  # Imprime la ruta a la carpeta de plantillas
 
 MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR,'barriolink' ,'media')
+
 
 print(MEDIA_URL)
 print(MEDIA_ROOT)
+
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+#MEDIA_ROOT = '/home/ubuntu/barrioLink/barrioLink/barriolink/media/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#print(MEDIA_URL)
+#print(MEDIA_ROOT)
+
+# SECURE_BROWSER_XSS_FILTER: bool = True
+# SECURE_CONTENT_TYPE_NOSNIFF: bool = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS: bool = True
+# SECURE_HSTS_SECONDS: int = 31536000  # 365 days = 1 year
+# SECURE_REDIRECT_EXEMPT: List[str] = []
+# SECURE_SSL_REDIRECT: bool = True
+# SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
+# CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+# SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=bool)
+
+use_s3 = True
+
+if use_s3:
+    
+   AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+   AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+   AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+   AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+  # AWS_DEFAULT_ACL = 'public-read'
+
+# s3 static settings
+   STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+   STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+else:
+   STATIC_URL = '/static/'
+
