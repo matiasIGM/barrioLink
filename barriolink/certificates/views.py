@@ -176,6 +176,7 @@ class DownloadPDF(View):
     def generate_pdf_and_qr(self, resident, hoa_data, user_data):
         # Obtener la fecha actual
         current_date = date.today()
+        formatted_date = current_date.strftime("%d %B %Y, %A")
 
         # Crear un nuevo objeto de certificado de residencia
         certificate = ResidenceCertificate.objects.create(
@@ -216,7 +217,7 @@ class DownloadPDF(View):
         result["user_calle"] = user_data.calle
         result["user_numero_domicilio"] = user_data.numero_domicilio
         result["user_celular"] = user_data.celular
-        result["current_date"] = current_date
+        result["current_date"] = formatted_date
 
         # Generar un UUID4
         result["uuid"] = str(uuid.uuid4())
