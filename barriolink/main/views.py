@@ -23,8 +23,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponseRedirect
-
-
+from .models import Publicacion 
 
 
 # @login_required(login_url="/login")
@@ -157,7 +156,7 @@ def certificado(request):
 
 #Renderizar home del sitio
 def home(request):
-     return render(request, 'main/home.html')
+    return render(request, 'main/home.html')
 
 
 def reservation(request):
@@ -175,7 +174,7 @@ def userDocuments(request):
 def newsPublish(request):
     return render(request, 'account/users/news_publish.html')
 
-def userProfile(request):
+def userProfile(request):   
     return render(request, 'account/users/profile.html')
 
 def userReservation(request):
@@ -217,18 +216,6 @@ def userProfileConfig(request):
 
 # Admin User Functions 
 #==============================================================
-def publicacion(request):# crea una vista para el formulario y la página donde el usuario administrador completara la información
-    if request.method == 'POST':
-        form = PublicacionForm(request.POST)
-        if form.is_valid():
-            public_val = form.save()
-            # Triggea el evento para enviar un mensaje a través del bot de Telegram
-            enviar_mensaje_telegram(publicacion.titulo, publicacion.contenido)
-            return redirect('account/adm/news_publish.html')
-    else:
-        form = PublicacionForm()
-    return render(request, 'account/adm/news_publish.html', {'form': form})
-
 # validacion de solicitudes de publicacion de noticias 
 def validationoticias(request): 
     solicitudes = Crearsol.objects.all()
@@ -266,11 +253,23 @@ def recuperar_solicitud(request, solicitud_id):
     solicitud.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+
 def public_val(request, solicitud_id):
-    solicitud = get_object_or_404(Publicacion, pk=solicitud_id)
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
     solicitud.estado = 'validada'
     solicitud.save()
-    return render(request, 'account/adm/news_publish.html')
+
+    publicacion = None
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST)
+        if form.is_valid():
+            publicacion = form.save(commit=False)
+            publicacion.save()
+        return render(request, 'account/adm/profile.html')
+    else:
+        form = PublicacionForm()
+    return render(request, 'account/adm/news_publish.html', {'form': form, 'solicitud': solicitud})
 
 # User Functions 
 #==============================================================

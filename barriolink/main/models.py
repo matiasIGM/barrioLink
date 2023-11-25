@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 from django.db import models
 from django import forms
 
+
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
     birth_date = models.DateField(blank=True, null=True)  # Agregar campo de fecha de nacimiento

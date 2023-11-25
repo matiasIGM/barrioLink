@@ -48,8 +48,7 @@ class JuntaDeVecinosForm(forms.ModelForm):
 class PublicacionForm(forms.ModelForm):
     class Meta:
         model = Publicacion
-        fields = ['contenido']
-        exclude = ['fecha_publicacion'] 
+        fields = ['titulo', 'contenido']
 
 class SolPublicacionForm(forms.ModelForm):
     class Meta:
