@@ -31,7 +31,7 @@ SECRET_KEY = config('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.0','localhost', '3.86.91.69', '0.0.0.0', '127.0.0.1','*','barriolink.online', 'localhost:8000']
-#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #for use on production ambient
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #for use on production ambient
 
 # Application definition
 
@@ -188,15 +188,15 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 #print(MEDIA_URL)
 #print(MEDIA_ROOT)
 
-# SECURE_BROWSER_XSS_FILTER: bool = True
-# SECURE_CONTENT_TYPE_NOSNIFF: bool = True
-# SECURE_HSTS_INCLUDE_SUBDOMAINS: bool = True
-# SECURE_HSTS_SECONDS: int = 31536000  # 365 days = 1 year
-# SECURE_REDIRECT_EXEMPT: List[str] = []
-# SECURE_SSL_REDIRECT: bool = True
-# SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
-# CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
-# SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=bool)
+SECURE_BROWSER_XSS_FILTER: bool = True
+SECURE_CONTENT_TYPE_NOSNIFF: bool = True
+SECURE_HSTS_INCLUDE_SUBDOMAINS: bool = True
+SECURE_HSTS_SECONDS: int = 31536000  # 365 days = 1 year
+SECURE_REDIRECT_EXEMPT: List[str] = []
+SECURE_SSL_REDIRECT: bool = True
+SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
+CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=bool)
 
 use_s3 = True
 
