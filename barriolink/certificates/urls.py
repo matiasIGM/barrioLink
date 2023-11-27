@@ -4,6 +4,7 @@ from certificates import views
 from django.contrib.auth import views as auth_view
 
 
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
@@ -16,7 +17,7 @@ urlpatterns = [
      
     path('Admindocuments/', views.adminDocuments, name='documents'),
     path('documents/', views.userDocuments, name='documents'),
-    path('validador/', views.validator, name='document_valitador'),
+    path('validador/<uuid:verification_code>/', views.validator, name='document_valitador'),
      
 
 ]

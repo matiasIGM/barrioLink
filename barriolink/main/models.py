@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser, Group, Permission
 import uuid
+import hashlib
 
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
@@ -70,6 +71,15 @@ class ResidenceCertificate(models.Model):
     generated_by_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='residence_certificates_generated')
     verification_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    @staticmethod
+    def uuid_to_short_id(uuid_str, num_digits=4):
+        # Utiliza SHA-256 para generar un hash
+        sha256_hash = hashlib.sha256(uuid_str.encode()).hexdigest()
+
+        # Toma solo los primeros 'num_digits' dígitos del hash
+        short_id = int(sha256_hash[:num_digits], 16)
+
+        return short_id
 
 
     

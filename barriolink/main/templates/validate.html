@@ -1,21 +1,72 @@
-{% extends "base.html" %}
-
 {% load static %} <!-- cargar la etiqueta static -->
+
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <title>ValidacionQr</title>
+	{% block extra_head %}
+    {% endblock %}
+    <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    
+    <!-- cargar archivos CSS -->
+    <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+
+    <!-- ================== BEGIN page-css ================== -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+	<!-- ================== END page-css ================== -->
+</head>
+{% block content %}
 <div id="header" class="app-header">
 			<!-- BEGIN navbar-header -->
 			<div class="navbar-header">
-				<a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Barrio</b>Link</a>
-				<button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
+				<a href="{% url 'homepage' %}" class="navbar-brand"><span class="navbar-logo"></span> <b>Barrio</b>Link</a>
 			</div>
 			<!-- END navbar-header -->
-			  <!-- BEGIN header-nav -->
-			  
-                
 
-            </div>
-            <!-- END header-nav -->
 </div>
+
+
+<div class="container-fluid">
+	<div class="row">
+		<main class="col-md-12 mb-4 p-4 mb-4" id="content">
+						<div class="row justify-content-center">
+	<div class="col-12">
+        <div>
+      <h2 >Certificado Vigente <i class="fa fa-check-circle fa-lg" style="color: #3d9191;"></i></h2>
+      <h4><b>Emitido el {{ fecha_emision }}</b></h4>
+
+      <p class="text-justify">
+        Las certificaciones emitidas a través de esta página, son otorgadas bajo Firma Electrónica Avanzada, 
+        en conformidad a lo dispuesto en la ley Nº 19799 y su Reglamento. <br>
+      </p>
+
+      <div class="mt-2">
+        <h3 class="mb-0">{{ nombres|title  }} {{ apellidos|title }}</h3>
+                  <h3 class="mb-0"><b>RUT:</b> {{ rut }}</h3>
+                <h3 class="mb-0"><b>ID Certificado:</b> {{ id_certificado }}</h3>
+                <h3 class=""><b>Usuario registrado en JJVV :</b> {{ nombre_junta }}</h3>
+              </div>
+
+      <div class="mt-4">
+        <a href="{% url 'homepage' %}">
+          <div>
+            Ir a BarrioLink
+          </div>
+        </a>
+      </div>
+    </div>
+    
+    
+    
+    
+  </div>
+</div>	
+
+	</div>
+
+</div>
+</script>
+{% endblock %}

@@ -315,3 +315,20 @@ class DownloadPDF(View):
 
         return None
    
+ 
+#Función para validar el certificado de residencia   
+def validator(request, verification_code):
+    # Obtener el certificado y los datos relacionados
+    certificate = get_object_or_404(ResidenceCertificate, verification_code=verification_code)
+    user = certificate.resident
+    hoa = certificate.hoa
+
+    # Renderizar la plantilla con los datos
+    return render(request, 'validate.html', {
+        'nombres': user.nombres,
+        'apellidos': user.apellidos,
+        'rut': user.rut,
+        'id_certificado': str(certificate.verification_code),  # Convertir el ID a cadena
+        'fecha_emision': certificate.certificate_date,
+        'nombre_junta': hoa.hoa_name,
+    })
