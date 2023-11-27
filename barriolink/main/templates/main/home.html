@@ -11,6 +11,7 @@
 
 	<!-- ================== BEGIN core-css ================== -->
 	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 	<link href="{% static 'css/one-page-parallax/vendor.min.css' %}" rel="stylesheet" />
 	<link href="{% static 'css/one-page-parallax/app.min.css' %}" rel="stylesheet" />
 	<!-- ================== END core-css ================== -->
@@ -90,7 +91,6 @@
 				<div class="row">
 					<!-- begin col-4 -->
 					<div class="col-lg-4">
-						<!-- begin about -->
 						<div class="about">
 							<h3 class="mb-3">Junta de vecinos Unión La Florida</h3>
 							<p style="font-size: 16px">
@@ -154,6 +154,7 @@
 				<!-- end container -->
 			</div>
 			<!-- end #about -->
+		
 			<br>
 			<!-- begin #milestone -->
 			<div id="milestone" class="content bg-black-darker has-bg" data-scrollview="true">
@@ -325,6 +326,11 @@
 									<p class="desc" style="font-size: 16px">Facilitamos espacios para que los vecinos se involucren activamente en la toma de decisiones, expresen sus inquietudes y contribuyan a la planificación y desarrollo de proyectos comunitarios.</p>
 								</div>
 							</div>
+							<!-- end col-3 -->
+							<!-- begin col-3 -->
+							<!-- end col-3 -->
+							<!-- begin col-3 -->
+							<!-- end col-3 -->
 						</div>
 						<!-- end col-4 -->
 						<!-- begin col-4 -->
@@ -407,127 +413,25 @@
 					</p>
 					<!-- begin row -->
 					<div class="row row-space-10">
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-1.jpg' %}" alt="Work 1" /></a>
+						{% for publicacion in ultimas_publicaciones %}
+							<!-- begin col-3 -->
+							<div class="col-lg-6 col-md-4">
+								<!-- begin work -->
+								<div class="service">
+									<div class="info">
+										<h4 class="title">{{ publicacion.titulo }}</h4>
+										<p class="desc" style="font-size: 16px">{{ publicacion.contenido }}</p>
+										<b>{{ publicacion.fecha_publicacion | date:"d M Y" }}</b>
+										<span class="divider">|</span>
+										<a href="{% url 'detalle_publicacion' pk=publicacion.id %}">Leer más <i class="fa fa-angle-double-right"></i></a>
+									</div>
 								</div>
-								<div class="desc">
-									<span class="desc-title">Aliquam molestie</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
+								<!-- end work -->
 							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-2.jpg' %}" alt="Work 2" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Quisque at pulvinar lacus</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-3.jpg' %}" alt="Work 3" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Vestibulum et erat ornare</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-4.jpg' %}" alt="Work 4" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Sed vitae mollis magna</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-5.jpg' %}" alt="Work 5" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Suspendisse at mattis odio</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-6.jpg' %}" alt="Work 6" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Aliquam vitae commodo diam</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-7.jpg' %}" alt="Work 7" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Phasellus eu vehicula lorem</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-8.jpg' %}" alt="Work 8" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Morbi bibendum pellentesque</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
+							<!-- end col-3 -->
+						{% endfor %}
 					</div>
+					
 					<!-- end row -->
 				</div>
 				<!-- end container -->
@@ -755,12 +659,11 @@
 			<!-- end theme-panel -->
 		</div>
 		<!-- end #page-container -->
-
-		<!-- ================== BEGIN BASE JS ================== -->
-		<script src="{% static 'js/one-page-parallax/vendor.min.js' %}"></script>
-		<script src="{% static 'js/one-page-parallax/app.min.js' %}"></script>
-
-
+	<!-- end #page-container -->
+	
+<!-- ================== BEGIN BASE JS ================== -->
+	<script src="{% static 'js/one-page-parallax/vendor.min.js' %}"></script>
+	<script src="{% static 'js/one-page-parallax/app.min.js' %}"></script>
 
 </body>
 

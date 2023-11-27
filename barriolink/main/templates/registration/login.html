@@ -67,31 +67,30 @@
           <div class="login-content">
             <form method="post">
               {% csrf_token %}
-              <div class="form-floating mb-20px">
-                <label
-                  for="username"
-                  class="d-flex align-items-center text-gray-600 fs-13px"
-                  >Correo</label>
+              <div class="mb-20px">
+                <label for="username"></label>
                 <input
                   type="text"
-                  class="form-control fs-13px h-45px border-0"
+                  class="form-control mb-5px"
                   id="username"
                   name="username"
-                  placeholder="Password"
+                  placeholder="Correo electrónico"
+                  autofocus="1"
+                  aria-label="Correo electrónico"
                   required/>
               </div>
-              <div class="form-floating mb-20px">
+              <div class="mb-20px">
                 <label
                   for="password"
-                  class="d-flex align-items-center text-gray-600 fs-13px visually-hidden"
-                  >Contraseña</label>
+                  class="d-flex align-items-center text-gray-600 fs-13px visually-hidden">Contraseña</label>
                 <input
                   type="password"
-                  class="form-control fs-13px h-45px border-0"
+                  class="form-control mb-5px"
                   name="password"
-                  placeholder="Password"
+                  placeholder="Ingrese su Contraseña"
                   required/>
               </div>
+
               <div class="mb-3 form-check">
                 <input
                   type="checkbox"
@@ -119,7 +118,7 @@
                 para registrarse.
               </div>
               <div class="text-center my-3">
-                <a href="{% url 'password_reset' %}">Forget Password</a>
+                <a href="{% url 'password_reset' %}">¿No recuerdas tu contraseña?</a>
               </div>
             </form>
           </div>

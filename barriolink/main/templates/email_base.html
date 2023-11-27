@@ -1,0 +1,47 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <link href="{% static 'css/vendor.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+    <style>
+        /* Agregamos el estilo para justificar el texto */
+        p {
+            text-align: justify;
+        }
+        /* Estilo adicional para el botón */
+        .center-button {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar-header">
+        <a href="index.html" class="navbar-brand"><span class="navbar-logo"></span> <b>Barrio</b>Link</a>
+        <button type="button" class="navbar-mobile-toggler" data-toggle="app-sidebar-mobile">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+    </div>
+    <div class="card text border-0 bg-light green text-center mb-2">
+        <div class="card-body">
+            {% block content %}
+            
+                    
+            
+            {% endblock content %}
+        </div>
+    <div class="footer">
+        <!-- Pie de página -->
+        <figcaption class="blockquote-footer mt-n2 mb-1 text-white text-opacity-75">
+            BarrioLink® <cite title="Source Title">2023</cite>
+        </figcaption>
+    </div>
+
+    {% include 'scripts.html' %}
+
+    {% block scripts %}
+    {% endblock scripts %}
+</body>
+</html>

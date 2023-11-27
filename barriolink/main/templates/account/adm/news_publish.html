@@ -3,20 +3,30 @@
 
 {% block content %}
 
-		<!-- BEGIN #content -->
-<div class="row">
-	<div class="col-lg-8" style="margin-left: 7cm;">
-		<div class="card border-0 mb-4" style="width: 125%; margin-right: 1cm;">
+
+<div id="content" class="app-content">
+	<!-- BEGIN page-header -->
+	<h1 class="page-header">Nueva publicación</h1>
+	<!-- END page-header -->
+	<!-- BEGIN panel -->
+	<div class="panel panel-inverse">
+		<!-- BEGIN panel-body -->
+		<div class="panel-body">
+			<!-- BEGIN #content -->
 			<div class="card-header h6 mb-0 bg-none p-3">
 				<i class="fa fa-dolly fa-lg fa-fw text-dark text-opacity-50 me-1"></i> Nueva publicación
 			</div>
-				<div class="card-body">
+			<div class="card-body">
+				{% if solicitud.estado == 'validada' %}
+				<form method="post" action="{% url 'public_val' solicitud.id %}">
+					{% csrf_token %}
 					<div class="mb-3">
 						<label class="form-label">Titulo</label>
-						<input type="text" class="form-control" name="title" placeholder="Escriba un titulo para la noticia">
+						<input type="text" class="form-control" name="titulo"
+							placeholder="Escriba un titulo para la noticia">
 					</div>
 					<div class="">
-						<label class="form-label">Descripción</label>
+						<label class="form-label">Contenido</label>
 						<div class="form-control p-0 overflow-hidden">
 							<ul class="wysihtml5-toolbar" style=""><li class="dropdown">
 								<a class="btn btn-default dropdown-toggle " data-toggle="dropdown">	
@@ -116,15 +126,20 @@
 							</ul>
 							<textarea class="textarea form-control" id="wysihtml5" rows="12" style="display: block;" placeholder="Escriba algo ..."></textarea>
 							</div>
+							<textarea class="textarea form-control" id="wysihtml5" rows="12" style="display: block;"
+							name="contenido" placeholder="Escriba algo...">{{ solicitud.contenido }}</textarea>
 						</div>
 					</div>
-				</div>
-				<br>	
-				<br>		
-				<div style="text-align: right;">
-					<button type="button" class="btn btn-outline-danger btn-lg me-1 mb-1" style="margin-right: 0.5cm;">Cancelar</button>
-					<button type="button" class="btn btn-info btn-lg me-1 mb-1">Publicar</button>
-				</div>															
+					<div style="text-align: right;">
+						<br>
+						<button type="button" class="btn btn-danger w-100px">Cancelar</button>
+						<button type="submit" class="btn btn-success w-100px" style="margin-right: 1cm;">Enviar</button>
+						<br>
+					</div>
+				</form>
+				<br>
+				{% endif %}
+			</div>															
 			</div>	
 		</div>	
 		<!-- END #content -->

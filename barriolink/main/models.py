@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser, Group, Permission
 import uuid
 from django.db import models
 from django import forms
+import hashlib
 
 class CustomUser(AbstractUser):# Define una clase CustomUser que extiende AbstractUser
     rut = models.CharField(max_length=20)  # Agregar campo Rut como string
@@ -72,6 +73,26 @@ class ResidenceCertificate(models.Model):
     generated_by_user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='residence_certificates_generated')
     verification_code = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
 
+    @staticmethod
+    def uuid_to_short_id(uuid_str, num_digits=4):
+        # Utiliza SHA-256 para generar un hash
+        sha256_hash = hashlib.sha256(uuid_str.encode()).hexdigest()
+
+        # Toma solo los primeros 'num_digits' dígitos del hash
+        short_id = int(sha256_hash[:num_digits], 16)
+
+        return short_id
+    
+    @staticmethod
+    def get_last_certificate(user):
+        try:
+            # Obtener el último certificado asociado al usuario
+            last_certificate = ResidenceCertificate.objects.filter(
+                resident=user
+            ).latest('certificate_date')
+            return last_certificate.verification_code
+        except ResidenceCertificate.DoesNotExist:
+            return None
 
 
     
@@ -86,9 +107,9 @@ class ResidenceCertificate(models.Model):
 
 class Resident(models.Model):
     resident_id = models.AutoField(primary_key=True)
-    hoa = models.ForeignKey(JuntaDeVecinos, on_delete=models.CASCADE)
+    hoa = models.ForeignKey(JuntaDeVecinos, on_delete=models.CASCADE, default=4)
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    username = models.CharField(max_length=255)
+    username = models.CharField(max_length=255, default=" ")
 
 
 class CommunitySpace(models.Model):
@@ -126,6 +147,7 @@ class Region(models.Model):
     nombre = models.CharField(max_length=255)
     region_iso_3166_2 = models.CharField(max_length=10)
     capital_regional = models.CharField(max_length=255)
+    capital_regional2 = models.CharField(max_length=255)
 
     def __str__(self):
         return self.nombre
@@ -164,6 +186,8 @@ class Publicacion(models.Model): # Este modelo representa una publicación de no
 
 # User Functions 
 #==============================================================
+    
+    
 
 class Crearsol(models.Model):
     ESTADO_CHOICES = [

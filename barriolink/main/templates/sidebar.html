@@ -14,12 +14,6 @@
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
 </head>
 <body>
-	<!-- BEGIN #loader -->
-	<div id="loader" class="app-loader">
-		<span class="spinner"></span>
-	</div>
-	<!-- END #loader -->
-	
 		<!-- BEGIN #sidebar -->
 		{% block sidebar %}
 		<div id="sidebar" class="app-sidebar">
@@ -50,27 +44,6 @@
 							</div>
 						</a>
 					</div>
-					<div id="appSidebarProfileMenu" class="collapse">
-						<div class="menu-item pt-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-cog"></i></div>
-								<div class="menu-text">Settings</div>
-							</a>
-						</div>
-						<div class="menu-item">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
-								<div class="menu-text"> Send Feedback</div>
-							</a>
-						</div>
-						<div class="menu-item pb-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-question-circle"></i></div>
-								<div class="menu-text"> Helps</div>
-							</a>
-						</div>
-						<div class="menu-divider m-0"></div>
-					</div>
 					<div class="menu-header">Navigation</div>
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
@@ -85,16 +58,27 @@
 								<a href="/solnoticiasuser" class="menu-link">
 									<div class="menu-text">Publicación de Noticias</div>
 								</a>
+<<<<<<< HEAD
 							</div>																	
+=======
+							</div>
+>>>>>>> dev_matias
 						</div>
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-calendar"></i>
+								<i class="fa fa-key"></i>
 							</div>
 							<div class="menu-text">Gestión de Espacios</div>
 							<div class="menu-caret"></div>
 						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="/adminReservations" class="menu-link">
+									<div class="menu-text">Validación de Reservas</div>
+								</a>
+							</div>
+						</div>
 					</div>
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
@@ -107,8 +91,24 @@
 					</div>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="gallery.html" class="menu-link">
+								<a href="/adminNotifications" class="menu-link">
 									<div class="menu-text">Notificaciones Masivas</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="menu-item has-sub">
+						<a href="javascript:;" class="menu-link">
+							<div class="menu-icon">
+								<i class="fa fa-file-text"></i>
+							</div>
+							<div class="menu-text">Documentos</div>
+							<div class="menu-caret"></div>
+						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="/Admindocuments" class="menu-link">
+									<div class="menu-text">Certificado de Residencia</div>
 								</a>
 							</div>
 						</div>
@@ -128,10 +128,6 @@
 		<div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
 		{% endblock %}
 		<!-- END #sidebar -->
-		
-		
-
-			
 
 	<!-- END #app -->
 	

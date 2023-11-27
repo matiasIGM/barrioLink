@@ -1,7 +1,11 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+<<<<<<< HEAD
 from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion
+=======
+from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol
+>>>>>>> dev_matias
 from datetime import datetime 
 from django import forms
 from .models import Publicacion
@@ -90,4 +94,24 @@ class SolPublicacionForm(forms.ModelForm):
         model = Crearsol
         fields = ['contenido']
         exclude = ['fecha_publicacion'] 
+<<<<<<< HEAD
 
+=======
+        
+        
+#Editar usuarios
+class UsersUpdateForm(forms.ModelForm):
+    user_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['nombres', 'apellidos', 'celular','calle']
+
+#Editar perfil
+class ProfileUpdateForm(forms.ModelForm):
+    user_id = forms.IntegerField(widget=forms.HiddenInput, required=False)
+
+    class Meta:
+        model = CustomUser
+        fields = ['nombres', 'apellidos', 'celular','calle','email','birth_date']
+>>>>>>> dev_matias

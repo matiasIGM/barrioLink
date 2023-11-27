@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 {% load static %}
-
+<link href="{% static 'css/custom_style.css' %}" rel="stylesheet" />
 {% block content %}
 
 		<!-- BEGIN #content -->
 		<div id="content" class="app-content p-0">
 			<!-- BEGIN profile -->
-			<div class="profile">
+			{% comment %} <div class="profile">
 				<div class="profile-header">
 					<!-- BEGIN profile-header-cover -->
 					<div class="profile-header-cover"></div>
@@ -20,25 +20,24 @@
 						<!-- END profile-header-img -->
 						<!-- BEGIN profile-header-info -->
 						<div class="profile-header-info">
-							<h4 class="mt-0 mb-1">Sean Ngu</h4>
-							<p class="mb-2">UXUI + Frontend Developer</p>
-							<a href="#" class="btn btn-xs btn-yellow">Edit Profile</a>
-						</div>
+							<h4 class="mt-0 mb-1">{{profile_data.nombres}} {{profile_data.apellidos}}</h4>
+							<p class="mb-2">Administrador
+							</p>
+
 						<!-- END profile-header-info -->
 					</div>
 					<!-- END profile-header-content -->
 					<!-- BEGIN profile-header-tab -->
 					<ul class="profile-header-tab nav nav-tabs">
-						<li class="nav-item"><a href="#profile-about" class="nav-link active" data-bs-toggle="tab">ABOUT</a></li>
+						<li class="nav-item"><a href="#profile-about" class="nav-link active" data-bs-toggle="tab"></a></li>
 					</ul>
 					<!-- END profile-header-tab -->
 				</div>
-			</div>
+			</div> {% endcomment %}
 			<!-- END profile -->
 			<!-- BEGIN profile-content -->
 			<div class="profile-content">
-				<!-- BEGIN tab-content -->
-				<div class="tab-content p-0">
+				
 					<!-- BEGIN #profile-post tab -->
 				
 					<!-- END #profile-post tab -->
@@ -46,132 +45,177 @@
 					<div class="tab-pane fade show active" id="profile-about">
 						<!-- BEGIN table -->
 						<div class="table-responsive form-inline">
-							<table class="table table-profile align-middle">
-								<thead>
-									<tr>
-										<th></th>
-										<th>
-											<h4>Sean Ngu <small>UXUI + Frontend Developer</small></h4>
-										</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr class="highlight">
-										<td class="field">Mood</td>
-										<td><a href="javascript:;" class="text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Add Mood Message</a></td>
-									</tr>
-									<tr class="divider">
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<td class="field">Mobile</td>
-										<td><i class="fa fa-mobile fa-lg me-5px"></i> +1-(847)- 367-8924 <a href="javascript:;" class="ms-5px text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Edit</a></td>
-									</tr>
-									<tr>
-										<td class="field">Home</td>
-										<td><a href="javascript:;" class="text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Add Number</a></td>
-									</tr>
-									<tr>
-										<td class="field">Office</td>
-										<td><a href="javascript:;" class="text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Add Number</a></td>
-									</tr>
-									<tr class="divider">
-										<td colspan="2"></td>
-									</tr>
-									<tr class="highlight">
-										<td class="field">About Me</td>
-										<td><a href="javascript:;" class="text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Add Description</a></td>
-									</tr>
-									<tr class="divider">
-										<td colspan="2"></td>
-									</tr>
-									<tr>
-										<td class="field">Country/Region</td>
-										<td>
-											<select class="form-select w-200px" name="region">
-												<option value="US" selected>United State</option>
-												<option value="AF">Afghanistan</option>
-												<option value="AL">Albania</option>
-												<option value="DZ">Algeria</option>
-												<option value="AS">American Samoa</option>
-												<option value="AD">Andorra</option>
-												<option value="AO">Angola</option>
-												<option value="AI">Anguilla</option>
-												<option value="AQ">Antarctica</option>
-												<option value="AG">Antigua and Barbuda</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="field">City</td>
-										<td>Los Angeles</td>
-									</tr>
-									<tr>
-										<td class="field">State</td>
-										<td><a href="javascript:;" class="text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Add State</a></td>
-									</tr>
-									<tr>
-										<td class="field">Website</td>
-										<td><a href="javascript:;" class="text-decoration-none fw-bold"><i class="fa fa-plus fa-fw"></i> Add Webpage</a></td>
-									</tr>
-									<tr>
-										<td class="field">Gender</td>
-										<td>
-											<select class="form-select w-200px" name="gender">
-												<option value="male">Male</option>
-												<option value="female">Female</option>
-											</select>
-										</td>
-									</tr>
-									<tr>
-										<td class="field">Birthdate</td>
-										<td>
-											<div class="d-flex align-items-center">
-												<select class="form-select w-80px" name="day">
-													<option value="04" selected>04</option>
-												</select>
-												<span class="mx-2">-</span>
-												<select class="form-select w-80px" name="month">
-													<option value="11" selected>11</option>
-												</select>
-												<span class="mx-2">-</span>
-												<select class="form-select w-100px" name="year">
-													<option value="1989" selected>1989</option>
-												</select>
+							<form method="post" action="{% url 'admprofile_update' user_id=user.id %}" id="admprofileform">
+									{% csrf_token %}
+										{% comment %} {% if messages %}
+											<ul class="messages">
+												{% for message in messages %}
+													<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+												{% endfor %}
+											</ul>
+										{% endif %} {% endcomment %}
+								
+											<div class="row">
+												<div class="col-12 col-lg-10 col-xl-8 mx-auto">
+													<div class="my-4">
+												
+															<div class="row mt-5 align-items-center">
+																<div class="col-md-3 text-center mb-5">
+																</div>
+																<div class="col">
+																	<div class="row align-items-center">
+																		<div class="col-md-7">
+																			<h4 class="mb-1">{{profile_data.nombres}}, {{profile_data.apellidos}}</h4>
+																		</div>
+																	</div>
+																</div>
+															</div>
+															<hr class="my-4" />
+															<div class="form-row">
+																<div class="row">
+																	<div class="form-group col-md-4">
+																		<label for="firstname">Nombres</label>
+																		<input class="form-control" name="nombres" value="{{ profile_data.nombres }}" {% if not editable %}readonly{% endif %} />
+																	</div>
+																	<div class="form-group col-md-4">
+																		<label for="lastname">Apellidos</label>
+																		<input class="form-control" type="text" name="apellidos" value=" {{profile_data.apellidos}}" {% if not editable %}readonly{% endif %} />
+																	</div>
+																	<div class="form-group col-md-2">
+																		<label for="rut">Rut</label>
+																		<input class="form-control" type="text" name="rut" value=" {{profile_data.rut}}" {% if not editable %}readonly{% endif %} />
+																	</div>
+																</div>	
+															</div>
+															<div class="row">
+																<div class="form-group col-md-4">
+																	<label for="inputEmail4">Email</label>
+																	<input type="email" class="form-control" name="email" value=" {{profile_data.email}}" {% if not editable %}readonly{% endif %} />
+																</div>
+																<div class="form-group col-md-2">
+																	<label for="celular">Telefono</label>
+																	<input type="text" class="form-control" name="celular" value=" {{profile_data.celular}}" {% if not editable %}readonly{% endif %} />
+																</div>
+																<div class="form-group col-md-3">
+																	<label for="birth_date">Fecha Nacimiento</label>
+																	<input type="date" class="form-control" name="birth_date" value=" {{profile_data.birth_date}}" {% if not editable %}readonly{% endif %} />
+																</div>
+															</div>
+															<div class="row">	
+																<div class="form-group col-md-6" >
+																	<label for="calle">Calle</label>
+																	<input type="text" class="form-control" name="calle" value=" {{profile_data.calle}}" />
+																</div>
+																<div class="form-group col-md-4" >
+																	<label for="">Block/Torre</label>
+																	<input type="text" class="form-control" name="" value="" />
+																</div>
+																<div class="form-group col-md-2">
+																	<label for="numero_domicilio">Número</label>
+																	<input type="text" class="form-control" name="numero_domicilio" value=" {{profile_data.numero_domicilio}}" />
+																</div>
+															</div>	
+															<div class="form-row">
+																<div class="row">
+																	<div class="form-group col-md-6">
+																		<label for="region">Región</label>
+																		<select  class="form-control" name="region" value=" {{profile_data.region}}">
+																			<option selected="">{{profile_data.region}}</option>
+																			<option>...</option>
+																		</select>
+																	</div>
+																	<div class="form-group col-md-4">
+																		<label for="comuna">Comuna</label>
+																		<select  class="form-control" name="comuna" value=" {{profile_data.comuna}}">
+																			<option selected="">{{profile_data.comuna}}</option>
+																			<option>...</option>
+																		</select>
+																	</div>
+																</div>
+																
+															</div>
+															<hr class="my-4" />
+															<div class="row mb-4">
+																<div class="col-md-6">
+																	<div class="form-group">
+																		<label for="inputPassword4">Contraseña Actual</label>
+																		<input type="password" class="form-control" id="inputPassword5" />
+																	</div>
+																	<div class="form-group">
+																		<label for="inputPassword5">Nueva Contraseña</label>
+																		<input type="password" class="form-control" id="inputPassword5" />
+																	</div>
+																	<div class="form-group">
+																		<label for="inputPassword6">Confirmar Nueva Contraseña</label>
+																		<input type="password" class="form-control" id="inputPassword6" />
+																	</div>
+																</div>
+																<div class="col-md-6">
+																	<p class="mb-2">Requisitos de contraseña</p>
+																	<p class="small text-muted mb-2">Para crear una nueva contraseña, debes cumplir con todos los siguientes requisitos:</p>
+																	<ul class="small text-muted pl-4 mb-0">
+																		<li>Mínimo 8 caracteres</li>
+																		<li>Al menos un carácter especial</li>
+																		<li>Al menos un número</li>
+																		<li>No puede ser igual a una contraseña anterior</li>
+																	</ul>
+																</div>
+															</div>
+													</div>
+												</div>
 											</div>
-										</td>
-									</tr>
-									<tr>
-										<td class="field">Language</td>
-										<td class="with-form-control">
-											<select class="form-select w-200px" name="language">
-												<option value="" selected>English</option>
-											</select>
-										</td>
-									</tr>
-									<tr class="divider">
-										<td colspan="2"></td>
-									</tr>
-									<tr class="highlight">
-										<td class="field">&nbsp;</td>
-										<td class="">
-											<button type="submit" class="btn btn-primary w-150px">Update</button>
-											<button type="submit" class="btn border-0 w-150px ms-5px">Cancel</button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
+																			
+										<!-- Botones de acción -->
+										{% if editable %}
+										<!-- Botones para guardar cambios y cancelar la edición -->
+										<button type="submit" class="btn btn-success">Guardar Cambios</button>
+										<a href="{% url 'user_profile_config' %}" class="btn btn-danger">Cancelar</a>
+									{% else %}
+										<!-- Botón para editar -->
+										<a href="{% url 'admconfig_edit' user_id=profile_data.id %}" class="btn btn-primary">Editar</a>
+									{% endif %}
+								
+							</form>
 						</div>
 						<!-- END table -->
 					</div>
 					<!-- END #profile-about tab -->
 
 					<!-- END #profile-friends tab -->
-				</div>
-				<!-- END tab-content -->
+
 			</div>
 			<!-- END profile-content -->
 		</div>
-		<!-- END #content -->
 
+		<!-- Código JavaScript para manejar notificaciones mediante un modal básico -->
+
+<script>
+    // Espera a que el DOM esté completamente cargado antes de ejecutar el código
+    document.addEventListener('DOMContentLoaded', function () {
+        // Comprueba si hay mensajes para mostrar
+        {% if messages %}
+            // Muestra un modal de éxito básico
+            // Asegúrate de tener estilos y scripts de modal adecuados en tu proyecto
+            alert("{{ messages }}");
+        {% endif %}
+
+        // Obtén el formulario y el mensaje de éxito por su identificador
+        var form = document.getElementById('admprofileform');
+        var successMessage = document.querySelector('.toast-success');
+
+        // Verifica si el formulario y el mensaje de éxito existen
+        if (form && successMessage) {
+            // Agrega un evento de escucha al formulario para ocultar el mensaje de éxito después de enviar el formulario
+            form.addEventListener('submit', function () {
+                // Oculta el mensaje de éxito
+                successMessage.style.display = 'none';
+                // Aquí puedes agregar lógica para desactivar botones si es necesario
+            });
+        }
+    });
+    </script>
+    </div>
+
+		<!-- END #content -->
+		<link href="{% static 'css/custom_style.css' %}" rel="stylesheet" />
 {% endblock content %}
