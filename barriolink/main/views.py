@@ -98,13 +98,21 @@ def filter_user_adm(request):
 
 
 
-def certificado(request):
-    return render('ruta certificado/certificado.html')
-
 #Renderizar home del sitio
 def home(request):
-     return render(request, 'main/home.html')
+    # Obtener las últimas publicaciones
+    ultimas_publicaciones = Publicacion.objects.all().order_by('-fecha_publicacion')[:2]  # Obtén las últimas 3 publicaciones, por ejemplo
 
+    context = {
+        'ultimas_publicaciones': ultimas_publicaciones,
+    }
+ # Return a rendered template
+    return render(request, 'main/home.html', context)
+
+
+def detalle_publicacion(request, pk):
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    return render(request, 'main/detalle_publicacion.html', {'publicacion': publicacion})
 
 def reservation(request):
     return render(request, 'account/users/reservations.html')
@@ -388,6 +396,24 @@ def recuperar_solicitud(request, solicitud_id):
     solicitud.estado = 'nueva'
     solicitud.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+def public_val(request, solicitud_id):
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
+    solicitud.estado = 'validada'
+    solicitud.save()
+
+    publicacion = None
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST)
+        if form.is_valid():
+            publicacion = form.save(commit=False)
+            publicacion.save()
+        return render(request, 'account/adm/profile.html')
+    else:
+        form = PublicacionForm()
+    return render(request, 'account/adm/news_publish.html', {'form': form, 'solicitud': solicitud})
 
 # User Functions 
 #==============================================================

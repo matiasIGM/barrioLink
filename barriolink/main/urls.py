@@ -62,6 +62,9 @@ urlpatterns = [
      path('crearsolicitud/', views.crearsolicitud, name='news_publish'),
      path('cambiar_estado/<int:solicitud_id>/<str:nuevo_estado>/', views.cambiar_estado, name='cambiar_estado'),
      path('recuperar_solicitud/<int:solicitud_id>/', views.recuperar_solicitud, name='recuperar_solicitud'),
+     path('public_val/<int:solicitud_id>', views.public_val, name='public_val'),
+     path('detalle/<int:pk>/', views.detalle_publicacion, name='detalle_publicacion'),
+
      
  
     path('edit-space/<int:space_id>/', views.editCommunitySpace, name='edit_space'),
