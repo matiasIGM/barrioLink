@@ -119,9 +119,9 @@
             <img src="data:image/png;base64,{{ result.qr_code }}" alt="QR Code">
         </div>
         <div>Código de verificación:</div>
-        <div>{{ result.uuid }}</div>
+        <div>{{ result.verification_code }}</div>
         <div>Verifique la validez de este documento en: 
-        <a href="https://barriolink.online/validador/{{ result.uuid }}">https://barriolink.online/validador</a></div>
+        <a href="https://barriolink.online/validador/{{ result.verification_code }}">https://barriolink.online/validador</a></div>
     </div>
 </body>
 </html>

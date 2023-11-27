@@ -80,6 +80,17 @@ class ResidenceCertificate(models.Model):
         short_id = int(sha256_hash[:num_digits], 16)
 
         return short_id
+    
+    @staticmethod
+    def get_last_certificate(user):
+        try:
+            # Obtener el último certificado asociado al usuario
+            last_certificate = ResidenceCertificate.objects.filter(
+                resident=user
+            ).latest('certificate_date')
+            return last_certificate.verification_code
+        except ResidenceCertificate.DoesNotExist:
+            return None
 
 
     

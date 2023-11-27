@@ -77,10 +77,13 @@ class ViewPDF(View):
             certificate_status='Generado',
             hoa=hoa_data,
             generated_by_user=user_data
+            
         )
 
         # Guardar el objeto en la base de datos
         certificate.save()
+        
+
         
     def get(self, request, *args, **kwargs):
         result = {}  #  diccionario vacío para guardar datos
@@ -131,12 +134,14 @@ class ViewPDF(View):
         result["user_celular"] = user_data.celular
         result["current_date"] = date.today()
         
-
-        # Generar un UUID4
-        result["uuid"] = str(uuid.uuid4())
+        
+        
+          # Obtener el verification code del último certificado generado por el usuario
+        verification_code = ResidenceCertificate.get_last_certificate(user_data)
+        result["verification_code"] = verification_code
 
         # Generar un código QR para la URL 'barriolink.online/certifica/:uuid'
-        qr_data = f'barriolink.online/certifica/{result["uuid"]}'
+        qr_data = f'barriolink.online/validador/{verification_code}'
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -223,7 +228,7 @@ class DownloadPDF(View):
         result["uuid"] = str(uuid.uuid4())
 
         # Generar un código QR para la URL 'barriolink.online/certifica/:uuid'
-        qr_data = f'barriolink.online/certifica/{result["uuid"]}'
+        qr_data = f'barriolink.online/validador/{result["uuid"]}'
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
