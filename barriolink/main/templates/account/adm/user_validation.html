@@ -4,9 +4,84 @@
 {% block content %}
 
 		<!-- BEGIN #content -->
-		<div id="content" class="app-content p-0">
+		<div id="content" class="app-content">
+			<!-- BEGIN page-header -->
+			<h1 class="page-header">Validación Cuentas de Usuarios</h1>
+			<!-- END page-header -->
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+				<!-- BEGIN panel-heading -->
+				<div class="panel-heading">
+					<h4 class="panel-title">{{ users.nombre }}</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-default" data-toggle="panel-expand" data-tooltip-init="true"><i class="fa fa-expand"></i></a>
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-success" data-toggle="panel-reload" data-tooltip-init="true"><i class="fa fa-redo"></i></a>
+					</div>
+				</div>
+				<!-- END panel-heading -->
+				<!-- BEGIN panel-body -->
+				<div class="panel-body">
+					<div id="data-table-default_wrapper" class="dataTables_wrapper dt-bootstrap5 no-footer"><div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="data-table-default_length"><label>Show <select name="data-table-default_length" aria-controls="data-table-default" class="form-select form-select-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="data-table-default_filter" class="dataTables_filter"><label>Search:<input type="search" class="form-control form-control-sm" placeholder="" aria-controls="data-table-default"></label></div></div></div><div class="row"><div class="col-sm-12"><table id="data-table-default" class="table table-striped table-bordered align-middle dataTable no-footer dtr-inline collapsed" aria-describedby="data-table-default_info" style="width: 1269px;">
+						<thead>
+							<tr>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 210px;" aria-label="Rendering engine: activate to sort column ascending">Nombre Completo</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 100px;" aria-label="Rendering engine: activate to sort column ascending">RUT</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 100px;" aria-label="Browser: activate to sort column ascending">Celular</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 120px;" aria-label="Engine version: activate to sort column ascending">Correo</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 120px;" aria-label="Engine version: activate to sort column ascending">Fecha Nacimiento</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 179px;" aria-label="Engine version: activate to sort column ascending">Documento Validación</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 260px;" aria-label="Engine version: activate to sort column ascending">Dirección</th>
+								<th class="text-nowrap sorting" tabindex="0" aria-controls="data-table-default" rowspan="1" colspan="1" style="width: 120px;" aria-label="Engine version: activate to sort column ascending">Validación</th>
+							</tr>
+						</thead>
+						<tbody>
+						{% for usuario in users %}
+							<tr class="gradeX odd">
+								<td>{{ usuario.nombre }}{{ usuario.apellidos }}</td>
+								<td>{{ usuario.rut }}</td>
+								<td>{{ usuario.celular }}</td>
+								<td>{{ usuario.email }}</td>
+								<td>{{ usuario.birth_date }}</td>
+								<td> <a href=“”>Boleta.pdf</a></td>
+								<td>{{ usuario.comuna }}, {{ usuario.calle }}, {{ usuario.domicilio }}</td>
+								<td><a data-bs-toggle="modal" onclick="openCancelModal({{ usuario.id }})" type="button" data-bs-target="#cancelModal" class="btn btn-danger btn-icon btn-circle btn-lg"><i class="fa fa-times"></i></a>  
+									<a href="{% url 'activate_user' user_id=usuario.id %}" class="btn btn-success btn-icon btn-circle btn-lg"><i class="fa fa-check"></i></a></td> <!--Btn para cambiar el estado del user-->
+						{% endfor %}
+						</tbody>
+					</table></div></div><div class="row"><div class="col-sm-12 col-md-5"><div class="dataTables_info" id="data-table-default_info" role="status" aria-live="polite">Showing 1 to 10 of 57 entries</div></div><div class="col-sm-12 col-md-7"><div class="dataTables_paginate paging_simple_numbers" id="data-table-default_paginate"><ul class="pagination"><li class="paginate_button page-item previous disabled" id="data-table-default_previous"><a href="#" aria-controls="data-table-default" data-dt-idx="0" tabindex="0" class="page-link">Previous</a></li><li class="paginate_button page-item active"><a href="#" aria-controls="data-table-default" data-dt-idx="1" tabindex="0" class="page-link">1</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="2" tabindex="0" class="page-link">2</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="3" tabindex="0" class="page-link">3</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="4" tabindex="0" class="page-link">4</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="5" tabindex="0" class="page-link">5</a></li><li class="paginate_button page-item "><a href="#" aria-controls="data-table-default" data-dt-idx="6" tabindex="0" class="page-link">6</a></li><li class="paginate_button page-item next" id="data-table-default_next"><a href="#" aria-controls="data-table-default" data-dt-idx="7" tabindex="0" class="page-link">Next</a></li></ul></div></div></div></div>
+				</div>
+				<!-- END panel-body -->
 
+				<!-- Modal -->
+				<div class="modal fade" id="cancelModal{{ usuario.id }}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="cancelModalLabel{{ usuario.id }}" aria-hidden="true">
+					<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header">
+						<h5 class="modal-title"  id="cancelModalLabel{{ usuario.id }}">Cancelar Solicitud de Activación de Cuenta</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body text-center">
+							<div class="alert alert-muted">
+								Al llevar a cabo esta acción, el <code>usuario</code> que está solicitando la activación de su cuenta deberá volver a enviar sus datos. <code>Es obligatorio especificar el motivo del 
+								rechazo</code> de la solicitud con el fin de transparentar la razón detrás de la negación.
+							</div>
+							<div class="col-md-9  mx-auto">
+								<textarea id="motivoTextArea{{ usuario.id }}" class="form-control" rows="3" required placeholder="Motivo"></textarea>
+							</div>
+						</div>
+						<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+						<button type="button" class="btn btn-primary" onclick="confirmDenegacion('{{ usuario.id }}')">Confirma Denegación</button>
+						</div>
+					</div>
+					</div>
+				</div>
+				<!-- END hljs-wrapper -->
+			</div>
+			<!-- END panel -->
 		</div>
 		<!-- END #content -->
+		
+	
 
 {% endblock content %}

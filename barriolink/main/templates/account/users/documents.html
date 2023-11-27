@@ -3,10 +3,36 @@
 
 {% block content %}
 
-		<!-- BEGIN #content -->
-		<div id="content" class="app-content p-0">
-
-		</div>
+<!-- BEGIN #content -->
+<div id="content" class="app-content">
+	<!-- BEGIN page-header -->
+	<h1 class="page-header">Certificados</h1>
+	<!-- END page-header -->
+	<!-- BEGIN panel -->
+	<div class="panel panel-inverse">
+		<!-- BEGIN panel-body -->
+		<div class="panel-body">
+			<!-- BEGIN #content -->
+			<div class="card" style="width: 20rem;">
+				<div class="card-body">
+				  <h5 class="card-title text-center">Certificado de Residencia</h5>
+				  <p class="card-text">Descargue o visualice su certificado de resindencia de manera automática.</p>
+				<div class="menu-icon text-center">
+					<i class="fa fa-file-text fa-5x"></i>
+				</div>
+				<br>
+					<div class="text-center">
+						<a href="{% url 'pdf_view' %}" target="_blank" class="btn btn-info" style="width: 150px; ">Ver
+							<i class="fa fa-eye"></i>
+						</a>
+					</br>
+						<a href="{% url 'pdf_download' %}" class="btn btn-green " style="width: 150px; ">Descargar
+							<i class="fa fa-download"></i>
+						</a>
+					</div>
+				</div>
+			  </div>
+			  
 		<!-- END #content -->
-
+</div>
 {% endblock content %}

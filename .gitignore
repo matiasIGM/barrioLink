@@ -3,6 +3,9 @@ __pycache__
 *.pyc
 *.pyo
 *.pyd
+.pyc
 # Archivo de configuración local
 .env
+#Carpeta env
 /app_env/
+/__pycache__/

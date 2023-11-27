@@ -1,12 +1,58 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block content %}
 
 		<!-- BEGIN #content -->
-		<div id="content" class="app-content p-0">
+		<div id="content" class="app-content">
+			<h1 class="page-header">Validación Cuentas de Usuarios</h1>
+			<!-- BEGIN panel -->
+			<div class="panel panel-inverse">
+
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<td>#</td>
+							<td>nombres</td>
+							<td>apellidos</td>
+							<td>email</td>	
+							<td>celular</td>
+							<td>#</td>
+						</tr>
+
+
+					</thead>
+					<tbody>
+						{% if users %}
+						{% for users in users %}
+						<tr>	
+							<td>{{users.id}}</td>
+							<td>{{users.nombres}}</td>
+							<td>{{users.apellidos}}</td>
+							<td>{{users.email}}</td>
+							<td>{{users.celular}}</td>
+							
+							<!-- botón para editar -->
+							<td align="right"><a href="{% url 'users_edit' user_id=users.id %}" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
+							</td>	
+							<!-- botón para editar -->
+							<td align="right"><a href="{% url 'delete_user' user_id=users.id %}" class="btn btn-sm btn-danger w-70px">Eliminar</a>
+							</td>	
+						</tr>
+							{% endfor %}
+							{% else %}
+							<h1>No hay registros de usuarios</h1>
+
+							{% endif %}
+					</tbody>
+				</table>
+
+
+			</div>
 
 		</div>
 		<!-- END #content -->
+	
 
 {% endblock content %}

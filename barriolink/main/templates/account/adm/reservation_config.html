@@ -2,11 +2,191 @@
 {% load static %}
 
 {% block content %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="d-flex">
+        <div class="toast show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-body text-white bg-warning border-0">
+                    {{ message }}
+                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+    </div>
+    </div>
+    {% endfor %}
+    {% endif %}
 
-		<!-- BEGIN #content -->
-		<div id="content" class="app-content p-0">
+<div id="content" class="app-content">
+    <!-- BEGIN page-header -->
+    <h1 class="page-header">Configuración Espacios Comunes</h1>
+    <!-- END page-header -->
+    
+    <!-- BEGIN row -->
+    <div class="row mb-3">
+        <!-- BEGIN col-6 -->
+        <div class="col-xl-6 ui-sortable">
+            <div class="panel panel-inverse" data-sortable-id="form-stuff-1" data-init="true">
+                <div class="mt-3 table-responsive">
+                    <table class="table table-striped mb-0 align-middle">
+                        <thead>
+                            <tr>
+                                <th>Estado</th>
+                                <th>Nombre</th>
+                                <th>Descripción</th>
+                                <th>Capacidad Máxima</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {% for space in community_spaces %}
+                            <tr>
+                                <td>
+                                    <div class="form-check form-switch mb-2">
+                                        <input class="form-check-input" type="checkbox" id="flexSwitchCheckChecked" checked="">
+                                    </div>
+                                </td>
+                                <td>{{ space.name }}</td>
+                                <td>{{ space.description }}</td>
+                                <td>{{ space.max_capacity }}</td>
+                                <td class="with-btn" nowrap="">
+                                    <a href="{% url 'edit_space' space_id=space.id %}" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
+                                    <a href="{% url 'delete_places' id=space.id %}" class="btn btn-sm btn-danger w-70px">Eliminar</a>
+                                    
+                                     <!-- Agrega este bloque para imprimir el ID -->
+                                    {% if space.id %}
+                                        {{ space.id }}
+                                    {% else %}
+                                        ID no disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            
+            {% comment %} <form method="post" action="{% url 'register_place' %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Registrar Espacio</button>
+            </form> {% endcomment %}
+        </div>
+        <!-- END col-6 -->
+        <div class="col-xl-6 ui-sortable">
+            <!-- BEGIN panel -->
+            
+            <!-- END panel -->
+            <div class="panel panel-inverse" data-sortable-id="form-stuff-2" data-init="true">
+                <!-- BEGIN panel-heading -->
+                <div class="panel-heading ui-sortable-handle">
+                    <h4 class="panel-title">Registro de Espacios</h4>
+                </div>
+                <!-- END panel-heading -->
+                <!-- BEGIN panel-body -->
+                <div class="panel-body">
+                    {% comment %} <form  method="post" >
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input type="text" class="form-control fs-15px" name="name" placeholder="">
+                                    <label for="{{ form.name.id_for_label }}" class="d-flex align-items-center fs-13px">Nombre Sitio</label>
+                                </div>
+                                </br>
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input type="number" class="form-control fs-15px" name="description" placeholder="">
+                                    <label for="{{ form.description.id_for_label }}" class="d-flex align-items-center fs-13px">Capacidad Máxima</label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-floating mb-3 mb-md-0">
+                                    <input type="text" class="form-control fs-15px" name="max_capacity"  placeholder="">
+                                    <label for="{{ form.max_capacity.id_for_label }}" class="d-flex align-items-center fs-13px">Descripción Sitio</label>
+                                </div>
+                                </br>
+                                <a href="#" class="btn btn-primary">Cancelar</a>
+                                <button type="submit">Registrar Espacio</button>
+                            </div>
+                            
+                        </div>
+                    </form> {% endcomment %}
 
-		</div>
-		<!-- END #content -->
 
+                </div>
+                <!-- END panel-body -->
+            </div>
+                
+    </div>
+
+
+
+    
+    <!--Create Place Modal-->
+    <!-- #modal-dialog -->
+    <div class="modal fade" id="modal-dialog">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">Modal Dialog</h4>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+            </div>
+            <div class="modal-body">
+            ...
+            </div>
+            <div class="modal-footer">
+            <a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+            <a href="javascript:;" class="btn btn-success">Action</a>
+            </div>
+        </div>
+        </div>
+    </div>
+    <!-- END row -->
+    <!-- Modal para actualizar un espacio comunitario -->
+    {% comment %} <div class="modal fade" id="updatePlaceModal" tabindex="-1" aria-labelledby="updatePlaceModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="updatePlaceModalLabel">Actualizar Espacio Comunitario</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="post" action="{% url 'update_place' place.id %}">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <button type="submit">Actualizar Espacio</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+</div>
+
+{% comment %} <script>
+    // Puedes ajustar este código según la estructura de tu modal
+    $(document).ready(function() {
+        $('#updatePlaceModal').modal('show');
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Manejar clic en el botón de editar
+        $('.edit-btn').click(function () {
+            var spaceId = $(this).data('id');
+
+            // Realizar una solicitud AJAX para obtener el formulario de edición
+            $.ajax({
+                url: '{% url "get_edit_form" %}',
+                method: 'GET',
+                data: { 'space_id': spaceId },
+                success: function (data) {
+                    $('#edit-form-container').html(data);
+                    $('#modal-dialog').modal('show');
+                }
+            });
+        });
+    });
+</script> {% endcomment %}
 {% endblock content %}
+

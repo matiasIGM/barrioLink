@@ -10,25 +10,28 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
+from decouple import config
 from pathlib import Path
 import os
 from typing import (List, Dict, Tuple, Any)
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 
+
+# Build paths inside the project like this: BASE_DIR / 'subdir'.
+# BASE_DIR = Path(__file__).resolve().parent.parent
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-l==9004g=%qo5h5do643==v*ve7z5y!8&2#56a2!ju9nve(#z4'
+SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.0','localhost', '3.86.91.69', '0.0.0.0', '127.0.0.1','*','barriolink.online']
-SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+ALLOWED_HOSTS = ['127.0.0.0','localhost', '3.86.91.69', '0.0.0.0', '127.0.0.1','*','barriolink.online', 'localhost:8000']
+#SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') #for use on production ambient
 
 # Application definition
 
@@ -41,7 +44,13 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig', 
     'crispy_forms',
-    'crispy_bootstrap5'
+    'crispy_bootstrap5', 
+    'telegram',
+    'reportlab',
+    'certificates',
+    'storages',
+    
+    
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -56,6 +65,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+]
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:8000",
+    "https://qmhpr9jr-8000-inspect.brs.devtunnels.ms",# Reemplaza con tu URL base
 ]
 
 ROOT_URLCONF = 'barriolink.urls'
@@ -63,7 +78,7 @@ ROOT_URLCONF = 'barriolink.urls'
 TEMPLATES: List[Dict[str, Any]] = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -89,10 +104,18 @@ AUTHENTICATION_BACKENDS = ['main.backends.EmailBackend']
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+     'default': {
+        'ENGINE': config('DB_ENGINE', default='django.db.backends.sqlite3'),
+        'NAME': config('DB_NAME', default=os.path.join(BASE_DIR, 'db.sqlite3')),
+        'USER': config('DB_USER', default=''),
+        'PASSWORD': config('DB_PASSWORD', default=''),
+        'HOST': config('DB_HOST', default=''),
+        'PORT': config('DB_PORT', default=''),
     }
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR , 'db.sqlite3'),
+    # }
 }
 
 
@@ -131,6 +154,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATICFILES_DIRS = [os.path.join(BASE_DIR, "main/static")]
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
@@ -141,11 +165,53 @@ LOGIN_REDIRECT_URL = '/home'
 LOGOUT_REDIRECT_URL = '/login'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'barriolink@gmail.com'
-EMAIL_HOST_PASSWORD = 'xjwh svfs kcct nffp'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
+EMAIL_BACKEND = config('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = config('EMAIL_HOST', default='smtp.gmail.com')
+EMAIL_HOST_USER = config('EMAIL_HOST_USER', default='')
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD', default='')
+EMAIL_PORT = config('EMAIL_PORT', default=587, cast=int)
+EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 
 print(os.path.join(BASE_DIR, 'templates'))  # Imprime la ruta a la carpeta de plantillas
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = os.path.join(BASE_DIR,'barriolink' ,'media')
+
+
+print(MEDIA_URL)
+print(MEDIA_ROOT)
+
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
+#MEDIA_ROOT = '/home/ubuntu/barrioLink/barrioLink/barriolink/media/'
+
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+#print(MEDIA_URL)
+#print(MEDIA_ROOT)
+
+# SECURE_BROWSER_XSS_FILTER: bool = True
+# SECURE_CONTENT_TYPE_NOSNIFF: bool = True
+# SECURE_HSTS_INCLUDE_SUBDOMAINS: bool = True
+# SECURE_HSTS_SECONDS: int = 31536000  # 365 days = 1 year
+# SECURE_REDIRECT_EXEMPT: List[str] = []
+# SECURE_SSL_REDIRECT: bool = True
+# SESSION_COOKIE_SECURE = config('SESSION_COOKIE_SECURE', default=True, cast=bool)
+# CSRF_COOKIE_SECURE = config('CSRF_COOKIE_SECURE', default=True, cast=bool)
+# SECURE_HSTS_PRELOAD = config('SECURE_HSTS_PRELOAD', default=True, cast=bool)
+
+use_s3 = True
+
+if use_s3:
+    
+   AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+   AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+   AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+   AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+  # AWS_DEFAULT_ACL = 'public-read'
+
+# s3 static settings
+   STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+   STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+
+else:
+   STATIC_URL = '/static/'
+

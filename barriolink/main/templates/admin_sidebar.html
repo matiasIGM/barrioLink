@@ -14,12 +14,6 @@
     <link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
 </head>
 <body>
-	<!-- BEGIN #loader -->
-	<div id="loader" class="app-loader">
-		<span class="spinner"></span>
-	</div>
-	<!-- END #loader -->
-	
 		<!-- BEGIN #sidebar -->
 		{% block sidebar %}
 		<div id="sidebar" class="app-sidebar">
@@ -52,21 +46,15 @@
 					</div>
 					<div id="appSidebarProfileMenu" class="collapse">
 						<div class="menu-item pt-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-cog"></i></div>
-								<div class="menu-text">Settings</div>
+							<a href="/hoaConfig" class="menu-link">
+								<div class="menu-icon"><i class="fa fa-cog fa-spin fa-fw"></i></div>
+								<div class="menu-text">Configuración General JJVV</div>
 							</a>
 						</div>
-						<div class="menu-item">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-pencil-alt"></i></div>
-								<div class="menu-text"> Send Feedback</div>
-							</a>
-						</div>
-						<div class="menu-item pb-5px">
-							<a href="javascript:;" class="menu-link">
-								<div class="menu-icon"><i class="fa fa-question-circle"></i></div>
-								<div class="menu-text"> Helps</div>
+						<div class="menu-item pt-5px">
+							<a href="/placesConfig" class="menu-link">
+								<div class="menu-icon"><i class="fa fa-wrench"></i></div>
+								<div class="menu-text">Configuración Espacios</div>
 							</a>
 						</div>
 						<div class="menu-divider m-0"></div>
@@ -92,7 +80,7 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-chart-pie"></i>
+								<i class="fa fa-info"></i>
 							</div>
 							<div class="menu-text">Noticias</div>
 							<div class="menu-caret"></div>
@@ -104,6 +92,10 @@
 								</a>
 							</div>
 							<div class="menu-item">
+<<<<<<< HEAD
+								<a href="/adminNewsValidation" class="menu-link">
+=======
+>>>>>>> dev_matias
 								<a href="/admValpublish" class="menu-link">
 									<div class="menu-text">Validación de Noticias</div>
 								</a>
@@ -113,14 +105,14 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-map"></i>
+								<i class="fa fa-key"></i>
 							</div>
 							<div class="menu-text">Gestión de Espacios</div>
 							<div class="menu-caret"></div>
 						</a>
 						<div class="menu-submenu">
 							<div class="menu-item">
-								<a href="adminReservations" class="menu-link">
+								<a href="/adminReservations" class="menu-link">
 									<div class="menu-text">Validación de Reservas</div>
 								</a>
 							</div>
@@ -129,7 +121,7 @@
 					<div class="menu-item has-sub">
 						<a href="javascript:;" class="menu-link">
 							<div class="menu-icon">
-								<i class="fa fa-image"></i>
+								<i class="fa fa-bullhorn"></i>
 							</div>
 							<div class="menu-text">Campañas de Difusión</div>
 							<div class="menu-caret"></div>
@@ -138,6 +130,22 @@
 							<div class="menu-item">
 								<a href="/adminNotifications" class="menu-link">
 									<div class="menu-text">Notificaciones Masivas</div>
+								</a>
+							</div>
+						</div>
+					</div>
+					<div class="menu-item has-sub">
+						<a href="javascript:;" class="menu-link">
+							<div class="menu-icon">
+								<i class="fa fa-file-text"></i>
+							</div>
+							<div class="menu-text">Documentos</div>
+							<div class="menu-caret"></div>
+						</a>
+						<div class="menu-submenu">
+							<div class="menu-item">
+								<a href="/Admindocuments" class="menu-link">
+									<div class="menu-text">Certificado de Residencia</div>
 								</a>
 							</div>
 						</div>
@@ -152,15 +160,11 @@
 				<!-- END menu -->
 			</div>
 			<!-- END scrollbar -->
-		</div>>
+		</div>
 		<div class="app-sidebar-bg"></div>
 		<div class="app-sidebar-mobile-backdrop"><a href="#" data-dismiss="app-sidebar-mobile" class="stretched-link"></a></div>
 		{% endblock %}
 		<!-- END #sidebar -->
-		
-		
-
-			
 
 	<!-- END #app -->
 	

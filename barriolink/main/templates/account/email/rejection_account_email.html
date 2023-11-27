@@ -1,0 +1,23 @@
+{% extends "email_base.html" %}
+{% load static %}
+
+{% block content %}
+<blockquote class="blockquote">
+    <!-- Texto justificado -->
+    <p><br/> <br/> <br/> <br/>
+        Estimado, {{ user.nombres }} {{ user.apellidos }}<br/>
+        <br/>
+        Lamentamos informarte que no hemos podido validar tu cuenta de usuario en Barriolink debido a lo siguiente:<br/>
+        <br/>
+        {{ motivo }}<br/>
+        <br/>
+        Si necesitas ayuda o tienes alguna pregunta, por favor, no dudes en contactarnos a través de la aplicación o respondiendo a este correo electrónico.<br/>
+        <br/>
+        <br/>
+        Lamentamos los inconvenientes y estamos aquí para ayudarte.<br/>
+        <br/>
+        </p>
+</blockquote>
+
+{% endblock content %}
+

@@ -1,0 +1,168 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+    <div id="content" class="app-content">
+        <h1 class="page-header">Configuración Junta de Vecinos</h1>
+
+        <div class="row mb-3">
+            <div class="col-xl-12 ui-sortable">
+                <div class="panel panel-inverse" data-sortable-id="form-stuff-1" data-init="true">
+                    <div class="container">
+                        <div class="row mb-3">
+                            <div class="col-md-6 mb-4">
+                                <div class="panel panel-inverse" data-sortable-id="form-stuff-1" data-init="true">
+                                    <div class="panel-body">
+										<!-- Formulario para actualizar datos de la Junta de Vecinos -->
+                                        <form method="post" action="{% url 'update_hoa_data' hoa_id=hoa_data.hoa_id %}" id="hoaForm" enctype="multipart/form-data">
+											{% csrf_token %}
+											{% comment %} {% if messages %}
+												<ul class="messages">
+													{% for message in messages %}
+														<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+													{% endfor %}
+												</ul>
+											{% endif %} {% endcomment %}
+									
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">RUT</label>
+													<div class="col-sm-9">
+														<input class="form-control" type="text" name="rut" value="{{ hoa_data.rut }}" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+											
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Nombre de la Junta de Vecinos</label>
+													<div class="col-sm-9">
+														<input class="form-control" type="text" name="hoa_name" value="{{ hoa_data.hoa_name }}" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+											
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Dirección Legal</label>
+													<div class="col-sm-9">
+														<input class="form-control" type="text" name="legal_address" value="{{ hoa_data.legal_address }}" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+											
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Teléfono de Contacto</label>
+													<div class="col-sm-9">
+														<input class="form-control" type="text" name="contact_phone" value="{{ hoa_data.contact_phone }}" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+											
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Correo Electrónico de Contacto</label>
+													<div class="col-sm-9">
+														<input class="form-control" type="text" name="contact_email" value="{{ hoa_data.contact_email }}" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+											
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Fecha de Fundación</label>
+													<div class="col-sm-9"  data-provide="datepicker">
+														{% if hoa_data.foundation_date %}
+															{{ hoa_data.foundation_date|date:"Y-m-d" }}
+														{% endif %}
+														<input class="form-control" type="date" name="foundation_date" value="{{ hoa_data.foundation_date }}" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+											
+								
+
+												<!-- Mostrar la imagen actual - Logo -->
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Logo Actual</label>
+													<div class="col-sm-9">
+														{% if hoa_data.logo_symbol %}
+															<img src="{{ hoa_data.logo_symbol.url }}" alt="Logo actual" style="max-width: 100px; max-height: 100px;">
+														{% else %}
+															<p>No hay logo cargado.</p>
+														{% endif %}
+													</div>
+												</div>
+
+												<!-- Mostrar la imagen actual - Firma -->
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Firma Actual</label>
+													<div class="col-sm-9">
+														{% if hoa_data.signature_img %}
+															<img src="{{ hoa_data.signature_img.url }}" alt="Firma actual" style="max-width: 100px; max-height: 100px;">
+														{% else %}
+															<p>No hay firma cargada.</p>
+														{% endif %}
+													</div>
+												</div>
+
+
+												<!-- Campo de imagen - Logo -->
+												<div class="row mb-15px file-upload">
+													<label class="form-label col-form-label col-md-3">Imagen Logo</label>
+													<div class="col-sm-9">
+														<input  type="file" accept="image/*" name="logo_symbol" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+
+												<!-- Campo de imagen - Firma -->
+												<div class="row mb-15px">
+													<label class="form-label col-form-label col-md-3">Imagen Firma</label>
+													<div class="col-sm-9">
+														<input  type="file" accept="image/*" name="signature_img" {% if not editable %}readonly{% endif %}>
+													</div>
+												</div>
+
+																				
+									
+											   <!-- Botones de acción -->
+											{% if editable %}
+											<!-- Botones para guardar cambios y cancelar la edición -->
+											<button type="submit" class="btn btn-success">Guardar Cambios</button>
+											<a href="{% url 'admin_hoa' %}" class="btn btn-danger">Cancelar</a>
+										{% else %}
+											<!-- Botón para editar -->
+											<a href="{% url 'edit_hoa_data' hoa_id=hoa_data.hoa_id %}" class="btn btn-primary">Editar</a>
+										{% endif %}
+									
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+
+
+<!-- Código JavaScript para manejar notificaciones mediante un modal básico -->
+
+<script>
+	// Espera a que el DOM esté completamente cargado antes de ejecutar el código
+	document.addEventListener('DOMContentLoaded', function () {
+		// Comprueba si hay mensajes para mostrar
+		{% if messages %}
+			// Muestra un modal de éxito básico
+			// Asegúrate de tener estilos y scripts de modal adecuados en tu proyecto
+			alert("{{ messages }}");
+		{% endif %}
+	
+		// Obtén el formulario y el mensaje de éxito por su identificador
+		var form = document.getElementById('hoaForm');
+		var successMessage = document.querySelector('.toast-success');
+	
+		// Verifica si el formulario y el mensaje de éxito existen
+		if (form && successMessage) {
+			// Agrega un evento de escucha al formulario para ocultar el mensaje de éxito después de enviar el formulario
+			form.addEventListener('submit', function () {
+				// Oculta el mensaje de éxito
+				successMessage.style.display = 'none';
+				// Aquí puedes agregar lógica para desactivar botones si es necesario
+			});
+		}
+	});
+	</script>
+	</div>
+	
+	
+{% endblock content %}
