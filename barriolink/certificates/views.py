@@ -68,12 +68,13 @@ class ViewPDF(View):
     def save_certificate_to_db(self, resident, hoa_data, user_data):
         # Obtener la fecha actual
         current_date = date.today()
+        formatted_date = current_date.strftime("%d %B %Y")
 
         # Crear un nuevo objeto de certificado de residencia
         certificate = ResidenceCertificate.objects.create(
             resident=user_data,
             certificate_date=current_date,
-            certificate_filename='nombre_archivo.pdf',  # Reemplaza con el nombre real del archivo PDF
+            certificate_filename=f"certificado_residencia_{formatted_date}.pdf",  # Reemplaza con el nombre real del archivo PDF
             certificate_status='Generado',
             hoa=hoa_data,
             generated_by_user=user_data
@@ -187,7 +188,7 @@ class DownloadPDF(View):
         certificate = ResidenceCertificate.objects.create(
             resident=user_data,
             certificate_date=current_date,
-            certificate_filename='nombre_archivo.pdf',  # Reemplaza con el nombre real del archivo PDF
+            certificate_filename=f"certificado_residencia_{formatted_date}.pdf",  # Reemplaza con el nombre real del archivo PDF
             certificate_status='Generado',
             hoa=hoa_data,
             generated_by_user=user_data
