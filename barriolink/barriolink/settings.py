@@ -92,9 +92,7 @@ TEMPLATES: List[Dict[str, Any]] = [
 ]
 
 
-
 WSGI_APPLICATION = 'barriolink.wsgi.application'
-
 
 AUTH_USER_MODEL = 'main.CustomUser'
 
