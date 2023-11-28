@@ -68,19 +68,23 @@ class ViewPDF(View):
     def save_certificate_to_db(self, resident, hoa_data, user_data):
         # Obtener la fecha actual
         current_date = date.today()
+        formatted_date = current_date.strftime("%d %B %Y")
 
         # Crear un nuevo objeto de certificado de residencia
         certificate = ResidenceCertificate.objects.create(
             resident=user_data,
             certificate_date=current_date,
-            certificate_filename='nombre_archivo.pdf',  # Reemplaza con el nombre real del archivo PDF
+            certificate_filename=f"certificado_residencia_{formatted_date}.pdf",  # Reemplaza con el nombre real del archivo PDF
             certificate_status='Generado',
             hoa=hoa_data,
             generated_by_user=user_data
+            
         )
 
         # Guardar el objeto en la base de datos
         certificate.save()
+        
+
         
     def get(self, request, *args, **kwargs):
         result = {}  #  diccionario vacío para guardar datos
@@ -131,12 +135,14 @@ class ViewPDF(View):
         result["user_celular"] = user_data.celular
         result["current_date"] = date.today()
         
-
-        # Generar un UUID4
-        result["uuid"] = str(uuid.uuid4())
+        
+        
+          # Obtener el verification code del último certificado generado por el usuario
+        verification_code = ResidenceCertificate.get_last_certificate(user_data)
+        result["verification_code"] = verification_code
 
         # Generar un código QR para la URL 'barriolink.online/certifica/:uuid'
-        qr_data = f'barriolink.online/certifica/{result["uuid"]}'
+        qr_data = f'barriolink.online/validador/{verification_code}'
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -176,12 +182,13 @@ class DownloadPDF(View):
     def generate_pdf_and_qr(self, resident, hoa_data, user_data):
         # Obtener la fecha actual
         current_date = date.today()
+        formatted_date = current_date.strftime("%d %B %Y, %A")
 
         # Crear un nuevo objeto de certificado de residencia
         certificate = ResidenceCertificate.objects.create(
             resident=user_data,
             certificate_date=current_date,
-            certificate_filename='nombre_archivo.pdf',  # Reemplaza con el nombre real del archivo PDF
+            certificate_filename=f"certificado_residencia_{formatted_date}.pdf",  # Reemplaza con el nombre real del archivo PDF
             certificate_status='Generado',
             hoa=hoa_data,
             generated_by_user=user_data
@@ -216,13 +223,13 @@ class DownloadPDF(View):
         result["user_calle"] = user_data.calle
         result["user_numero_domicilio"] = user_data.numero_domicilio
         result["user_celular"] = user_data.celular
-        result["current_date"] = current_date
+        result["current_date"] = formatted_date
 
         # Generar un UUID4
         result["uuid"] = str(uuid.uuid4())
 
         # Generar un código QR para la URL 'barriolink.online/certifica/:uuid'
-        qr_data = f'barriolink.online/certifica/{result["uuid"]}'
+        qr_data = f'barriolink.online/validador/{result["uuid"]}'
         qr = qrcode.QRCode(
             version=1,
             error_correction=qrcode.constants.ERROR_CORRECT_L,
@@ -314,3 +321,20 @@ class DownloadPDF(View):
 
         return None
    
+ 
+#Función para validar el certificado de residencia   
+def validator(request, verification_code):
+    # Obtener el certificado y los datos relacionados
+    certificate = get_object_or_404(ResidenceCertificate, verification_code=verification_code)
+    user = certificate.resident
+    hoa = certificate.hoa
+
+    # Renderizar la plantilla con los datos
+    return render(request, 'validate.html', {
+        'nombres': user.nombres,
+        'apellidos': user.apellidos,
+        'rut': user.rut,
+        'id_certificado': str(certificate.verification_code),  # Convertir el ID a cadena
+        'fecha_emision': certificate.certificate_date,
+        'nombre_junta': hoa.hoa_name,
+    })

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm, SolPublicacionForm,  UsersUpdateForm, ProfileUpdateForm
+from .forms import RegisterFormStep1, ContactForm, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm, SolPublicacionForm,  UsersUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
@@ -26,6 +26,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from . email_utils import *
 import json
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
 
 
 # @login_required(login_url="/login")
@@ -98,13 +99,21 @@ def filter_user_adm(request):
 
 
 
-def certificado(request):
-    return render('ruta certificado/certificado.html')
-
 #Renderizar home del sitio
 def home(request):
-     return render(request, 'main/home.html')
+    # Obtener las últimas publicaciones
+    ultimas_publicaciones = Publicacion.objects.all().order_by('-fecha_publicacion')[:2]  # Obtén las últimas 3 publicaciones, por ejemplo
 
+    context = {
+        'ultimas_publicaciones': ultimas_publicaciones,
+    }
+ # Return a rendered template
+    return render(request, 'main/home.html', context)
+
+
+def detalle_publicacion(request, pk):
+    publicacion = get_object_or_404(Publicacion, pk=pk)
+    return render(request, 'main/detalle_publicacion.html', {'publicacion': publicacion})
 
 def reservation(request):
     return render(request, 'account/users/reservations.html')
@@ -389,6 +398,24 @@ def recuperar_solicitud(request, solicitud_id):
     solicitud.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+
+
+def public_val(request, solicitud_id):
+    solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
+    solicitud.estado = 'validada'
+    solicitud.save()
+
+    publicacion = None
+    if request.method == 'POST':
+        form = PublicacionForm(request.POST)
+        if form.is_valid():
+            publicacion = form.save(commit=False)
+            publicacion.save()
+        return render(request, 'account/adm/profile.html')
+    else:
+        form = PublicacionForm()
+    return render(request, 'account/adm/news_publish.html', {'form': form, 'solicitud': solicitud})
+
 # User Functions 
 #==============================================================
 
@@ -504,3 +531,35 @@ def adminProfileUpdate(request, user_id):
         form = ProfileUpdateForm(instance=editprofile)
 
     return render (request, 'account/adm/profile_settings.html', {'editprofile':editprofile, 'editable': True, 'form': form})
+
+
+
+def enviar_correo(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            mensaje = form.cleaned_data['mensaje']
+
+            # Enviar el correo
+            asunto = 'Consultas de usuario BarrioLink'
+            mensaje_correo = f'Nombre: {nombre}\nCorreo: {correo}\n\nMensaje:\n{mensaje}'
+            destinatario = 'barriolink@gmail.com'
+            email = EmailMessage(asunto, mensaje_correo, destinatario, [destinatario])
+            
+            try:
+            # Envía el correo
+                email.send()
+            except Exception as e:
+                #  excepción que pueda ocurrir al enviar el correo
+                print(f"Error al enviar el correo: {e}")
+
+            return redirect('home')  # Redirige a una página de éxito o a donde desees.
+            
+    else:
+        form = ContactForm()
+
+    return render(request, 'main/home.html', {'form': form})
+
+

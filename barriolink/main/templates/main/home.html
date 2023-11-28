@@ -24,7 +24,7 @@
 			<!-- begin container -->
 			<div class="container">
 				<!-- begin navbar-brand -->
-				<a href="index.html" class="navbar-brand">
+				<a href="/" class="navbar-brand">
 					<span class="brand-logo"></span>
 					<span class="brand-text">
 						<span class="text-theme">Barrio</span> Link
@@ -408,127 +408,25 @@
 					</p>
 					<!-- begin row -->
 					<div class="row row-space-10">
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-1.jpg' %}" alt="Work 1" /></a>
+						{% for publicacion in ultimas_publicaciones %}
+							<!-- begin col-3 -->
+							<div class="col-lg-6 col-md-4">
+								<!-- begin work -->
+								<div class="service">
+									<div class="info">
+										<h4 class="title">{{ publicacion.titulo }}</h4>
+										<p class="desc" style="font-size: 16px">{{ publicacion.contenido }}</p>
+										<b>{{ publicacion.fecha_publicacion | date:"d M Y" }}</b>
+										<span class="divider">|</span>
+										<a href="{% url 'detalle_publicacion' pk=publicacion.id %}">Leer más <i class="fa fa-angle-double-right"></i></a>
+									</div>
 								</div>
-								<div class="desc">
-									<span class="desc-title">Aliquam molestie</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
+								<!-- end work -->
 							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-2.jpg' %}" alt="Work 2" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Quisque at pulvinar lacus</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-3.jpg' %}" alt="Work 3" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Vestibulum et erat ornare</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-4.jpg' %}" alt="Work 4" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Sed vitae mollis magna</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-5.jpg' %}" alt="Work 5" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Suspendisse at mattis odio</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-6.jpg' %}" alt="Work 6" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Aliquam vitae commodo diam</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-7.jpg' %}" alt="Work 7" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Phasellus eu vehicula lorem</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
-						<!-- begin col-3 -->
-						<div class="col-lg-3 col-md-4">
-							<!-- begin work -->
-							<div class="work">
-								<div class="image">
-									<a href="#"><img src="{% static 'img/work/work-img-8.jpg' %}" alt="Work 8" /></a>
-								</div>
-								<div class="desc">
-									<span class="desc-title">Morbi bibendum pellentesque</span>
-									<span class="desc-text">Lorem ipsum dolor sit amet</span>
-								</div>
-							</div>
-							<!-- end work -->
-						</div>
-						<!-- end col-3 -->
+							<!-- end col-3 -->
+						{% endfor %}
 					</div>
+					
 					<!-- end row -->
 				</div>
 				<!-- end container -->
@@ -626,26 +524,29 @@
 						<!-- end col-6 -->
 						<!-- begin col-6 -->
 						<div class="col-lg-6 form-col" data-animation="true" data-animation-type="animate__fadeInRight">
-							<form class="form-horizontal">
+							<form class="form-horizontal" method="post" action="{% url 'enviar_correo' %}">
+								{% csrf_token %}
 								<div class="row mb-3">
-									<label class="col-form-label col-lg-3 text-lg-right">Nombre <span
+									<label for="nombre" class="col-form-label col-lg-3 text-lg-right">Nombre <span
 											class="text-theme">*</span></label>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" />
+										<input type="text" name="nombre" class="form-control" required />
+										{% comment %} {{ form.nombre }} {% endcomment %}
 									</div>
 								</div>
 								<div class="row mb-3">
-									<label class="col-form-label col-lg-3 text-lg-right">Correo <span
+									<label for="correo" class="col-form-label col-lg-3 text-lg-right">Correo <span
 											class="text-theme">*</span></label>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" />
+										<input type="text" name="correo" class="form-control" required/>
 									</div>
 								</div>
 								<div class="row mb-3">
-									<label class="col-form-label col-lg-3 text-lg-right">Mensaje <span
+									<label for="mensaje" class="col-form-label col-lg-3 text-lg-right">Mensaje <span
 											class="text-theme">*</span></label>
 									<div class="col-lg-9">
-										<textarea class="form-control" rows="10"></textarea>
+										<textarea class="form-control" name="mensaje" rows="10" required></textarea>
+										{% comment %} {{ form.mensaje }} {% endcomment %}
 									</div>
 								</div>
 								<div class="row mb-3">

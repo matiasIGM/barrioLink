@@ -37,8 +37,7 @@
 			<!-- END profile -->
 			<!-- BEGIN profile-content -->
 			<div class="profile-content">
-				<!-- BEGIN tab-content -->
-				<div class="tab-content p-0">
+				
 					<!-- BEGIN #profile-post tab -->
 				
 					<!-- END #profile-post tab -->
@@ -56,15 +55,12 @@
 											</ul>
 										{% endif %} {% endcomment %}
 								
-											<div class="row justify-content-center">
+											<div class="row">
 												<div class="col-12 col-lg-10 col-xl-8 mx-auto">
 													<div class="my-4">
 												
 															<div class="row mt-5 align-items-center">
 																<div class="col-md-3 text-center mb-5">
-																	<div class="avatar avatar-xl" style="width: 110px">
-																		<img src="https://bootdey.com/img/Content/avatar/avatar6.png" alt="..." class="avatar-img rounded-circle" />
-																	</div>
 																</div>
 																<div class="col">
 																	<div class="row align-items-center">
@@ -100,7 +96,7 @@
 																	<label for="celular">Telefono</label>
 																	<input type="text" class="form-control" name="celular" value=" {{profile_data.celular}}" {% if not editable %}readonly{% endif %} />
 																</div>
-																<div class="form-group col-md-2">
+																<div class="form-group col-md-3">
 																	<label for="birth_date">Fecha Nacimiento</label>
 																	<input type="date" class="form-control" name="birth_date" value=" {{profile_data.birth_date}}" {% if not editable %}readonly{% endif %} />
 																</div>
@@ -186,8 +182,7 @@
 					<!-- END #profile-about tab -->
 
 					<!-- END #profile-friends tab -->
-				</div>
-				<!-- END tab-content -->
+
 			</div>
 			<!-- END profile-content -->
 		</div>

@@ -1,7 +1,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import Post, CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol
+from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol
 from datetime import datetime 
 
 
@@ -44,12 +44,6 @@ class RegisterFormStep2(UserCreationForm):
         fields = ["numero_documento","region", "comuna", "calle", "numero_domicilio"]
     
     
-
-class PostForm(forms.ModelForm):
-    class Meta:
-        model = Post
-        fields = ["title", "description"]
-
 
 class CustomUserAdminRegistrationForm(forms.ModelForm):
     class Meta:
@@ -107,3 +101,10 @@ class ProfileUpdateForm(forms.ModelForm):
     class Meta:
         model = CustomUser
         fields = ['nombres', 'apellidos', 'celular','calle','email','birth_date']
+        
+#Formulario contacto Home
+class ContactForm(forms.Form):
+    nombre = forms.CharField(max_length=100)
+    correo = forms.EmailField()
+    mensaje = forms.CharField(widget=forms.Textarea)
+    
