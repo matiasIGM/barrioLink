@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import RegisterFormStep1, RegisterFormStep2, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm, SolPublicacionForm,  UsersUpdateForm, ProfileUpdateForm
+from .forms import RegisterFormStep1, ContactForm, CustomUserAdminRegistrationForm, PublicacionForm, JuntaDeVecinosForm, CommunitySpaceForm, SolPublicacionForm,  UsersUpdateForm, ProfileUpdateForm
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
@@ -26,6 +26,7 @@ from django.http import HttpResponseRedirect, JsonResponse
 from . email_utils import *
 import json
 from django.forms.models import model_to_dict
+from django.core.mail import send_mail
 
 
 # @login_required(login_url="/login")
@@ -530,3 +531,35 @@ def adminProfileUpdate(request, user_id):
         form = ProfileUpdateForm(instance=editprofile)
 
     return render (request, 'account/adm/profile_settings.html', {'editprofile':editprofile, 'editable': True, 'form': form})
+
+
+
+def enviar_correo(request):
+    if request.method == 'POST':
+        form = ContactForm(request.POST)
+        if form.is_valid():
+            nombre = form.cleaned_data['nombre']
+            correo = form.cleaned_data['correo']
+            mensaje = form.cleaned_data['mensaje']
+
+            # Enviar el correo
+            asunto = 'Consultas de usuario BarrioLink'
+            mensaje_correo = f'Nombre: {nombre}\nCorreo: {correo}\n\nMensaje:\n{mensaje}'
+            destinatario = 'barriolink@gmail.com'
+            email = EmailMessage(asunto, mensaje_correo, destinatario, [destinatario])
+            
+            try:
+            # Envía el correo
+                email.send()
+            except Exception as e:
+                #  excepción que pueda ocurrir al enviar el correo
+                print(f"Error al enviar el correo: {e}")
+
+            return redirect('home')  # Redirige a una página de éxito o a donde desees.
+            
+    else:
+        form = ContactForm()
+
+    return render(request, 'main/home.html', {'form': form})
+
+

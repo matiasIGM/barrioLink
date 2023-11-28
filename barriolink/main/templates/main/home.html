@@ -24,7 +24,7 @@
 			<!-- begin container -->
 			<div class="container">
 				<!-- begin navbar-brand -->
-				<a href="index.html" class="navbar-brand">
+				<a href="/" class="navbar-brand">
 					<span class="brand-logo"></span>
 					<span class="brand-text">
 						<span class="text-theme">Barrio</span> Link
@@ -524,26 +524,29 @@
 						<!-- end col-6 -->
 						<!-- begin col-6 -->
 						<div class="col-lg-6 form-col" data-animation="true" data-animation-type="animate__fadeInRight">
-							<form class="form-horizontal">
+							<form class="form-horizontal" method="post" action="{% url 'enviar_correo' %}">
+								{% csrf_token %}
 								<div class="row mb-3">
-									<label class="col-form-label col-lg-3 text-lg-right">Nombre <span
+									<label for="nombre" class="col-form-label col-lg-3 text-lg-right">Nombre <span
 											class="text-theme">*</span></label>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" />
+										<input type="text" name="nombre" class="form-control" required />
+										{% comment %} {{ form.nombre }} {% endcomment %}
 									</div>
 								</div>
 								<div class="row mb-3">
-									<label class="col-form-label col-lg-3 text-lg-right">Correo <span
+									<label for="correo" class="col-form-label col-lg-3 text-lg-right">Correo <span
 											class="text-theme">*</span></label>
 									<div class="col-lg-9">
-										<input type="text" class="form-control" />
+										<input type="text" name="correo" class="form-control" required/>
 									</div>
 								</div>
 								<div class="row mb-3">
-									<label class="col-form-label col-lg-3 text-lg-right">Mensaje <span
+									<label for="mensaje" class="col-form-label col-lg-3 text-lg-right">Mensaje <span
 											class="text-theme">*</span></label>
 									<div class="col-lg-9">
-										<textarea class="form-control" rows="10"></textarea>
+										<textarea class="form-control" name="mensaje" rows="10" required></textarea>
+										{% comment %} {{ form.mensaje }} {% endcomment %}
 									</div>
 								</div>
 								<div class="row mb-3">
