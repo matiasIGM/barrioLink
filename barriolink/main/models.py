@@ -198,3 +198,44 @@ class Crearsol(models.Model):
 class Noticia(models.Model):
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    
+    
+    
+#Tablas de auditoria de datos:
+
+
+class UserAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class CertificateAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Generación, actualización, eliminación
+    user_generator = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    resident_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='certificate_audit_logs')
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class HoaAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class ReservationAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class NewsAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
