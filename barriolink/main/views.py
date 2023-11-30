@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, ContactForm, CustomUserAdminRegistrationFo
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, JuntaDeVecinos, Crearsol  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, JuntaDeVecinos, Crearsol, Provincia  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -27,7 +27,7 @@ from . email_utils import *
 import json
 from django.forms.models import model_to_dict
 from django.core.mail import send_mail
-
+from django.core.exceptions import ObjectDoesNotExist
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -71,20 +71,45 @@ def sign_up(request):
 
 
 
+def cargar_regiones(request):
+    try:
+        regiones = Region.objects.values('id', 'nombre')
+        return {'regiones': list(regiones)}
+    except Exception as e:
+        return {'error': str(e)}
+
+def cargar_comunas(request, region_id):
+    try:
+        region = Region.objects.get(pk=region_id)
+        comunas = Comuna.objects.filter(provincia__region=region).order_by('nombre').values('id', 'nombre')
+        return JsonResponse(list(comunas), safe=False)
+    except ObjectDoesNotExist:
+        return JsonResponse({'error': 'La región no existe.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
+
 def signup(request):
+    context_regiones = cargar_regiones(request)
+
     form = RegisterFormStep1()  # Mueve la inicialización del formulario fuera del bloque if
 
     if request.method == 'POST':
         form = RegisterFormStep1(request.POST)
         if form.is_valid():
+            # Obtén la región desde el formulario
+            region_id = form.cleaned_data['region'].id
+            # Llamada a la función de carga de comunas
+            context_comunas = cargar_comunas(request, region_id)
             # Imprime los datos del POST por consola
             print("Datos del POST:", request.POST)
             user = form.save()
             return redirect('login')
     else:
         form = RegisterFormStep1()
-
-    return render(request, 'registration/sign_up.html', {'form': form})
+    # Combina los contextos en un solo diccionario
+    context = {'form': form, **context_regiones}
+    return render(request, 'registration/sign_up.html', context)
 
 
 #Función para retornar todos los usuarios no admin
@@ -561,5 +586,4 @@ def enviar_correo(request):
         form = ContactForm()
 
     return render(request, 'main/home.html', {'form': form})
-
 

@@ -65,13 +65,16 @@ urlpatterns = [
      path('public_val/<int:solicitud_id>', views.public_val, name='public_val'),
      path('detalle/<int:pk>/', views.detalle_publicacion, name='detalle_publicacion'),
 
-     
+    path('cargar-regiones/', views.cargar_regiones, name='cargar_regiones'),
+    path('cargar-comunas/<int:region_id>/', views.cargar_comunas, name='cargar_comunas'),
  
     path('edit-space/<int:space_id>/', views.editCommunitySpace, name='edit_space'),
     path('update-space/<int:space_id>/', views.updateCommunitySpace, name='update_space'),
     
     path('email/', views.view_email, name='email'),
     path('enviar_correo/', views.enviar_correo, name='enviar_correo'),
+    
+#     path('cargar-datos/', views.cargar_datos, name='cargar_datos'),
     
 
 ] + static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

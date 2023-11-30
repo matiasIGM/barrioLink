@@ -1,7 +1,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol
+from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol, Region, Provincia, Comuna
 from datetime import datetime 
 
 
@@ -19,7 +19,7 @@ class RegisterFormStep1(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos", "numero_documento","region", "comuna", "calle", "numero_domicilio"]
+        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos","region", "comuna", "calle", "numero_domicilio"]
         
     #Validación registro de email       
     def clean_email(self):
@@ -28,7 +28,7 @@ class RegisterFormStep1(UserCreationForm):
             user = CustomUser.objects.get(email=email)
         except Exception as e:
             return email
-        raise forms.ValidationError(f"El correo {email} ya se encuentra registado.")
+        raise forms.ValidationError(f"El correo {email} ya se encuentra registado, por favor intenta iniciar sesión.")
 
 
     
@@ -108,3 +108,8 @@ class ContactForm(forms.Form):
     correo = forms.EmailField()
     mensaje = forms.CharField(widget=forms.Textarea)
     
+
+
+class RegisterAdress(forms.Form):
+    region = forms.ModelChoiceField(queryset=Region.objects.all(), empty_label=None)
+    comuna = forms.ModelChoiceField(queryset=Comuna.objects.none(), empty_label=None)

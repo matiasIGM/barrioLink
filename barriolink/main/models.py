@@ -11,7 +11,7 @@ class CustomUser(AbstractUser):# Define una clase CustomUser que extiende Abstra
     apellidos = models.CharField(max_length=255)  # Agregar campo de apellidos
 
     #campos para la segunda parte del registro
-    numero_documento = models.CharField(max_length=20, blank=True)
+    numero_documento = models.CharField(max_length=20, blank=True,  null=True)
     region = models.CharField(max_length=100, blank=True)
     comuna = models.CharField(max_length=100, blank=True)
     calle = models.CharField(max_length=255, blank=True)

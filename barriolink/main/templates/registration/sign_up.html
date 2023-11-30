@@ -162,20 +162,21 @@
 													<div class="panel-body">
 														
 															<!-- Nro Documento -->
-															<div class="row mb-15px">
+															{% comment %} <div class="row mb-15px">
 																<label for="{{ form.nro_documento.id_for_label }}" class="form-label col-form-label col-md-3">Nro Documento</label>
 																<div class="col-md-9">
 																	<input name="numero_documento" type="text" class="form-control mb-5px" placeholder="Nro Documento" />
 																</div>
-															</div>
+															</div> {% endcomment %}
 															<!-- Select de Región -->
 															<div class="row mb-15px">
 																<label for="{{ form.region.id_for_label }}" class="form-label col-form-label col-md-3">Región</label>
 																<div class="col-md-9">
-																	<select name="region" class="form-select" data-parsley-required="true">
-																		<option value="1">Región 1</option>
-																		<option value="2">Región 2</option>
-																		<!-- Agrega más opciones según tus necesidades -->
+																	<select id="id_region" name="region" class="form-select" data-parsley-required="true">
+																		<!-- Opciones cargadas dinámicamente -->
+																		{% for region in regiones %}
+																			<option value="{{ region.id }}">{{ region.nombre }}</option>
+																		{% endfor %}
 																	</select>
 																</div>
 															</div>
@@ -183,10 +184,11 @@
 															<div class="row mb-15px">
 																<label for="{{ form.comuna.id_for_label }}" class="form-label col-form-label col-md-3">Comuna</label>
 																<div class="col-md-9">
-																	<select name="comuna" class="form-select" data-parsley-required="true">
-																		<option value="1">Comuna 1</option>
-																		<option value="2">Comuna 2</option>
-																		<!-- Agrega más opciones según tus necesidades -->
+																	<select id="id_comuna" name="comuna" class="form-select" data-parsley-required="true">
+																		<!-- Opciones cargadas dinámicamente -->
+																		{% for comuna in comunas %}
+																			<option value="{{ comuna.id }}">{{ comuna.nombre }}</option>
+																		{% endfor %}
 																	</select>
 																</div>
 															</div>
@@ -295,6 +297,40 @@
 			}
 		});
 	</script>
+
+	<!--Script for render regiones and comunas-->
+	<script>
+		$(document).ready(function () {
+			$('#id_region').change(function () {
+				var regionId = $(this).val();
+				if (regionId) {
+					$.ajax({
+						url: '/cargar-comunas/' + regionId + '/',
+						type: 'GET',
+						dataType: 'json',
+						success: function (data) {
+							actualizar_select('#id_comuna', data);
+						}
+					});
+				} else {
+					limpiar_select('#id_comuna');
+				}
+			});
+		});
+	
+		function actualizar_select(selectId, data) {
+			$(selectId).empty();
+			$.each(data, function (key, value) {
+				$(selectId).append('<option value="' + value.id + '">' + value.nombre + '</option>');
+			});
+		}
+	
+		function limpiar_select(selectId) {
+			$(selectId).empty();
+		}
+	</script>
+
+
 	
 
     <!-- ================== END page-js ================== -->
