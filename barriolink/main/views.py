@@ -107,6 +107,11 @@ def signup(request):
 
             # Guarda el formulario y el usuario
             user = form.save()
+            
+            # Envía el correo de activación
+            send_validation_account_email(user)
+            #  variable show_modal al contexto
+            context['show_modal'] = True
 
             return redirect('login')
     else:

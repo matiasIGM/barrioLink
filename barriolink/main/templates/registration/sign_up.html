@@ -244,7 +244,7 @@
                         </p>
                         {% endcomment %}
 						<div class="mb-4">
-							<button data-bs-toggle="modal" href="#exampleModalToggle" class="btn btn-green d-block w-100 btn-lg h-45px fs-13px"
+							<button type="submit" class="btn btn-green d-block w-100 btn-lg h-45px fs-13px"
 							  >Registrarse</button>
 						</div>
                     </form>
@@ -256,8 +256,19 @@
         <!-- END register -->
 
     </div>
+		<!-- Modal personalizado -->
 
+	
 
+	{% if show_modal %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Muestra el modal usando Bootstrap
+            var myModal = new bootstrap.Modal(document.getElementById('modal-alert'));
+            myModal.show();
+			});
+		</script>
+	{% endif %}
     <!-- END #app -->
 
     <!-- Archivos JavaScript -->
@@ -267,6 +278,10 @@
     <!-- ================== BEGIN page-js ================== -->
     <script src="{% static 'js/demo/login-v2.demo.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+	<script src="{% static 'js/demo/ui-modal-notification.demo.js' %}"></script>
+	<script src="{% static 'plugins/@highlightjs/cdn-assets/highlight.min.js' %}"></script>
+	<script src="{% static 'js/demo/render.highlight.js' %}"></script>
 	<script src="{% static 'plugins/parsleyjs/dist/parsley.min.js' %}"></script>
 
 
@@ -413,5 +428,24 @@
 
 	
 </body>
-
+<div class="modal fade show" id="modal-alert" style="display: block;" aria-modal="true" role="dialog">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title">Alert Header</h4>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
+			</div>
+			<div class="modal-body">
+				<div class="alert alert-danger">
+					<h5><i class="fa fa-info-circle"></i> Alert Header</h5>
+					<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Close</a>
+				<a href="javascript:;" class="btn btn-danger" data-bs-dismiss="modal">Action</a>
+			</div>
+		</div>
+	</div>
+</div>
 </html>
