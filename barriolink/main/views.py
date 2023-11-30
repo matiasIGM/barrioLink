@@ -56,18 +56,18 @@ def users_admin_view(request):
 
 
 
-def sign_up(request):
-    if request.method == 'POST':
-        form = RegisterFormStep1(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            # Convierte la fecha en una cadena
-            data['birth_date'] = data['birth_date'].strftime('%Y-%m-%d')
-            request.session['registro_primer_paso'] = data
-            return redirect('registro_segundo_paso')
-    else:
-        form = RegisterFormStep1()
-    return render(request, 'registration/sign_up.html', {'form': form})
+# def sign_up(request):
+#     if request.method == 'POST':
+#         form = RegisterFormStep1(request.POST)
+#         if form.is_valid():
+#             data = form.cleaned_data
+#             # Convierte la fecha en una cadena
+#             data['birth_date'] = data['birth_date'].strftime('%Y-%m-%d')
+#             request.session['registro_primer_paso'] = data
+#             return redirect('registro_segundo_paso')
+#     else:
+#         form = RegisterFormStep1()
+#     return render(request, 'registration/sign_up.html', {'form': form})
 
 
 
@@ -90,26 +90,32 @@ def cargar_comunas(request, region_id):
     
 
 def signup(request):
+    # Obtén la lista de regiones antes de crear el formulario
     context_regiones = cargar_regiones(request)
-
-    form = RegisterFormStep1()  # Mueve la inicialización del formulario fuera del bloque if
 
     if request.method == 'POST':
         form = RegisterFormStep1(request.POST)
         if form.is_valid():
-            # Obtén la región desde el formulario
-            region_id = form.cleaned_data['region'].id
+            # Obtén el ID de la región seleccionada desde el formulario
+            region_id = form.cleaned_data['region']
+            
             # Llamada a la función de carga de comunas
             context_comunas = cargar_comunas(request, region_id)
+
             # Imprime los datos del POST por consola
             print("Datos del POST:", request.POST)
+
+            # Guarda el formulario y el usuario
             user = form.save()
+
             return redirect('login')
     else:
         form = RegisterFormStep1()
+
     # Combina los contextos en un solo diccionario
     context = {'form': form, **context_regiones}
     return render(request, 'registration/sign_up.html', context)
+
 
 
 #Función para retornar todos los usuarios no admin
