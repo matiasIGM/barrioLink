@@ -7,6 +7,7 @@ from django.conf.urls.static import static
 urlpatterns = [
     
      path('login/', views.user_login, name='login'),
+     path('logout/', views.logout_view, name='logout'),
      path('', views.home, name='homepage'),
      path('signup/', views.signup, name='signup'),  # Ruta con un parámetro 'step'
      path('adm/users_admin.html', views.users_admin_view, name='users_admin'),

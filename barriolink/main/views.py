@@ -145,6 +145,10 @@ def home(request):
  # Return a rendered template
     return render(request, 'main/home.html', context)
 
+def logout_view(request):
+    logout(request)
+    # Redirige a la página de inicio u otra página después del logout
+    return redirect('homepage')
 
 def detalle_publicacion(request, pk):
     publicacion = get_object_or_404(Publicacion, pk=pk)
