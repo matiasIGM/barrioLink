@@ -124,7 +124,8 @@
 							<button type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions" class="btn btn-success d-block w-100 btn-lg h-45px fs-13px">Continuar</button>
                         </div>
 						
-						<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style="width: 40%">
+						{% comment %} <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style="width: 40%"> {% endcomment %}
+						<div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel" style="width: 40%; z-index: 1050;">	
 							<div class="offcanvas-header">
 							<h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Registro de datos | Paso 2</h5>
 							<button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
@@ -259,8 +260,52 @@
 		<!-- Modal personalizado -->
 
 	
+	<!-- Modal de éxito -->
+	{% comment %} <div class="modal fade" id="modalExito" tabindex="1" aria-labelledby="modalExitoLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 class="modal-title" id="modalExitoLabel">¡Registro Exitoso!</h5>
+					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+				</div>
+				<div class="modal-body">
+					¡Felicidades! Has completado el registro con éxito.
+				</div>
+				<div class="modal-footer">
+					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+				</div>
+			</div>
+		</div>
+	</div> {% endcomment %}
 
-	{% if show_modal %}
+	<div class="swal-overlay" tabindex="-1">
+		<div class="swal-modal" role="dialog" aria-modal="true">
+			<div class="swal-icon swal-icon--success">
+				<span class="swal-icon--success__line swal-icon--success__line--long"></span>
+				<span class="swal-icon--success__line swal-icon--success__line--tip"></span>
+				<div class="swal-icon--success__ring"></div>
+				<div class="swal-icon--success__hide-corners"></div>
+			</div>
+			<div class="swal-title">¡Registro Exitoso!</div>
+			<div class="swal-text">
+				Tu cuenta se ha registrado correctamente. Sin embargo, la activación y acceso están pendientes de validación por parte de un administrador.
+				Recibirás una notificación via correo una vez que tu cuenta haya sido validada.
+			</div>
+			<div class="swal-footer">
+				<div class="swal-button-container">
+					<!-- Puedes agregar aquí un enlace para redirigir a la página de inicio de sesión si es necesario -->
+					<a href="/login" class="btn btn-success" data-bs-dismiss="modal">Cerrar</a>
+					<div class="swal-button__loader">
+						<div></div>
+						<div></div>
+						<div></div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	  
+	{% comment %} {% if show_modal %}
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             // Muestra el modal usando Bootstrap
@@ -268,7 +313,7 @@
             myModal.show();
 			});
 		</script>
-	{% endif %}
+	{% endif %} {% endcomment %}
     <!-- END #app -->
 
     <!-- Archivos JavaScript -->
@@ -426,26 +471,53 @@
 		});
 	</script>
 
+	{% comment %} <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var form = document.getElementById('registroForm');
+
+        form.addEventListener('submit', function (event) {
+            if (validateForm()) {
+                // Si el formulario es válido, muestra el modal de éxito
+                $('#modalExito').modal('show');
+            } else {
+                event.preventDefault();
+            }
+        });
+
+        function validateForm() {
+            // Lógica de validación del formulario
+            // Retorna true si el formulario es válido, false si no lo es
+            // Puedes agregar aquí tu lógica de validación actual
+            return true;  // Cambia esto según tu lógica de validación
+        }
+    });
+	</script> {% endcomment %}
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			var form = document.getElementById('registroForm');
+	
+			form.addEventListener('submit', function (event) {
+				if (validateForm()) {
+					// Si el formulario es válido, muestra el modal de éxito
+					$('#modalExito').modal('show');
+					// Agrega la clase para mostrar el modal después del POST
+					$('.swal-overlay').addClass('swal-overlay--show-modal');
+				} else {
+					event.preventDefault();
+				}
+			});
+	
+			function validateForm() {
+				// Lógica de validación del formulario
+				// Retorna true si el formulario es válido, false si no lo es
+				// Puedes agregar aquí tu lógica de validación actual
+				return true;  // Cambia esto según tu lógica de validación
+			}
+		});
+	</script>
+	
+
 	
 </body>
-<div class="modal fade show" id="modal-alert" style="display: block;" aria-modal="true" role="dialog">
-	<div class="modal-dialog">
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title">Alert Header</h4>
-				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-hidden="true"></button>
-			</div>
-			<div class="modal-body">
-				<div class="alert alert-danger">
-					<h5><i class="fa fa-info-circle"></i> Alert Header</h5>
-					<p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.</p>
-				</div>
-			</div>
-			<div class="modal-footer">
-				<a href="javascript:;" class="btn btn-white" data-bs-dismiss="modal">Close</a>
-				<a href="javascript:;" class="btn btn-danger" data-bs-dismiss="modal">Action</a>
-			</div>
-		</div>
-	</div>
-</div>
+
 </html>
