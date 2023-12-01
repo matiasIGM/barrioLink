@@ -94,7 +94,7 @@ def signup(request):
     context_regiones = cargar_regiones(request)
 
     if request.method == 'POST':
-        form = RegisterFormStep1(request.POST)
+        form = RegisterFormStep1(request.POST, request.FILES)
         if form.is_valid():
             # Obtén el ID de la región seleccionada desde el formulario
             region_id = form.cleaned_data['region']
@@ -104,6 +104,7 @@ def signup(request):
 
             # Imprime los datos del POST por consola
             print("Datos del POST:", request.POST)
+            print("Datos del FILES:", request.FILES)
 
             # Guarda el formulario y el usuario
             user = form.save()

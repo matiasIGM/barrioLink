@@ -174,12 +174,7 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS', default=True, cast=bool)
 
 print(os.path.join(BASE_DIR, 'templates'))  # Imprime la ruta a la carpeta de plantillas
 
-MEDIA_URL = 'media/'
-MEDIA_ROOT = os.path.join(BASE_DIR,'barriolink' ,'media')
 
-
-print(MEDIA_URL)
-print(MEDIA_ROOT)
 
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 #MEDIA_ROOT = '/home/ubuntu/barrioLink/barrioLink/barriolink/media/'
@@ -214,4 +209,5 @@ if use_s3:
 
 else:
    STATIC_URL = '/static/'
+
 

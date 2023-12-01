@@ -42,7 +42,13 @@
 								<td>{{ usuario.celular }}</td>
 								<td>{{ usuario.email }}</td>
 								<td>{{ usuario.birth_date }}</td>
-								<td> <a href=“”>Boleta.pdf</a></td>
+								<td>
+									{% if usuario.utilityBill %}
+										<a href="{{ usuario.utilityBill.url }}" target="_blank">Boleta.pdf</a>
+									{% else %}
+										No hay boleta adjunta
+									{% endif %}
+								</td>
 								<td>{{ usuario.comuna }}, {{ usuario.calle }}, {{ usuario.domicilio }}</td>
 								<td><a data-bs-toggle="modal" onclick="openCancelModal({{ usuario.id }})" type="button" data-bs-target="#cancelModal" class="btn btn-danger btn-icon btn-circle btn-lg"><i class="fa fa-times"></i></a>  
 									<a href="{% url 'activate_user' user_id=usuario.id %}" class="btn btn-success btn-icon btn-circle btn-lg"><i class="fa fa-check"></i></a></td> <!--Btn para cambiar el estado del user-->

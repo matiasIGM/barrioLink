@@ -49,7 +49,7 @@
 
                 <!-- BEGIN register-content -->
                 <div class="register-content">
-                    <form method="post" class="fs-13px"  id="registroForm" data-parsley-validate="true">
+                    <form method="post" class="fs-13px"  id="registroForm" data-parsley-validate="true" enctype="multipart/form-data">
                         {% csrf_token %}
                         <div class="mb-3">
                             
@@ -212,9 +212,9 @@
 																</div>
 															</div>
 															<div class="row mb-15px">
-																<label class="form-label col-form-label col-md-3">Boleta de servicios</label>
+																<label for="{{ form.utilityBill.id_for_label }}" class="form-label col-form-label col-md-3">Boleta de servicios</label>
 																<div class="col-md-9">
-																	<input class="form-control" type="file" id="formFile" accept=".pdf, .png, .jpg">
+																	<input class="form-control" type="file" name="{{ form.utilityBill.name }}" id="{{ form.utilityBill.id_for_label }}" accept=".pdf, .png, .jpg">
 																</div>
 															</div>
 															</br>
@@ -351,11 +351,16 @@
 	
 					if (value === '') {
 						isValid = false;
+						// Log en consola
+						console.log('Campo vacío:', fieldName);
 						// Puedes agregar un estilo de error o mostrar un mensaje de error aquí
 						alert('Por favor, complete todos los campos obligatorios.');
 						break; // No es necesario verificar los demás campos si uno falla
 					}
 				}
+	
+				// Log en consola para indicar si el formulario es válido o no
+				console.log('Formulario válido:', isValid);
 	
 				return isValid;
 			}

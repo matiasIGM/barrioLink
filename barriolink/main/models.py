@@ -16,6 +16,7 @@ class CustomUser(AbstractUser):# Define una clase CustomUser que extiende Abstra
     comuna = models.CharField(max_length=100, blank=True)
     calle = models.CharField(max_length=255, blank=True)
     numero_domicilio = models.CharField(max_length=20, blank=True)
+    utilityBill = models.FileField(upload_to='uploads/utilityBills/', blank=True, null=True)
     is_admin_general = models.BooleanField(default=False)
     is_hoa_admin = models.BooleanField(default=False)  # Nuevo campo para los administradores de juntas de vecinos
 

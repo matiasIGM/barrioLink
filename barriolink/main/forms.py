@@ -11,6 +11,12 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class RegisterFormStep1(UserCreationForm):
     email = forms.EmailField(required=True, label="Correo Electrónico")
+    
+    utilityBill = forms.FileField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'accept': '.pdf, .png, .jpg'}),
+        label="Boleta de servicios"
+    )
     birth_date = forms.DateField(
         widget=forms.SelectDateWidget(
             years=range(datetime.now().year - 100, datetime.now().year),
@@ -19,7 +25,7 @@ class RegisterFormStep1(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos","region", "comuna", "calle", "numero_domicilio"]
+        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos","region", "comuna", "calle", "numero_domicilio", "utilityBill"]
         
     #Validación registro de email       
     def clean_email(self):
