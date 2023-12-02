@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'reportlab',
     'certificates',
     'storages',
+    'calendarapp',
     
     
 ]
