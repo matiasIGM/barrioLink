@@ -34,45 +34,41 @@ import requests
 from twilio.rest import Client
 
 
-# @login_required(login_url="/login")
+#Users login
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            # Las credenciales son válidas, inicia sesión al usuario.
-            login(request, user)
-            # Redirige al perfil después del inicio de sesión, pero también verifica si es admin.
-            if user.is_hoa_admin:
-                return render(request, 'account/adm/profile.html')
+            # Verificar si el usuario está activo
+            if user.is_active:
+                # Las credenciales son válidas y la cuenta está activa, inicia sesión al usuario.
+                login(request, user)
+                # Redirige al perfil después del inicio de sesión, pero también verifica si es admin.
+                if user.is_hoa_admin:
+                    return render(request, 'account/adm/profile.html')
+                else:
+                    return render(request, 'account/users/profile.html')
             else:
-                return render(request, 'account/users/profile.html')
+                # La cuenta del usuario no está activa, muestra un mensaje de error.
+                messages.error(request, "Ups! Su cuenta aún no se encuentra validada para iniciar sesión.")
+                return render(request, 'registration/login.html')
+
         else:
             # Las credenciales son inválidas, muestra un mensaje de error o redirige a la página de inicio de sesión.
             messages.error(request, "Credenciales inválidas. Por favor, inténtalo de nuevo.")
             return render(request, 'registration/login.html')  # Agrega la línea para volver a la página de inicio de sesión
+
     return render(request, 'registration/login.html')
+
+
 
 
 def users_admin_view(request):
     # Lógica de tu vista
     return render(request, 'adm/users_admin.html')
-
-
-
-# def sign_up(request):
-#     if request.method == 'POST':
-#         form = RegisterFormStep1(request.POST)
-#         if form.is_valid():
-#             data = form.cleaned_data
-#             # Convierte la fecha en una cadena
-#             data['birth_date'] = data['birth_date'].strftime('%Y-%m-%d')
-#             request.session['registro_primer_paso'] = data
-#             return redirect('registro_segundo_paso')
-#     else:
-#         form = RegisterFormStep1()
-#     return render(request, 'registration/sign_up.html', {'form': form})
 
 
 
