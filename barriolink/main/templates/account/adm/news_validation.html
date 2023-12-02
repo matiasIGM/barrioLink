@@ -54,9 +54,21 @@
                                 <tbody>
                                     {% for solicitud in solicitudes %}
                                     <tr>
-                                        <td><span
-                                            class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
-                                                class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
+                                        <td>
+                                            {% if solicitud.estado == 'nueva' %}
+                                                <span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                                                    <i class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}
+                                                </span>
+                                            {% elif solicitud.estado == 'validada' %}
+                                                <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                                                    <i class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}
+                                                </span>
+                                            {% elif solicitud.estado == 'eliminada' %}
+                                                <span class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center">
+                                                    <i class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}
+                                                </span>
+                                            {% endif %}
+                                        </td>
                                         <td>{{ solicitud.formatted_fecha_publicacion }}</td>
                                         <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
                                         <td>{{ solicitud.contenido }}</td>

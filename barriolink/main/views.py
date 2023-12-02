@@ -14,7 +14,7 @@ from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
 from django.contrib import messages
-import telegram
+from telegram import Bot
 from django.utils import timezone
 from django.template.loader import get_template
 from django.views import View
@@ -28,6 +28,11 @@ import json
 from django.forms.models import model_to_dict
 from django.core.mail import send_mail
 from django.core.exceptions import ObjectDoesNotExist
+import requests
+
+
+from twilio.rest import Client
+
 
 # @login_required(login_url="/login")
 def user_login(request):
@@ -429,7 +434,32 @@ def cambiar_estado(request, solicitud_id, nuevo_estado):
     solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
     solicitud.estado = nuevo_estado
     solicitud.save()
+    
+    # Obtén el contenido de la solicitud
+    contenido_solicitud = solicitud.contenido
+
+    TWILIO_ACCOUNT_SID = 'ACa5f7fbeae5446cccca1ac13172c7a345'
+    TWILIO_AUTH_TOKEN = '5d83f85c270e91fcf0e42305f751fec0'
+    TWILIO_PHONE_NUMBER = 'whatsapp:+14155238886'  # Número de Twilio con formato 'whatsapp:+14155238886'
+    DESTINATION_PHONE_NUMBER = 'whatsapp:+56932048380'  # Número de destino con formato 'whatsapp:+15005550006'
+
+    # Crea una instancia del cliente Twilio
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+    # Envía el mensaje a través de WhatsApp
+    message = client.messages.create(
+        from_=TWILIO_PHONE_NUMBER,
+        body=contenido_solicitud,
+        to=DESTINATION_PHONE_NUMBER
+    )
+
+    print(f'Mensaje enviado correctamente a {DESTINATION_PHONE_NUMBER}. SID del mensaje: {message.sid}')
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+    
+
+
 
 def recuperar_solicitud(request, solicitud_id):
     solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
