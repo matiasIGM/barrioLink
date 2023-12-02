@@ -91,6 +91,20 @@ class SolPublicacionForm(forms.ModelForm):
         fields = ['contenido']
         exclude = ['fecha_publicacion'] 
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contenido'].widget.attrs.update({'class': 'form-control'})
+
+    def save(self, commit=True, user=None):
+        instance = super().save(commit=False)
+        if user:
+            instance.usersol = user
+
+        if commit:
+            instance.save()
+
+        return instance
+        
         
 #Editar usuarios
 class UsersUpdateForm(forms.ModelForm):

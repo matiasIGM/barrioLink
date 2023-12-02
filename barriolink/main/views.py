@@ -465,22 +465,53 @@ def public_val(request, solicitud_id):
 def solnoticias(request): # usuario solicitud de publicacion de noticia
     return render(request, 'account/users/news_publish.html')   
 
-def crearsolicitud(request): # usuario solicitud de publicacion de noticia
+# def crearsolicitud(request): # usuario solicitud de publicacion de noticia
+#     if request.method == 'POST':
+#         form = SolPublicacionForm(request.POST)
+#         if form.is_valid():
+#             solnoticias = form.save(commit=False)
+#             usuario = request.user
+#             solnoticias.usersol = usuario
+#             solnoticias.save()
+#             # Limpiar el formulario
+#             #form = SolPublicacionForm()
+#             return render(request, 'account/users/news_publish.html')  
+#     else:
+#         form = SolPublicacionForm()
+#     return render(request, 'account/users/news_publish.html', {'form': form})    
+
+CustomUser = get_user_model()
+def crearsolicitud(request):
     if request.method == 'POST':
         form = SolPublicacionForm(request.POST)
         if form.is_valid():
-            solnoticias = form.save(commit=False)
-            usuario = request.user
-            solnoticias.usersol = usuario
-            solnoticias.save()
-            # Limpiar el formulario
-            #form = SolPublicacionForm()
-            return render(request, 'account/users/news_publish.html')  
+            # Asegurarse de que el usuario esté autenticado
+            if request.user.is_authenticated:
+                # Obtener el ID del usuario
+                user_id = request.user.id
+                
+                print(f"ID del usuario autenticado: {user_id}")
+
+                # Puedes usar user_id como desees en tu lógica
+
+                # Obtener o crear la instancia de CustomUser
+                user_instance, created = CustomUser.objects.get_or_create(pk=user_id)
+                
+                solnoticias = form.save(commit=False)
+                solnoticias.usersol = user_instance
+                solnoticias.save()
+
+                print(f"Solicitud de noticias creada: {solnoticias}")
+
+                return render(request, 'account/users/news_publish.html')
+            else:
+                print("El usuario no está autenticado")
+                return HttpResponse("Usuario no autenticado")
     else:
         form = SolPublicacionForm()
-    return render(request, 'account/users/news_publish.html', {'form': form})    
 
-
+    print("Renderizando el formulario")
+    return render(request, 'account/users/news_publish.html', {'form': form})
 
 #====================================================================
 #Funciones para edición perfil de usuario
