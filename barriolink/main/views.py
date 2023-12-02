@@ -3,7 +3,7 @@ from .forms import RegisterFormStep1, ContactForm, CustomUserAdminRegistrationFo
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import login, get_user_model, logout, authenticate
 from django.contrib.auth.models import User, Group
-from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, JuntaDeVecinos, Crearsol  # Importar el modelo de usuario personalizado
+from .models import  CustomUser, ResidenceCertificate, Comuna, Region, CommunitySpace, Resident, JuntaDeVecinos, Crearsol, Provincia  # Importar el modelo de usuario personalizado
 from django.urls import reverse
 from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.forms import PasswordResetForm
@@ -14,7 +14,7 @@ from django.utils.encoding  import force_bytes
 from django.utils.http import urlsafe_base64_encode
 from django.core import serializers
 from django.contrib import messages
-import telegram
+from telegram import Bot
 from django.utils import timezone
 from django.template.loader import get_template
 from django.views import View
@@ -27,27 +27,43 @@ from . email_utils import *
 import json
 from django.forms.models import model_to_dict
 from django.core.mail import send_mail
+from django.core.exceptions import ObjectDoesNotExist
+import requests
 
 
-# @login_required(login_url="/login")
+from twilio.rest import Client
+
+
+#Users login
 def user_login(request):
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(request, username=username, password=password)
+
         if user is not None:
-            # Las credenciales son válidas, inicia sesión al usuario.
-            login(request, user)
-            # Redirige al perfil después del inicio de sesión, pero también verifica si es admin.
-            if user.is_hoa_admin:
-                return render(request, 'account/adm/profile.html')
+            # Verificar si el usuario está activo
+            if user.is_active:
+                # Las credenciales son válidas y la cuenta está activa, inicia sesión al usuario.
+                login(request, user)
+                # Redirige al perfil después del inicio de sesión, pero también verifica si es admin.
+                if user.is_hoa_admin:
+                    return render(request, 'account/adm/profile.html')
+                else:
+                    return render(request, 'account/users/profile.html')
             else:
-                return render(request, 'account/users/profile.html')
+                # La cuenta del usuario no está activa, muestra un mensaje de error.
+                messages.error(request, "Ups! Su cuenta aún no se encuentra validada para iniciar sesión.")
+                return render(request, 'registration/login.html')
+
         else:
             # Las credenciales son inválidas, muestra un mensaje de error o redirige a la página de inicio de sesión.
             messages.error(request, "Credenciales inválidas. Por favor, inténtalo de nuevo.")
             return render(request, 'registration/login.html')  # Agrega la línea para volver a la página de inicio de sesión
+
     return render(request, 'registration/login.html')
+
+
 
 
 def users_admin_view(request):
@@ -56,35 +72,55 @@ def users_admin_view(request):
 
 
 
-def sign_up(request):
-    if request.method == 'POST':
-        form = RegisterFormStep1(request.POST)
-        if form.is_valid():
-            data = form.cleaned_data
-            # Convierte la fecha en una cadena
-            data['birth_date'] = data['birth_date'].strftime('%Y-%m-%d')
-            request.session['registro_primer_paso'] = data
-            return redirect('registro_segundo_paso')
-    else:
-        form = RegisterFormStep1()
-    return render(request, 'registration/sign_up.html', {'form': form})
+def cargar_regiones(request):
+    try:
+        regiones = Region.objects.values('id', 'nombre')
+        return {'regiones': list(regiones)}
+    except Exception as e:
+        return {'error': str(e)}
 
-
+def cargar_comunas(request, region_id):
+    try:
+        region = Region.objects.get(pk=region_id)
+        comunas = Comuna.objects.filter(provincia__region=region).order_by('nombre').values('id', 'nombre')
+        return JsonResponse(list(comunas), safe=False)
+    except ObjectDoesNotExist:
+        return JsonResponse({'error': 'La región no existe.'}, status=404)
+    except Exception as e:
+        return JsonResponse({'error': str(e)}, status=500)
+    
 
 def signup(request):
-    form = RegisterFormStep1()  # Mueve la inicialización del formulario fuera del bloque if
+    # Obtén la lista de regiones antes de crear el formulario
+    context_regiones = cargar_regiones(request)
 
     if request.method == 'POST':
-        form = RegisterFormStep1(request.POST)
+        form = RegisterFormStep1(request.POST, request.FILES)
         if form.is_valid():
+            # Obtén el ID de la región seleccionada desde el formulario
+            region_id = form.cleaned_data['region']
+            
+            # Llamada a la función de carga de comunas
+            context_comunas = cargar_comunas(request, region_id)
+
             # Imprime los datos del POST por consola
             print("Datos del POST:", request.POST)
+            print("Datos del FILES:", request.FILES)
+
+            # Guarda el formulario y el usuario
             user = form.save()
+            
+            # Envía el correo de activación
+            send_validation_account_email(user)
+
             return redirect('login')
     else:
         form = RegisterFormStep1()
 
-    return render(request, 'registration/sign_up.html', {'form': form})
+    # Combina los contextos en un solo diccionario
+    context = {'form': form, **context_regiones}
+    return render(request, 'registration/sign_up.html', context)
+
 
 
 #Función para retornar todos los usuarios no admin
@@ -110,6 +146,10 @@ def home(request):
  # Return a rendered template
     return render(request, 'main/home.html', context)
 
+def logout_view(request):
+    logout(request)
+    # Redirige a la página de inicio u otra página después del logout
+    return redirect('homepage')
 
 def detalle_publicacion(request, pk):
     publicacion = get_object_or_404(Publicacion, pk=pk)
@@ -325,6 +365,18 @@ def deletePlace(request, id):
 
     return redirect('/placesConfig/')
 
+#Crear un espacio comunitario.
+def create_community_space(request):
+    if request.method == 'POST':
+        form = CommunitySpaceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/placesConfig/')  # Redirige a la vista después de guardar el formulario
+    else:
+        form = CommunitySpaceForm()
+
+    return render(request, 'account/adm/reservation_config.html', {'form': form})
+
 #Actualizar Espacios Comunitarios
 def updatePlace(request, id):
     place = get_object_or_404(CommunitySpace, id=id)
@@ -390,7 +442,32 @@ def cambiar_estado(request, solicitud_id, nuevo_estado):
     solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
     solicitud.estado = nuevo_estado
     solicitud.save()
+    
+    # Obtén el contenido de la solicitud
+    contenido_solicitud = solicitud.contenido
+
+    TWILIO_ACCOUNT_SID = 'ACa5f7fbeae5446cccca1ac13172c7a345'
+    TWILIO_AUTH_TOKEN = '5d83f85c270e91fcf0e42305f751fec0'
+    TWILIO_PHONE_NUMBER = 'whatsapp:+14155238886'  # Número de Twilio con formato 'whatsapp:+14155238886'
+    DESTINATION_PHONE_NUMBER = 'whatsapp:+56932048380'  # Número de destino con formato 'whatsapp:+15005550006'
+
+    # Crea una instancia del cliente Twilio
+    client = Client(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN)
+
+    # Envía el mensaje a través de WhatsApp
+    message = client.messages.create(
+        from_=TWILIO_PHONE_NUMBER,
+        body=contenido_solicitud,
+        to=DESTINATION_PHONE_NUMBER
+    )
+
+    print(f'Mensaje enviado correctamente a {DESTINATION_PHONE_NUMBER}. SID del mensaje: {message.sid}')
+
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+    
+
+
 
 def recuperar_solicitud(request, solicitud_id):
     solicitud = get_object_or_404(Crearsol, pk=solicitud_id)
@@ -426,22 +503,53 @@ def public_val(request, solicitud_id):
 def solnoticias(request): # usuario solicitud de publicacion de noticia
     return render(request, 'account/users/news_publish.html')   
 
-def crearsolicitud(request): # usuario solicitud de publicacion de noticia
+# def crearsolicitud(request): # usuario solicitud de publicacion de noticia
+#     if request.method == 'POST':
+#         form = SolPublicacionForm(request.POST)
+#         if form.is_valid():
+#             solnoticias = form.save(commit=False)
+#             usuario = request.user
+#             solnoticias.usersol = usuario
+#             solnoticias.save()
+#             # Limpiar el formulario
+#             #form = SolPublicacionForm()
+#             return render(request, 'account/users/news_publish.html')  
+#     else:
+#         form = SolPublicacionForm()
+#     return render(request, 'account/users/news_publish.html', {'form': form})    
+
+CustomUser = get_user_model()
+def crearsolicitud(request):
     if request.method == 'POST':
         form = SolPublicacionForm(request.POST)
         if form.is_valid():
-            solnoticias = form.save(commit=False)
-            usuario = request.user
-            solnoticias.usersol = usuario
-            solnoticias.save()
-            # Limpiar el formulario
-            #form = SolPublicacionForm()
-            return render(request, 'account/users/news_publish.html')  
+            # Asegurarse de que el usuario esté autenticado
+            if request.user.is_authenticated:
+                # Obtener el ID del usuario
+                user_id = request.user.id
+                
+                print(f"ID del usuario autenticado: {user_id}")
+
+                # Puedes usar user_id como desees en tu lógica
+
+                # Obtener o crear la instancia de CustomUser
+                user_instance, created = CustomUser.objects.get_or_create(pk=user_id)
+                
+                solnoticias = form.save(commit=False)
+                solnoticias.usersol = user_instance
+                solnoticias.save()
+
+                print(f"Solicitud de noticias creada: {solnoticias}")
+
+                return render(request, 'account/users/news_publish.html')
+            else:
+                print("El usuario no está autenticado")
+                return HttpResponse("Usuario no autenticado")
     else:
         form = SolPublicacionForm()
-    return render(request, 'account/users/news_publish.html', {'form': form})    
 
-
+    print("Renderizando el formulario")
+    return render(request, 'account/users/news_publish.html', {'form': form})
 
 #====================================================================
 #Funciones para edición perfil de usuario
@@ -561,5 +669,4 @@ def enviar_correo(request):
         form = ContactForm()
 
     return render(request, 'main/home.html', {'form': form})
-
 

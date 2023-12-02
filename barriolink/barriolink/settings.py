@@ -214,4 +214,3 @@ if use_s3:
 
 else:
    STATIC_URL = '/static/'
-

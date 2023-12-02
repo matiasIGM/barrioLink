@@ -11,11 +11,12 @@ class CustomUser(AbstractUser):# Define una clase CustomUser que extiende Abstra
     apellidos = models.CharField(max_length=255)  # Agregar campo de apellidos
 
     #campos para la segunda parte del registro
-    numero_documento = models.CharField(max_length=20, blank=True)
+    numero_documento = models.CharField(max_length=20, blank=True,  null=True)
     region = models.CharField(max_length=100, blank=True)
     comuna = models.CharField(max_length=100, blank=True)
     calle = models.CharField(max_length=255, blank=True)
     numero_domicilio = models.CharField(max_length=20, blank=True)
+    utilityBill = models.FileField(upload_to='uploads/utilityBills/', blank=True, null=True)
     is_admin_general = models.BooleanField(default=False)
     is_hoa_admin = models.BooleanField(default=False)  # Nuevo campo para los administradores de juntas de vecinos
 
@@ -198,3 +199,44 @@ class Crearsol(models.Model):
 class Noticia(models.Model):
     contenido = models.TextField()
     fecha_publicacion = models.DateTimeField(auto_now_add=True)
+    
+    
+    
+#Tablas de auditoria de datos:
+
+
+class UserAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class CertificateAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Generación, actualización, eliminación
+    user_generator = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    resident_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='certificate_audit_logs')
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class HoaAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class ReservationAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)
+
+class NewsAuditLog(models.Model):
+    timestamp = models.DateTimeField(auto_now_add=True)
+    event = models.CharField(max_length=20)  # Creación, actualización, eliminación
+    user_affected = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    previous_info = models.TextField(blank=True, null=True)
+    new_info = models.TextField(blank=True, null=True)

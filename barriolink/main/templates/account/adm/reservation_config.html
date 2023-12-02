@@ -48,15 +48,15 @@
                                 <td>{{ space.description }}</td>
                                 <td>{{ space.max_capacity }}</td>
                                 <td class="with-btn" nowrap="">
-                                    <a href="{% url 'edit_space' space_id=space.id %}" class="btn btn-sm btn-primary w-70px me-1">Editar</a>
-                                    <a href="{% url 'delete_places' id=space.id %}" class="btn btn-sm btn-danger w-70px">Eliminar</a>
+                                    <a href="{% url 'edit_space' space_id=space.id %}" class="btn btn-sm btn-primary w-85px me-1"><i class="fa-solid fa-pencil"></i>  Editar</a>
+                                    <a href="{% url 'delete_places' id=space.id %}" class="btn btn-sm btn-danger w-85px"><i class="fa-solid fa-trash-can"></i>  Eliminar</a>
                                     
                                      <!-- Agrega este bloque para imprimir el ID -->
-                                    {% if space.id %}
+                                    {% comment %} {% if space.id %}
                                         {{ space.id }}
                                     {% else %}
                                         ID no disponible
-                                    {% endif %}
+                                    {% endif %} {% endcomment %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -111,6 +111,44 @@
                             
                         </div>
                     </form> {% endcomment %}
+
+                    <div class="panel-body">
+                        <form method="post" action="/create_space/">
+                            {% csrf_token %}
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label for="{{ form.name.id_for_label }}" class="form-label">Nombre Sitio</label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input name="name" class="form-control" type="text">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="{{ form.max_capacity.id_for_label }}" class="form-label">Capacidad Máxima</label>
+                                </div>
+                                <div class="col-md-2">
+                                    <input type="number" name="max_capacity" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-3">
+                                    <label for="{{ form.description.id_for_label }}" class="form-label">Descripción Sitio</label>
+                                </div>
+                                <div class="col-md-9">
+                                    <input name="description" type="text" class="form-control">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-md-9 offset-md-3">
+                                    <a href="#" class="btn btn-primary btn-sm">
+                                        <i class="fa fa-times"></i> Cancelar
+                                    </a>
+                                    <button type="submit" class="btn btn-success btn-sm">
+                                        <i class="fa fa-check"></i> Registrar Espacio
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
 
 
                 </div>

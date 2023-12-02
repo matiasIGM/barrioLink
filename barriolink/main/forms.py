@@ -1,7 +1,7 @@
 
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol
+from .models import  CustomUser, JuntaDeVecinos, CommunitySpace, Publicacion, Crearsol, Region, Provincia, Comuna
 from datetime import datetime 
 
 
@@ -11,6 +11,12 @@ class CustomAuthenticationForm(AuthenticationForm):
 
 class RegisterFormStep1(UserCreationForm):
     email = forms.EmailField(required=True, label="Correo Electrónico")
+    
+    utilityBill = forms.FileField(
+        required=False,
+        widget=forms.ClearableFileInput(attrs={'accept': '.pdf, .png, .jpg'}),
+        label="Boleta de servicios"
+    )
     birth_date = forms.DateField(
         widget=forms.SelectDateWidget(
             years=range(datetime.now().year - 100, datetime.now().year),
@@ -19,7 +25,7 @@ class RegisterFormStep1(UserCreationForm):
 
     class Meta:
         model = CustomUser
-        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos", "numero_documento","region", "comuna", "calle", "numero_domicilio"]
+        fields = ["email", "password1", "password2", "rut", "birth_date", "celular", "nombres", "apellidos","region", "comuna", "calle", "numero_domicilio", "utilityBill"]
         
     #Validación registro de email       
     def clean_email(self):
@@ -28,7 +34,7 @@ class RegisterFormStep1(UserCreationForm):
             user = CustomUser.objects.get(email=email)
         except Exception as e:
             return email
-        raise forms.ValidationError(f"El correo {email} ya se encuentra registado.")
+        raise forms.ValidationError(f"El correo {email} ya se encuentra registado, por favor intenta iniciar sesión.")
 
 
     
@@ -85,6 +91,20 @@ class SolPublicacionForm(forms.ModelForm):
         fields = ['contenido']
         exclude = ['fecha_publicacion'] 
         
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['contenido'].widget.attrs.update({'class': 'form-control'})
+
+    def save(self, commit=True, user=None):
+        instance = super().save(commit=False)
+        if user:
+            instance.usersol = user
+
+        if commit:
+            instance.save()
+
+        return instance
+        
         
 #Editar usuarios
 class UsersUpdateForm(forms.ModelForm):
@@ -108,3 +128,8 @@ class ContactForm(forms.Form):
     correo = forms.EmailField()
     mensaje = forms.CharField(widget=forms.Textarea)
     
+
+
+class RegisterAdress(forms.Form):
+    region = forms.ModelChoiceField(queryset=Region.objects.all(), empty_label=None)
+    comuna = forms.ModelChoiceField(queryset=Comuna.objects.none(), empty_label=None)

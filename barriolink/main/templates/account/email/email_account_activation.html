@@ -1,0 +1,19 @@
+{% extends "email_base.html" %}
+{% load static %}
+
+{% block content %}
+<blockquote class="blockquote">
+    <!-- Texto justificado -->
+    <p> <br/> <br/> <br/> <br/>Estimado(a), {{ user.nombres }} {{ user.apellidos }}<br/> <br/>Es un placer informarle que su cuenta en nuestra página Barriolink ha sido creada. 
+        Sin embargo, su cuenta está actualmente en espera de revisión por parte de un administrador para corroborar la información ingresada. Pronto recibirá una notificación por correo electrónico una vez que su cuenta haya sido activada correctamente.<br/><br/>
+        Si tienes alguna pregunta o necesitas asistencia, no dudes en contactarnos a través de la aplicación o respondiendo a este correo electrónico.<br/><br/>
+        Recuerde iniciar sesión con sus credenciales previamente registradas una vez que su cuenta esté activada.<br/><br/><strong>Correo Electrónico:</strong> {{ user.email }}<br/>
+        <br/>Saludos cordiales, Equipo de BarrioLink.<br/><br/>
+        </p>
+        <div class="center-button">
+            <!-- Botón de Iniciar Sesión -->
+            <a href="https://barriolink.online/login" class="btn btn-primary">Iniciar Sesión</a>
+        </div>
+</blockquote>
+
+{% endblock content %}

@@ -73,3 +73,28 @@ def reject_email_rendered(user, motivo):
     except Exception as e:
         # Maneja cualquier excepción que pueda ocurrir al enviar el correo
         print(f"Error al enviar el correo: {e}")
+        
+        
+        
+def send_validation_account_email(user):
+    # Asunto del correo electrónico
+    email_subject = 'Activación de Cuenta en BarrioLink'
+
+    # Variables para pasar al contexto del template
+    context = {'user': user, 'nombres': user.nombres, 'apellidos': user.apellidos}
+
+    # Renderiza el cuerpo del correo desde el template HTML
+    email_body = render_to_string('account/email/email_account_Activation.html', context)
+
+    # Configura el correo electrónico como HTML
+    email = EmailMessage(email_subject, email_body, settings.DEFAULT_FROM_EMAIL, [user.email])
+    email.content_subtype = 'html'  # Indica que el contenido es HTML
+
+    try:
+        # Envía el correo
+        email.send()
+        return True  # Éxito al enviar el correo
+    except Exception as e:
+        # Manejo de excepciones en caso de error al enviar el correo
+        print(f"Error al enviar el correo: {e}")
+        return False  # Fracaso al enviar el correo
