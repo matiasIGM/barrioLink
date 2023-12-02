@@ -40,7 +40,7 @@ urlpatterns = [
      path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
      path('placesConfig/deletePlace/<id>', views.deletePlace,  name='delete_places'),
-
+      path('create_space/', views.create_community_space, name='create_community_space'),
      path('placesConfig/updatePlace/<id>', views.deletePlace,  name='update_places'),
 
      #Mantenedores configuración junta de vecinos

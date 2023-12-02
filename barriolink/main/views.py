@@ -369,6 +369,18 @@ def deletePlace(request, id):
 
     return redirect('/placesConfig/')
 
+#Crear un espacio comunitario.
+def create_community_space(request):
+    if request.method == 'POST':
+        form = CommunitySpaceForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/placesConfig/')  # Redirige a la vista después de guardar el formulario
+    else:
+        form = CommunitySpaceForm()
+
+    return render(request, 'account/adm/reservation_config.html', {'form': form})
+
 #Actualizar Espacios Comunitarios
 def updatePlace(request, id):
     place = get_object_or_404(CommunitySpace, id=id)
