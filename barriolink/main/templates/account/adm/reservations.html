@@ -2,6 +2,10 @@
 {% load static %}
 
 {% block content %}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
 <div id="content" class="app-content">
 	<!-- BEGIN page-header -->
 	<h1 class="page-header">Validación Reserva Espacios</h1>
@@ -44,26 +48,43 @@
                                 <thead>
                                     <tr>
                                         <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>Nombre</th>
-                                        <th>Información</th>
+                                        <th>Espacio</th>
+                                        <th>Fecha Solicitud</th>
+                                        <th>Usuario</th>
+                                        <th>Cantidad Dias</th>
                                         <th>Opción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {% for solicitud in solicitudes %}
+                                    {% for reservation in reservations %}
+                                    {% if not reservation.is_deleted and reservation.is_active %}
                                     <tr>
-                                        <td><span
-                                            class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
-                                                class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
-                                        <td>{{ solicitud.formatted_fecha_publicacion }}</td>
-                                        <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
-                                        <td>{{ solicitud.contenido }}</td>
-                                        <td><a href="#modal-dialog" class="btn btn-sm btn-info w-100px ver-btn" data-bs-toggle="modal" data-solicitud="{{ solicitud.contenido }}">ver</a></td>
+                                        <td>
+                                            {% if reservation.is_validated == False %}
+                                                <span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center" style="width: 100px">
+                                                    <i class="fa fa-circle fs-9px fa-fw me-5px"></i>Pendiente
+                                                </span>
+                                            {% else %}
+                                                <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center" style="width: 100px">
+                                                    <i class="fa fa-circle fs-9px fa-fw me-5px"></i>Validada
+                                                </span>
+                                            {% endif %}
+                                        </td>
+                                        <td>{{ reservation.community_space.name }}</td>
+                                        <td>{{ reservation.created_at }}</td>
+                                        <td data-toggle="tooltip" data-placement="top" title="Email: {{ reservation.user.email }} || Celular: {{ reservation.user.celular }}">
+                                            {{ reservation.user.nombres|title }} {{ reservation.user.apellidos|title }}
+                                        </td>
+                                        <td>{{ reservation.duration_in_days }}</td>
+                                        <td>
+                                            <a href="#modal-dialog" class="btn btn-sm btn-info w-100px" data-bs-toggle="modal" data-solicitud="{{ reservation.get_html_url }}">ver</a>
+                                        </td>
                                     </tr>
+                                    {% endif %}
                                     {% endfor %}
                                 </tbody>
                             </table>
+                            
                         </div>
                         <br>
                         <!-- END table -->
@@ -114,28 +135,32 @@
                                 <thead>
                                     <tr>
                                         <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>Nombre</th>
-                                        <th>Información</th>
-                                        <th>Validar</th>
-                                        <th>Eliminar</th>
+                                        <th>Nombre del Espacio</th>
+                                        <th>Fecha Solicitud</th>
+                                        <th>Usuario</th>
+                                        <th>Cantidad Dias</th>
+                                        <th>Opción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for solicitud in solicitudes %}
-                                    {% if solicitud.estado == 'nueva' %}
-                                    <tr>
-                                        <td><span
-                                            class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
-                                                class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
-                                        <td>{{ solicitud.formatted_fecha_publicacion }}</td>
-                                        <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
-                                        <td>{{ solicitud.contenido }}</td>
-                                        <td><a href="{% url 'cambiar_estado' solicitud.id 'validada' %}" class="btn btn-sm btn-success w-100px">Validar</a></td>
-                                        <td><a href="{% url 'cambiar_estado' solicitud.id 'eliminada' %}" class="btn btn-sm btn-danger w-100px">Eliminar</a></td>
-                                    </tr>
-                                    {% endif %}
-                                {% endfor %}
+                                    {% for reservation in reservations %}
+                                        {% if not reservation.is_deleted and reservation.is_active and not reservation.is_validated %}
+                                            <tr>
+                                                <td>
+                                                    <span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center" style="width: 100px">
+                                                        <i class="fa fa-circle fs-9px fa-fw me-5px"></i>Pendiente
+                                                    </span>
+                                                </td>
+                                                <td>{{ reservation.community_space.name }}</td>
+                                                <td>{{ reservation.created_at }}</td>
+                                                <td>{{ reservation.user.nombres|title }} {{ reservation.user.apellidos|title }}</td>
+                                                <td>{{ reservation.duration_in_days }}</td>
+                                                <td>
+                                                    <a href="#modal-dialog" class="btn btn-sm btn-info w-100px" data-bs-toggle="modal" data-solicitud="{{ reservation.get_html_url }}">ver</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -188,26 +213,32 @@
                                 <thead>
                                     <tr>
                                         <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>Nombre</th>
-                                        <th>Información</th>
+                                        <th>Nombre del Espacio</th>
+                                        <th>Fecha Solicitud</th>
+                                        <th>Usuario</th>
+                                        <th>Cantidad Dias</th>
                                         <th>Opción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for solicitud in solicitudes %}
-                                    {% if solicitud.estado == 'validada' %}
-                                    <tr>
-                                        <td><span
-                                            class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
-                                                class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
-                                        <td>{{ solicitud.formatted_fecha_publicacion }}</td>
-                                        <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
-                                        <td>{{ solicitud.contenido }}</td>
-                                        <td><a href="" class="btn btn-sm btn-success w-100px">Publicar</a></td>
-                                    </tr>
-                                    {% endif %}
-                                {% endfor %}
+                                    {% for reservation in reservations %}
+                                        {% if not reservation.is_deleted and reservation.is_active and reservation.is_validated %}
+                                            <tr>
+                                                <td>
+                                                    <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center" style="width: 100px">
+                                                        <i class="fa fa-circle fs-9px fa-fw me-5px"></i>Validada
+                                                    </span>
+                                                </td>
+                                                <td>{{ reservation.community_space.name }}</td>
+                                                <td>{{ reservation.created_at }}</td>
+                                                <td>{{ reservation.user.nombres|title }} {{ reservation.user.apellidos|title }}</td>
+                                                <td>{{ reservation.duration_in_days }}</td>
+                                                <td>
+                                                    <a href="#modal-dialog" class="btn btn-sm btn-info w-100px" data-bs-toggle="modal" data-solicitud="{{ reservation.get_html_url }}">ver</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -260,26 +291,40 @@
                                 <thead>
                                     <tr>
                                         <th>Estado</th>
-                                        <th>Fecha</th>
-                                        <th>Nombre</th>
-                                        <th>Información</th>
+                                        <th>Nombre del Espacio</th>
+                                        <th>Fecha Solicitud</th>
+                                        <th>Usuario</th>
+                                        <th>Cantidad Dias</th>
+                                        <th>Motivo</th>
                                         <th>Opción</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                {% for solicitud in solicitudes %}
-                                {% if solicitud.estado == 'eliminada' %}
-                                    <tr>
-                                        <td><span
-                                            class="badge border border-danger text-danger px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center"><i
-                                                class="fa fa-circle fs-9px fa-fw me-5px"></i>{{ solicitud.estado }}</span></td>
-                                        <td>{{ solicitud.formatted_fecha_publicacion }}</td>
-                                        <td>{{ solicitud.usersol.nombres }} {{ solicitud.usersol.apellidos }}</td>
-                                        <td>{{ solicitud.contenido }}</td>
-                                        <td><a href="{% url 'recuperar_solicitud' solicitud.id %}" class="btn btn-sm btn-warning w-100px">Recuperar</a></td>
-                                    </tr>
-                                    {% endif %}
-                                {% endfor %}
+                                    {% for reservation in reservations %}
+                                        {% if reservation.is_deleted %}
+                                            <tr>
+                                                <td>
+                                                    {% if reservation.is_validated == False %}
+                                                        <span class="badge border border-warning text-warning px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center" style="width: 100px">
+                                                            <i class="fa fa-circle fs-9px fa-fw me-5px"></i>Pendiente
+                                                        </span>
+                                                    {% else %}
+                                                        <span class="badge border border-success text-success px-2 pt-5px pb-5px rounded fs-12px d-inline-flex align-items-center" style="width: 100px">
+                                                            <i class="fa fa-circle fs-9px fa-fw me-5px"></i>Validada
+                                                        </span>
+                                                    {% endif %}
+                                                </td>
+                                                <td>{{ reservation.community_space.name }}</td>
+                                                <td>{{ reservation.created_at }}</td>
+                                                <td>{{ reservation.user.nombres|title }} {{ reservation.user.apellidos|title }}</td>
+                                                <td>{{ reservation.duration_in_days }}</td>
+                                                <td>{{ reservation.reservation_status }}</td>
+                                                <td>
+                                                    <a href="#modal-dialog" class="btn btn-sm btn-info w-100px" data-bs-toggle="modal" data-solicitud="{{ reservation.get_html_url }}">ver</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
+                                    {% endfor %}
                                 </tbody>
                             </table>
                         </div>
@@ -338,7 +383,12 @@
                 <!-- END panel-body -->
         </div>
     </div>
-</div>        
+</div>
+<script>
+    $(document).ready(function(){
+      $('[data-toggle="tooltip"]').tooltip(); 
+    });
+    </script>    
 <script>
 		document.addEventListener('DOMContentLoaded', function () {
 			// Manejar clic en los botones del primer modal

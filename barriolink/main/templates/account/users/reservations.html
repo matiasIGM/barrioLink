@@ -1,8 +1,10 @@
-
+<!DOCTYPE html>
+<html lang="es">
+{% comment %} {% extends "base.html" %} {% endcomment %}
 {% load static %}
 <head>
-	<meta charset="utf-8" />
-	<title>Color Admin | Calendar</title>
+    <meta charset="utf-8" />
+	<title>BarrioLink | Reservas</title>
 	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
 	<meta content="" name="description" />
 	<meta content="" name="author" />
@@ -10,6 +12,7 @@
 	<!-- ================== BEGIN core-css ================== -->
 	<link href="{% static 'css/vendor.min.css'%}" rel="stylesheet" />
 	<link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
 
 	<!-- ================== END core-css ================== -->
 	
@@ -21,8 +24,7 @@
 	<link href="{% static 'plugins/@fullcalendar/bootstrap/main.min.css'%}" rel="stylesheet" />
 	<!-- ================== END page-css ================== -->
 </head>
-{% block content %}
-<!-- BEGIN #header -->
+<header>
 {% if user.is_authenticated %}
 {% if user.is_hoa_admin %}
     {% include 'admin_navbar.html' %}
@@ -32,7 +34,6 @@
 {% endif %}
 <!-- END #header -->
 </header>	
-
 <!-- BEGIN #sidebar -->
 {% if user.is_authenticated %}
 {% if user.is_hoa_admin %}
@@ -41,16 +42,13 @@
 {% include 'sidebar.html' %}
 {% endif %}
 {% endif %}
-<!-- END #sidebar -->
+
+
+{% block content %}
+
 <div id="content" class="app-content">
-    <!-- BEGIN breadcrumb -->
-    <ol class="breadcrumb float-xl-end">
-        <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
-        <li class="breadcrumb-item active">Calendar</li>
-    </ol>
-    <!-- END breadcrumb -->
     <!-- BEGIN page-header -->
-    <h1 class="page-header">Calendar <small>header small text goes here...</small></h1>
+    <h1 class="page-header">Reserva de Espacios Comunitarios</h1>
     <!-- END page-header -->
     <hr />
     <!-- BEGIN row -->
@@ -58,49 +56,21 @@
         <!-- BEGIN event-list -->
         <div class="d-none d-lg-block" style="width: 215px">
             <div id="external-events" class="fc-event-list">
-                <h5 class="mb-3">Draggable Events</h5>
-                <div class="fc-event" data-color="#00acac">
-                    <div class="fc-event-text">Meeting with Client</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-success"></i></div>
-                </div>
-                <div class="fc-event" data-color="#348fe2">
-                    <div class="fc-event-text">IOS App Development</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-blue"></i></div>
-                </div>
-                <div class="fc-event" data-color="#f59c1a">
-                    <div class="fc-event-text">Group Discussion</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-warning"></i></div>
-                </div>
-                <div class="fc-event" data-color="#ff5b57">
-                    <div class="fc-event-text">New System Briefing</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-danger"></i></div>
-                </div>
-                <div class="fc-event">
-                    <div class="fc-event-text">Brainstorming</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-dark"></i></div>
-                </div>
+                <h5 class="mb-3">Reservas pendientes de Validación</h5>
+                {% for space_name in community_space_names %}
+                    <div class="fc-event" data-color="#00acac">
+                        <div class="fc-event-text">{{ space_name }}</div>
+                        <div class="fc-event-icon"><i class="fas fa-circle fa-check fs-9px text-warning"></i></div>
+                    </div>
+                {% endfor %}
+                {% if community_space_names %}
+                    <p></p>
+                {% else %}
+                    <p>No hay datos de reserva disponibles.</p>
+                {% endif %}
                 <hr class="bg-grey-lighter my-3" />
                 <h5 class="mb-3">Other Events</h5>
-                <div class="fc-event" data-color="#b6c2c9">
-                    <div class="fc-event-text">Other Event 1</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
-                </div>
-                <div class="fc-event" data-color="#b6c2c9">
-                    <div class="fc-event-text">Other Event 2</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
-                </div>
-                <div class="fc-event" data-color="#b6c2c9">
-                    <div class="fc-event-text">Other Event 3</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
-                </div>
-                <div class="fc-event" data-color="#b6c2c9">
-                    <div class="fc-event-text">Other Event 4</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
-                </div>
-                <div class="fc-event" data-color="#b6c2c9">
-                    <div class="fc-event-text">Other Event 5</div>
-                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
-                </div>
+                
             </div>
         </div>
         <!-- END event-list -->
@@ -114,24 +84,117 @@
 </div>
 <!-- END #content -->
 
+<!-- ================== BEGIN Core page-js ================== -->
+<script src="{% static 'js/vendor.min.js' %}"></script>
+<script src="{% static 'js/app.min.js' %}"></script>
+<!-- ================== END Core page-js ================== -->
+
+<!-- ================== BEGIN page-js ================== -->
+
+<script src="{% static 'plugins/moment/min/moment.min.js' %}"></script>
+<script src="{% static 'plugins/@fullcalendar/core/main.global.js' %}"></script>
+<script src="{% static 'plugins/@fullcalendar/daygrid/main.global.js' %}"></script>
+<script src="{% static 'plugins/@fullcalendar/timegrid/main.global.js' %}"></script>
+<script src="{% static 'plugins/@fullcalendar/interaction/main.global.js' %}"></script>
+<script src="{% static 'plugins/@fullcalendar/list/main.global.js' %}"></script>
+<script src="{% static 'plugins/@fullcalendar/bootstrap/main.global.js' %}"></script>
+<script src="{% static 'js/demo/calendar.demo.js' %}"></script>
+<!-- ================== END page-js ================== -->
+
+<script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
+<script>
+    var reservationData = {{ json_data|safe }};
+</script>
+
+<script>
+    {% comment %} var calendarElm = document.getElementById('calendar');
+    var calendar = new FullCalendar.Calendar(calendarElm, {
+        // ...
+    
+        events: reservationData.user_reservations.map(function(reservation) {
+            return {
+                title: reservation.title,
+                start: reservation.start,
+                end: reservation.end,
+                color: reservation.color
+            };
+        })
+    
+        // ...
+    }); {% endcomment %}
 
 
-	<!-- ================== BEGIN core-js ================== -->
-	<script src="{% static 'js/vendor.min.js' %}"></script>
-	<script src="{% static 'js/app.min.js' %}"></script>
-	<!-- ================== END core-js ================== -->
-	
-	<!-- ================== BEGIN page-js ================== -->
-	<script src="{% static 'plugins/moment/min/moment.min.js' %}"></script>
-	<script src="{% static 'plugins/@fullcalendar/core/main.global.js' %}"></script>
-	<script src="{% static 'plugins/@fullcalendar/daygrid/main.global.js' %}"></script>
-	<script src="{% static 'plugins/@fullcalendar/timegrid/main.global.js' %}"></script>
-	<script src="{% static 'plugins/@fullcalendar/interaction/main.global.js' %}"></script>
-	<script src="{% static 'plugins/@fullcalendar/list/main.global.js' %}"></script>
-	<script src="{% static 'plugins/@fullcalendar/bootstrap/main.global.js' %}"></script>
-	<script src="{% static 'js/demo/calendar.demo.js' %}"></script>
-	<!-- ================== END page-js ================== -->
 
-    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
+    var handleCalendarDemo = function() {
+        // external events
+        var containerEl = document.getElementById('external-events');
+      var Draggable = FullCalendarInteraction.Draggable;
+        new Draggable(containerEl, {
+        itemSelector: '.fc-event',
+        eventData: function(eventEl) {
+          return {
+            title: eventEl.innerText,
+            color: eventEl.getAttribute('data-color')
+          };
+        }
+      });
+      
+      // fullcalendar
+      
+      var d = new Date();
+        var month = d.getMonth() + 1;
+            month = (month < 10) ? '0' + month : month;
+        var year = d.getFullYear();
+        var day = d.getDate();
+        var today = moment().startOf('day');
+      var calendarElm = document.getElementById('calendar');
+        var calendar = new FullCalendar.Calendar(calendarElm, {
+        headerToolbar: {
+          left: 'dayGridMonth,timeGridWeek,timeGridDay',
+          center: 'title',
+          right: 'prev,next today'
+        },
+        buttonText: {
+            today:    'Today',
+                month:    'Month',
+                week:     'Week',
+                day:      'Day'
+        },
+        initialView: 'dayGridMonth',
+        editable: true,
+        droppable: true,
+          themeSystem: 'bootstrap',
+          views: {
+            timeGrid: {
+                eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
+            }
+        },
+        events: reservationData.user_reservations.map(function (reservation) {
+            return {
+                title: reservation.title,
+                start: reservation.start,
+                end: reservation.end,
+                color: reservation.color
+            };
+        })
+    });;
+      
+        calendar.render();
+    };
+{% comment %}     
+    var Calendar = function () {
+        "use strict";
+        return {
+            //main function
+            init: function () {
+                handleCalendarDemo();
+            }
+        };
+    }();
+    
+    $(document).ready(function() {
+        Calendar.init();
+    }); {% endcomment %}
+</script>
 
 {% endblock content %}
