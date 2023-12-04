@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+{% load static %}
+<head>
+	<meta charset="utf-8" />
+	<title>Color Admin | Calendar</title>
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport" />
+	<meta content="" name="description" />
+	<meta content="" name="author" />
+	
+	<!-- ================== BEGIN core-css ================== -->
+	<link href="{% static 'css/vendor.min.css'%}" rel="stylesheet" />
+	<link href="{% static 'css/default/app.min.css' %}" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet" />
+
+	<!-- ================== END core-css ================== -->
+	
+	<!-- ================== BEGIN page-css ================== -->
+	<link href="{% static 'plugins/@fullcalendar/common/main.min.css'%}" rel="stylesheet" />
+	<link href="{% static 'plugins/@fullcalendar/daygrid/main.min.css'%}" rel="stylesheet" />
+	<link href="{% static 'plugins/@fullcalendar/timegrid/main.min.css'%}" rel="stylesheet" />
+	<link href="{% static 'plugins/@fullcalendar/list/main.min.css'%}" rel="stylesheet" />
+	<link href="{% static 'plugins/@fullcalendar/bootstrap/main.min.css'%}" rel="stylesheet" />
+	<!-- ================== END page-css ================== -->
+</head>
+{% block content %}
+<!-- BEGIN #header -->
+{% if user.is_authenticated %}
+{% if user.is_hoa_admin %}
+    {% include 'admin_navbar.html' %}
+{% else %}
+    {% include 'navbar.html' %}
+{% endif %}
+{% endif %}
+<!-- END #header -->
+</header>	
+
+<!-- BEGIN #sidebar -->
+{% if user.is_authenticated %}
+{% if user.is_hoa_admin %}
+{% include 'admin_sidebar.html' %}
+{% else %}
+{% include 'sidebar.html' %}
+{% endif %}
+{% endif %}
+<!-- END #sidebar -->
+<div id="content" class="app-content">
+    <!-- BEGIN breadcrumb -->
+    <ol class="breadcrumb float-xl-end">
+        <li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+        <li class="breadcrumb-item active">Calendar</li>
+    </ol>
+    <!-- END breadcrumb -->
+    <!-- BEGIN page-header -->
+    <h1 class="page-header">Calendar <small>header small text goes here...</small></h1>
+    <!-- END page-header -->
+    <hr />
+    <!-- BEGIN row -->
+    <div class="row">
+        <!-- BEGIN event-list -->
+        <div class="d-none d-lg-block" style="width: 215px">
+            <div id="external-events" class="fc-event-list">
+                <h5 class="mb-3">Draggable Events</h5>
+                <div class="fc-event" data-color="#00acac">
+                    <div class="fc-event-text">Meeting with Client</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-success"></i></div>
+                </div>
+                <div class="fc-event" data-color="#348fe2">
+                    <div class="fc-event-text">IOS App Development</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-blue"></i></div>
+                </div>
+                <div class="fc-event" data-color="#f59c1a">
+                    <div class="fc-event-text">Group Discussion</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-warning"></i></div>
+                </div>
+                <div class="fc-event" data-color="#ff5b57">
+                    <div class="fc-event-text">New System Briefing</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-danger"></i></div>
+                </div>
+                <div class="fc-event">
+                    <div class="fc-event-text">Brainstorming</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-dark"></i></div>
+                </div>
+                <hr class="bg-grey-lighter my-3" />
+                <h5 class="mb-3">Other Events</h5>
+                <div class="fc-event" data-color="#b6c2c9">
+                    <div class="fc-event-text">Other Event 1</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
+                </div>
+                <div class="fc-event" data-color="#b6c2c9">
+                    <div class="fc-event-text">Other Event 2</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
+                </div>
+                <div class="fc-event" data-color="#b6c2c9">
+                    <div class="fc-event-text">Other Event 3</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
+                </div>
+                <div class="fc-event" data-color="#b6c2c9">
+                    <div class="fc-event-text">Other Event 4</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
+                </div>
+                <div class="fc-event" data-color="#b6c2c9">
+                    <div class="fc-event-text">Other Event 5</div>
+                    <div class="fc-event-icon"><i class="fas fa-circle fa-fw fs-9px text-gray-500"></i></div>
+                </div>
+            </div>
+        </div>
+        <!-- END event-list -->
+        <div class="col-lg">
+            <!-- BEGIN calendar -->
+            <div id="calendar" class="calendar"></div>
+            <!-- END calendar -->
+        </div>
+    </div>
+    <!-- END row -->
+</div>
+<!-- END #content -->
+
+
+
+	<!-- ================== BEGIN core-js ================== -->
+    <script src="{% static 'js/vendor.min.js' %}"></script>
+	<script src="{% static 'js/app.min.js' %}"></script>
+    {% comment %} <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/fontawesome.min.js"></script> {% endcomment %}
+	<!-- ================== END core-js ================== -->
+	
+	<!-- ================== BEGIN page-js ================== -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+    <script src="{% static 'plugins/datatables.net-responsive-bs5/js/responsive.bootstrap5.min.js' %}"></script>
+    <script src="{% static 'plugins/moment/min/moment.min.js' %}"></script>
+    <script src="{% static 'plugins/datatables.net-bs5/js/dataTables.bootstrap5.min.js' %}"></script>
+    <link href="{% static 'plugins/@highlightjs/cdn-assets/highlight.min.js' %}">
+
+
+    <script src="{% static 'plugins/moment/min/moment.min.js' %}"></script>
+	<script src="{% static 'plugins/@fullcalendar/core/main.global.js' %}"></script>
+	<script src="{% static 'plugins/@fullcalendar/daygrid/main.global.js' %}"></script>
+	<script src="{% static 'plugins/@fullcalendar/timegrid/main.global.js' %}"></script>
+	<script src="{% static 'plugins/@fullcalendar/interaction/main.global.js' %}"></script>
+	<script src="{% static 'plugins/@fullcalendar/list/main.global.js' %}"></script>
+	<script src="{% static 'plugins/@fullcalendar/bootstrap/main.global.js' %}"></script>
+	<script src="{% static 'js/demo/calendar.demo.js' %}"></script>
+	<!-- ================== END page-js ================== -->
+
+    <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
+
+{% endblock content %}

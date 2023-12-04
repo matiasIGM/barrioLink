@@ -1,6 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 
+<link src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/css/bootstrap.min.css">
+<link src="https://cdn.datatables.net/1.13.7/css/dataTables.bootstrap5.min.css">
+
 {% block content %}
 
 		<!-- BEGIN #content -->
@@ -101,6 +104,15 @@
 		</div>
 		<!-- END #content -->
 		
-	
+<!-- script -->
+<script>
+	{% comment %} $('#data-table-default_wrapper').DataTable({
+	  responsive: true
+	}); {% endcomment %}
+	new DataTable('#data-table-default_wrapper');
+</script>
 
+
+{% comment %} 	
+new DataTable('#example'); {% endcomment %}
 {% endblock content %}

@@ -26,7 +26,7 @@ urlpatterns = [
      path('userNews/', views.newsPublish, name='users_news'),
      path('userProfile/', views.userProfile, name='user_profile'),
      path('adminProfileConfig/', views.adminProfileConfig, name='user_profile_config'),
-     path('userReservation/', views.userReservation, name='user_reservation'),
+#      path('userReservation/', views.userReservation, name='user_reservation'),
      path('adminPublish/', views.adminPublish, name='admin_publish'),
      path('adminNewsValidation/', views.adminPublishValidation, name='admin_publish_validation'),
      path('adminNotifications/', views.adminNotifications, name='admin_notifications'),
@@ -37,7 +37,7 @@ urlpatterns = [
      path('activate_user/<int:user_id>/', views.activate_user, name='activate_user'),
      path('denegar_usuario/', views.denegar_usuario, name='denegar_usuario'),
      
-     path('adminReservations/', views.adminValidateReservations, name='admin_reservations'),
+    
      path('placesConfig/', views.adminConfigPlaces, name='admin_places'),
      path('placesConfig/deletePlace/<id>', views.deletePlace,  name='delete_places'),
       path('create_space/', views.create_community_space, name='create_community_space'),
