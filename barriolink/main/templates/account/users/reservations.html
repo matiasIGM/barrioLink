@@ -70,6 +70,7 @@
                 {% endif %}
                 <hr class="bg-grey-lighter my-3" />
                 <h5 class="mb-3">Other Events</h5>
+                <button id="addEventButton" class="btn btn-primary">Add Event</button>
                 
             </div>
         </div>
@@ -83,6 +84,88 @@
     <!-- END row -->
 </div>
 <!-- END #content -->
+
+<!-- start modal reserva -->
+<div class="modal fade show" id="eventModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-white" id="exampleModalLongTitle">Agregar nueva reserva</h5>
+                <button id="modalClose1" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form method="post">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="recipient-name" class="col-form-label">Espacio:</label>
+                        {{ form.title }}
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Description:</label>
+                        {{ form.description }}
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Fecha inicio:</label>
+                        {{ form.start_time }}
+                    </div>
+                    <div class="form-group">
+                        <label for="message-text" class="col-form-label">Fecha Fin:</label>
+                        {{ form.end_time }}
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button id="modalClose2" type="button" class="btn btn-danger">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- end modal reserva -->
+
+<div class="modal fade show" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+          <div class="modal-header bg-primary">
+              <h5 class="modal-title text-white" id="title_event_detail"></h5>
+              <button id="modalDetailClose" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <form method="">
+              {% csrf_token %}
+              <div class="modal-body">
+                  
+                  <div class="form-group">
+                      <label for="message-text" class="col-form-label">Description:</label>
+                      <p id = "description_event_detail">
+
+                      </p>
+                  </div>
+                  <div class="form-group">
+                      <label for="message-text" class="col-form-label">Start:</label>
+                      <p id = "start_event_detail">
+                  </div>
+                  <div class="form-group">
+                      <label for="message-text" class="col-form-label">End:</label>
+                      <p id = "end_event_detail">
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button id="delete-event-button" data-event-id="" type="button" class="btn btn-danger">Delete</button>
+                  <button id="add-to-next-week" data-event-id-week="" type="button" class="btn btn-success">Next Week</button>
+                  <button id="add-to-next-day" data-event-id-day="" type="button" class="btn btn-primary">Next Day</button>
+
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
 
 <!-- ================== BEGIN Core page-js ================== -->
 <script src="{% static 'js/vendor.min.js' %}"></script>
@@ -98,103 +181,153 @@
 <script src="{% static 'plugins/@fullcalendar/interaction/main.global.js' %}"></script>
 <script src="{% static 'plugins/@fullcalendar/list/main.global.js' %}"></script>
 <script src="{% static 'plugins/@fullcalendar/bootstrap/main.global.js' %}"></script>
-<script src="{% static 'js/demo/calendar.demo.js' %}"></script>
+{% comment %} <script src="{% static 'js/demo/calendar.demo.js' %}"></script> {% endcomment %}
 <!-- ================== END page-js ================== -->
 
 <script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "dc4641f860664c6e824b093274f50291"}'></script>
+
 <script>
     var reservationData = {{ json_data|safe }};
 </script>
 
 <script>
-    {% comment %} var calendarElm = document.getElementById('calendar');
-    var calendar = new FullCalendar.Calendar(calendarElm, {
-        // ...
-    
-        events: reservationData.user_reservations.map(function(reservation) {
-            return {
-                title: reservation.title,
-                start: reservation.start,
-                end: reservation.end,
-                color: reservation.color
-            };
-        })
-    
-        // ...
-    }); {% endcomment %}
-
-
-
-    var handleCalendarDemo = function() {
-        // external events
-        var containerEl = document.getElementById('external-events');
-      var Draggable = FullCalendarInteraction.Draggable;
-        new Draggable(containerEl, {
-        itemSelector: '.fc-event',
-        eventData: function(eventEl) {
-          return {
-            title: eventEl.innerText,
-            color: eventEl.getAttribute('data-color')
-          };
-        }
-      });
-      
-      // fullcalendar
-      
-      var d = new Date();
-        var month = d.getMonth() + 1;
-            month = (month < 10) ? '0' + month : month;
-        var year = d.getFullYear();
-        var day = d.getDate();
-        var today = moment().startOf('day');
-      var calendarElm = document.getElementById('calendar');
-        var calendar = new FullCalendar.Calendar(calendarElm, {
-        headerToolbar: {
-          left: 'dayGridMonth,timeGridWeek,timeGridDay',
-          center: 'title',
-          right: 'prev,next today'
-        },
-        buttonText: {
-            today:    'Today',
-                month:    'Month',
-                week:     'Week',
-                day:      'Day'
-        },
-        initialView: 'dayGridMonth',
-        editable: true,
-        droppable: true,
-          themeSystem: 'bootstrap',
-          views: {
-            timeGrid: {
-                eventLimit: 6 // adjust to 6 only for timeGridWeek/timeGridDay
-            }
-        },
-        events: reservationData.user_reservations.map(function (reservation) {
-            return {
-                title: reservation.title,
-                start: reservation.start,
-                end: reservation.end,
-                color: reservation.color
-            };
-        })
-    });;
-      
-        calendar.render();
+    var formatDateTime = function (dateTime) {
+        // Agrega aquí tu lógica de formateo de fecha y hora
+        // por ejemplo, puedes usar la librería moment.js o realizar otro formateo personalizado
+        return moment(dateTime).format('DD-MM-YYYY HH:mm');
     };
-{% comment %}     
-    var Calendar = function () {
-        "use strict";
-        return {
-            //main function
-            init: function () {
-                handleCalendarDemo();
-            }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const closeBtn1 = document.getElementById('modalClose1');
+        const closeBtn2 = document.getElementById('modalClose2');
+        const closeBtn3 = document.getElementById('modalDetailClose');
+
+        const hideModal = function (modalId) {
+            const modal = document.getElementById(modalId);
+            modal.style.display = 'none';
         };
-    }();
-    
-    $(document).ready(function() {
-        Calendar.init();
-    }); {% endcomment %}
+
+        closeBtn1.addEventListener('click', () => {
+            hideModal('eventModal');
+        });
+
+        closeBtn2.addEventListener('click', () => {
+            hideModal('eventModal');
+        });
+
+        closeBtn3.addEventListener('click', () => {
+            hideModal('detailModal');
+        });
+
+         // Nuevo: Obtén el botón que desencadenará la apertura del modal
+         const addEventButton = document.getElementById('addEventButton');
+
+         // Nuevo: Agrega un evento de clic para mostrar el modal al hacer clic en el botón
+         addEventButton.addEventListener('click', function () {
+             const modal = document.getElementById('eventModal');
+             modal.style.display = 'block';
+         });
+
+        var handleCalendarDemo = function () {
+            var containerEl = document.getElementById('external-events');
+            var Draggable = FullCalendarInteraction.Draggable;
+            new Draggable(containerEl, {
+                itemSelector: '.fc-event',
+                eventData: function (eventEl) {
+                    return {
+                        title: eventEl.innerText,
+                        color: eventEl.getAttribute('data-color')
+                    };
+                }
+            });
+
+            var d = new Date();
+            var month = (d.getMonth() + 1).toString().padStart(2, '0');
+            var year = d.getFullYear();
+            var day = d.getDate().toString().padStart(2, '0');
+            var today = moment().startOf('day');
+            var calendarElm = document.getElementById('calendar');
+            var calendar = new FullCalendar.Calendar(calendarElm, {
+                headerToolbar: {
+                    left: 'dayGridMonth,timeGridWeek,timeGridDay',
+                    center: 'title',
+                    right: 'prev,next today'
+                },
+                buttonText: {
+                    today: 'Today',
+                    month: 'Month',
+                    week: 'Week',
+                    day: 'Day',
+                },
+                initialView: 'dayGridMonth',
+                editable: true,
+                droppable: false,
+                themeSystem: 'bootstrap',
+                views: {
+                    timeGrid: {
+                        eventLimit: 6,
+                        slotLabelFormat: {
+                            hour: '2-digit',
+                            minute: '2-digit',
+                            omitZeroMinute: false,
+                            meridiem: 'false'
+                        }
+                    }
+                },
+                events: reservationData.user_reservations.map(function (reservation) {
+                    return {
+                        title: reservation.title,
+                        start: reservation.start,
+                        end: reservation.end,
+                        color: reservation.color
+                    };
+                }),
+
+
+                select: function (arg) {
+                    var modal = document.getElementById('eventModal');
+                    modal.style.display = 'block';
+                    document.getElementById('id_start_time').value = converterDataParaDjangoFormat(arg.start);
+                    document.getElementById('id_end_time').value = converterDataParaDjangoFormat(arg.end);
+                    calendar.unselect();
+                },
+                eventClick: function (arg) {
+                    var title = arg.event.title;
+                    var start = formatDateTime(arg.event.start);
+                    var end = formatDateTime(arg.event.end);
+                    var description = arg.event.extendedProps.description || '';
+                    var id = arg.event.id;
+
+                    var modalInputEnd = document.getElementById('end_event_detail');
+
+                    var modal = document.getElementById('detailModal');
+                    var modalTitle = document.getElementById('title_event_detail');
+                    var modalStart = document.getElementById('start_event_detail');
+                    var modalEnd = document.getElementById('end_event_detail');
+                    var modalDescripition = document.getElementById('description_event_detail');
+                    var deleteButton = document.getElementById("delete-event-button");
+                    var nextWeek = document.getElementById("add-to-next-week");
+                    var nextDay = document.getElementById("add-to-next-day");
+
+                    deleteButton.setAttribute("data-event-id", id);
+                    nextWeek.setAttribute("data-event-id-week", id);
+                    nextDay.setAttribute("data-event-id-day", id);
+                    modal.style.display = 'block';
+
+                    modalTitle.textContent = title;
+                    modalStart.textContent = start;
+                    modalEnd.textContent = end;
+                    modalDescripition.textContent = description;
+
+                    modal.style.display = 'block';
+                },
+            });
+
+            calendar.render();
+        };
+
+        handleCalendarDemo();
+    });
 </script>
 
 {% endblock content %}

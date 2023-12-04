@@ -5,7 +5,7 @@ from django import forms
 class ReservationForm(ModelForm):
     class Meta:
         model = Reservation
-        fields = ["community_space", "user", "start_date_time", "end_date_time", "reservation_status"]
+        fields = ["community_space", "user", "start_date_time", "end_date_time"]
         # datetime-local is a HTML5 input type
         widgets = {
             "community_space": forms.Select(attrs={"class": "form-control"}),
@@ -18,9 +18,7 @@ class ReservationForm(ModelForm):
                 attrs={"type": "datetime-local", "class": "form-control"},
                 format="%Y-%m-%dT%H:%M",
             ),
-            "reservation_status": forms.TextInput(
-                attrs={"class": "form-control", "placeholder": "Enter reservation status"}
-            ),
+        
         }
         exclude = ["is_active", "is_deleted", "created_at", "updated_at"]
 

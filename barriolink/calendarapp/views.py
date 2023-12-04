@@ -11,7 +11,7 @@ from calendarapp.models import ReservationMember, Reservation
 from main.models import CommunitySpace
 from calendarapp.utils import Calendar
 from calendarapp.forms import ReservationForm, AddMemberForm
-from django.views.generic import ListView
+from django.views.generic import ListView, View
 from django.shortcuts import get_object_or_404
 import json
 import random
@@ -51,29 +51,44 @@ class CalendarView(LoginRequiredMixin, generic.ListView):
         context["next_month"] = next_month(d)
         return context
 
-@login_required(login_url="signup")
+
+# def create_reservation(request):
+#     form = ReservationForm(request.POST or None)
+#     if request.POST and form.is_valid():
+#         community_space = form.cleaned_data["community_space"]
+#         user = form.cleaned_data["user"]
+#         start_date_time = form.cleaned_data["start_date_time"]
+#         end_date_time = form.cleaned_data["end_date_time"]
+#         reservation_status = form.cleaned_data["reservation_status"]
+#         Reservation.objects.get_or_create(
+#             user=user,
+#             community_space=community_space,
+#             start_date_time=start_date_time,
+#             end_date_time=end_date_time,
+#             reservation_status=reservation_status,
+#         )
+#         return HttpResponseRedirect(reverse("account/users/reservations.html"))
+#     return render(request, "reservation.html", {"form": form})
+
 def create_reservation(request):
-    form = ReservationForm(request.POST or None)
-    if request.POST and form.is_valid():
-        community_space = form.cleaned_data["community_space"]
-        user = form.cleaned_data["user"]
-        start_date_time = form.cleaned_data["start_date_time"]
-        end_date_time = form.cleaned_data["end_date_time"]
-        reservation_status = form.cleaned_data["reservation_status"]
-        Reservation.objects.get_or_create(
-            user=user,
-            community_space=community_space,
-            start_date_time=start_date_time,
-            end_date_time=end_date_time,
-            reservation_status=reservation_status,
-        )
-        return HttpResponseRedirect(reverse("calendarapp:calendar"))
-    return render(request, "reservation.html", {"form": form})
+    if request.method == 'POST':
+        form = ReservationForm(request.POST)
+        if form.is_valid():
+            reservation = form.save(commit=False)
+            reservation.user = request.user  # Asignar el usuario actual
+            reservation.save()
+            return redirect("account/users/reservations.html")
+    else:
+        form = ReservationForm()
+
+    return render(request, "account/users/reservations.html", {"form": form})
+
 
 class ReservationEdit(generic.UpdateView):
     model = Reservation
     fields = ["community_space", "user", "start_date_time", "end_date_time", "reservation_status"]
     template_name = "reservation.html"
+
 
 @login_required(login_url="signup")
 def reservation_details(request, reservation_id):
@@ -270,3 +285,29 @@ def get_all_reservations(request):
 
     # Renderizar la plantilla con el contexto
     return render(request, 'account/adm/reservations.html', context)
+
+
+
+class ReservationCreateView(View):
+    template_name = 'tu_template.html'  # Reemplaza con tu template
+    form_class = ReservationForm
+
+    @login_required
+    def get(self, request, *args, **kwargs):
+        form = self.form_class()
+        return render(request, self.template_name, {'form': form})
+
+    @login_required
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        if form.is_valid():
+            # Aquí puedes hacer lo que necesites con el formulario
+            # Guardar la reserva, enviar correos, etc.
+            reservation = form.save(commit=False)
+            reservation.user = request.user  # Asignar el usuario actual
+            reservation.save()
+            # Redirigir o hacer lo que sea necesario después de guardar
+            return redirect('tu_redirect_url')  # Reemplaza con la URL a la que deseas redirigir
+        else:
+            # El formulario no es válido, vuelve a renderizar con los errores
+            return render(request, self.template_name, {'form': form})
