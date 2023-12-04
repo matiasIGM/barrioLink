@@ -4,6 +4,7 @@ __pycache__
 *.pyo
 *.pyd
 .pyc
+.sqlite3
 # Archivo de configuración local
 .env
 #Carpeta env

@@ -84,7 +84,7 @@
             <strong>Telefono : </strong>{{ result.junta_contact_phone }} <br>
             <strong>Email : </strong>{{ result.junta_email }}
         </div>
-        <img id="logo" src="{{ result.logo.url }}" alt="Logo">
+        <img id="logo" src={% static 'uploads/logos/logo_bl.png' %} alt="Logo">
     </div>
 
     <!-- Content for Static Frame 'content_frame' -->
@@ -103,6 +103,7 @@
             <br><br>
             Fecha de expedición Certificado:  {{ result.current_date }}
             <br><br><br><br><br><br>
+            <img src="{% static 'uploads/signatures/firma.png' %}" alt="Firma del Funcionario Responsable">
             <div style="text-align: center;">[Firma del Funcionario Responsable]</div>
             <div style="text-align: center;"> {{ result.rep_name }}</div>
             <div style="text-align: center;"> {{ result.rep_rut }}</div>
